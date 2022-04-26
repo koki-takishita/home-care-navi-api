@@ -20,6 +20,12 @@ module UserAuth
       User.find @payload['sub']
     end
 
+    # token_lifetimeの日本語変換を返す
+    def lifetime_text
+      time, period = @lifetime.inspect.delete_suffix('s').split
+      time + I18n.t("datetime.periods.#{period}", default: '')
+    end
+
     # 以下、追加
     private
 
