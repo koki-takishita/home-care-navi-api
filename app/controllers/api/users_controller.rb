@@ -1,4 +1,6 @@
 class Api::UsersController < ApplicationController
+  before_action :authenticate_user
+
   def create
     user = User.new(user_params)
     if user.valid?
@@ -9,8 +11,8 @@ class Api::UsersController < ApplicationController
     end
   end
 
-  def index
-    render json: { status: 'index success' }
+  def show
+    render json: current_user.my_json
   end
 
   private

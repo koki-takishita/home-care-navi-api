@@ -10,4 +10,8 @@ class User < ApplicationRecord
 
   has_secure_password
   enum user_type: { customer: 0, specialist: 1 }
+
+  def my_json
+    as_json(only: %i[id name email created_at])
+  end
 end
