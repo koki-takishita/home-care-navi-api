@@ -15,6 +15,11 @@ module UserAuth
       end
     end
 
+    # subjectからユーザーを検索する
+    def entity_for_user
+      User.find @payload['sub']
+    end
+
     # 以下、追加
     private
 
