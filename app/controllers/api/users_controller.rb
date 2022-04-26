@@ -1,11 +1,16 @@
 class Api::UsersController < ApplicationController
   def create
     user = User.new(user_params)
-    if user.save
+    if user.valid?
+      user.save!
       render json: { status: 'success' }
     else
-      render json: { status: 'danger' }
+      render json: { status: user.errors.full_messages }
     end
+  end
+
+  def index
+    render json: { status: 'index success' }
   end
 
   private
@@ -17,7 +22,6 @@ class Api::UsersController < ApplicationController
                                    :password_confirmation,
                                    :phone_number,
                                    :post_code,
-                                   :address,
-                                   :user_type)
+                                   :address)
     end
 end
