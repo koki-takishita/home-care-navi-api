@@ -16,6 +16,10 @@ class Api::UsersTokenController < ApplicationController
     head(:ok)
   end
 
+  def hello
+    render json: { status: 'success' }
+  end
+
   private
 
     def entity
@@ -23,7 +27,7 @@ class Api::UsersTokenController < ApplicationController
     end
 
     def auth_params
-      params.require(:auth).permit(:email, :passowrd)
+      params.require(:user).permit(:email, :password)
     end
 
     def auth
