@@ -51,6 +51,9 @@ Layout/SpaceAroundMethodCallOperator:
 Lint/DeprecatedOpenSSLConstant:
   Enabled: true
 
+Lint/UnderscorePrefixedVariableName:
+  Enabled: false
+
 # https://rubocop.readthedocs.io/en/stable/cops_lint/#lintraiseexception
 Lint/RaiseException:
   Enabled: true
