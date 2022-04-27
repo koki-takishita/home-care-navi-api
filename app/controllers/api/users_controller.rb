@@ -1,5 +1,5 @@
 class Api::UsersController < ApplicationController
-  before_action :authenticate_user, only: [:show]
+  before_action :authenticate_user
 
   def create
     user = User.new(user_params)
@@ -11,6 +11,11 @@ class Api::UsersController < ApplicationController
     else
       render json: { status: user.errors.full_messages }
     end
+  end
+
+  def index
+    # users = User.all
+    render json: current_user.as_json(only: %i[id name email created_at])
   end
 
   def show

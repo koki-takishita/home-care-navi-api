@@ -23,6 +23,8 @@ module Api
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
     config.i18n.default_locale = :ja
+    config.add_autoload_paths_to_load_path = false
+    config.time_zone = ENV["TZ"]
 
     # Configuration for the application, engines, and railties goes here.
     #
