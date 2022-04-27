@@ -119,6 +119,6 @@ class Api::AuthTokenController < ApplicationController
     end
 
     def auth_params
-      params.require(:auth).permit(:email, :password)
+      params.require(:user).permit(:email, :password)
     end
 end

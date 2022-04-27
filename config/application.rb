@@ -24,7 +24,7 @@ module Api
     config.load_defaults 7.0
     config.i18n.default_locale = :ja
     config.add_autoload_paths_to_load_path = false
-    config.time_zone = ENV["TZ"]
+    config.time_zone = 'Tokyo'
 
     # Configuration for the application, engines, and railties goes here.
     #
