@@ -5,12 +5,13 @@ class Api::UsersController < ApplicationController
       user.save!
       render json: { status: 'success' }
     else
-      render json: { status: user.errors.full_messages }
+      puts user.errors.full_messages
+      render json: user.errors.full_messages, status: 400
     end
   end
 
   def index
-    render json: { status: 'index success' }
+    render json: user.errors.full_messages, status: 400
   end
 
   private
