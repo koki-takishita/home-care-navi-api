@@ -1,3 +1,3 @@
 class ApplicationController < ActionController::API
-  include SessionsHelper
+  include DeviseTokenAuth::Concerns::SetUserByToken
 end
