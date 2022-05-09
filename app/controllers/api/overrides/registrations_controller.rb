@@ -3,6 +3,14 @@ module Api
     class RegistrationsController < DeviseTokenAuth::RegistrationsController
       before_action :configure_permitted_parameters
     
+      def render_create_success
+        render json: {
+          status: 'success',
+          message: '入力いただいたメールアドレスに確認メールを送付いたしました。',
+          data:   resource_data
+        }
+      end
+
       protected
     
       def configure_permitted_parameters
