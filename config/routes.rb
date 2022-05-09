@@ -1,5 +1,3 @@
 Rails.application.routes.draw do
-  namespace :api do
-    resources :users, only: [:create]
-  end
+  mount_devise_token_auth_for 'User', at: 'api/users', skip: [:omniauth_callbacks]
 end
