@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_10_015659) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_10_024042) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,9 +20,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_10_015659) do
     t.integer "holiday"
     t.string "business_day_detail"
     t.string "address"
-    t.integer "post_code"
-    t.integer "phone_number"
-    t.integer "fax_number"
+    t.string "post_code"
+    t.string "phone_number"
+    t.string "fax_number"
     t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
