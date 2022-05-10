@@ -23,9 +23,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_10_060242) do
     t.string "post_code"
     t.string "phone_number"
     t.string "fax_number"
-    t.integer "user_id"
+    t.bigint "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_offices_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,4 +55,5 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_10_060242) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  add_foreign_key "offices", "users"
 end
