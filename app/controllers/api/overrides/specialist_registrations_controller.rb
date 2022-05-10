@@ -3,6 +3,11 @@ module Api
     class SpecialistRegistrationsController < DeviseTokenAuth::RegistrationsController
       before_action :configure_permitted_parameters
     
+      def create
+        super do |resource|
+          user_type_specialist = puts resource.specialist!
+        end
+      end
       protected
     
       def configure_permitted_parameters
@@ -10,7 +15,7 @@ module Api
     																													phone_number
     																													post_code
     																													address
-    																												  default_confirm_success_url).merge
+    																												  default_confirm_success_url)
     		)
       end
     end
