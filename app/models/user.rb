@@ -5,4 +5,6 @@ class User < ApplicationRecord
           :recoverable, :rememberable, :trackable, :validatable,
           :confirmable
   include DeviseTokenAuth::Concerns::User
+  validates :name, :phone_number, :post_code, :address, presence: true
+  validates :phone_number,uniqueness: true
 end
