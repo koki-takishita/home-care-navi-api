@@ -10,9 +10,6 @@ class Api::OfficesController < ApplicationController
     render json: { data: @office }
   end
 
-  def create
-  end
-
   private
    def set_office
       @office = Office.find(params[:id])
