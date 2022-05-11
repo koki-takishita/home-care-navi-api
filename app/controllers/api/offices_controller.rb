@@ -3,11 +3,11 @@ class Api::OfficesController < ApplicationController
 
   def index
     offices = Office.all
-    render json:{ data: offices }
+    render json:offices.as_json{ :offices }
   end
 
   def show
-    render json: { data: @office }
+    render json:@office.as_json{ :@office }
   end
 
   private
