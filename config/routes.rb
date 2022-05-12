@@ -6,6 +6,6 @@ Rails.application.routes.draw do
     registrations: 'api/overrides/registrations'
   }
   devise_scope :user do
-    post 'api/specialists', to: 'api/overrides/specialist_registrations#create'
+    post 'api/specialists/users', to: 'api/overrides/specialist_registrations#create'
   end
 end
