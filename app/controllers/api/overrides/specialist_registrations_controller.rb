@@ -4,15 +4,12 @@ module Api
       before_action :configure_permitted_parameters
     
       def create
-        super 
-        set_user_type
+        super do |resource|
+          resource.set_user_type(:specialist)
+        end
       end
 
-      private
 
-      def set_user_type
-        puts @resource.specialist!
-      end
 
       protected
     
