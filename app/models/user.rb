@@ -10,9 +10,6 @@ class User < ApplicationRecord
           :confirmable
   include DeviseTokenAuth::Concerns::User
 
-  validates :name, :phone_number, :post_code, :address, presence: true
-  validates :phone_number,uniqueness: true
-
   def set_user_type(type)
     set_specialist if type == :specialist
   end
@@ -22,6 +19,6 @@ class User < ApplicationRecord
   end
 
   validates :name, :phone_number, :post_code, :address, :email, presence: true
-  validates :email, uniqueness: true
+  validates :phone_number, uniqueness: true
 
 end
