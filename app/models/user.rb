@@ -21,7 +21,9 @@ class User < ApplicationRecord
     self.specialist!
   end
 
+=begin
   validates :name, :phone_number, :post_code, :address, :email, presence: true
   validates :email, uniqueness: true
+=end
 
 end
