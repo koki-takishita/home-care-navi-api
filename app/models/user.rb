@@ -19,6 +19,6 @@ class User < ApplicationRecord
   end
 
   validates :name, :phone_number, :post_code, :address, :email, presence: true
-  validates :email, uniqueness: true
+  validates :phone_number, uniqueness: true
 
 end
