@@ -4,7 +4,7 @@ class CreateOffices < ActiveRecord::Migration[7.0]
 
       t.string :name
       t.string :title
-      t.integer :flags, default: 0, null: false
+      t.integer :holiday
       t.string :business_day_detail
       t.string :address
       t.string :post_code
