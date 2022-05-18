@@ -3,7 +3,7 @@ setup:
   - plan: heroku-postgresql
     as: DATABASE
   - plan: sendgrid
-    as: DATABASE
+    as: MAILSERVER
 build:
   docker:
     web: Dockerfile.production
