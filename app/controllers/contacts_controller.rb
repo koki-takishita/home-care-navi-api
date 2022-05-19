@@ -1,29 +1,24 @@
 class ContactsController < ApplicationController
-    def index
-        @contact = Contact.new
-      end
-
-      def confirm
-        @contact = Contact.new(contact_params)
-        if @contact.valid?
-          render :action => 'confirm'
-        else
-          render :action => 'index'
-        end
-      end
-
-      def success
-        @contact = Contact.new(contact_params)
-        if params[:back]
-          render :action => 'index'
-        else
-          ContactMailer.send_mail(@contact).deliver_now
-          render :action => 'success'
-        end
-      end
-
-      private
-        def contact_params
-          params.require(:contact).permit(:name, :email, :types, :content)
-        end
+  def new
+    @contact = Contact.new
   end
+
+  def create
+    @contact = Contact.new(contact_params)
+    if @contact.save
+      ContactMailer.contact_mail(@contact).deliver
+      redirect_to thanks_contacts_path
+    else
+      render :new
+    end
+  end
+
+  def success
+  end
+
+  private
+
+  def contact_params
+    params.require(:contact).permit(:name, :email, :types, :content)
+  end
+end

@@ -8,4 +8,9 @@ Rails.application.routes.draw do
   devise_scope :user do
     post 'api/specialists/users', to: 'api/overrides/specialist_registrations#create'
   end
+
+  resource :contacts, only: [:new, :create] do
+    get "/success" => "contacts#success"
+   end
+
 end
