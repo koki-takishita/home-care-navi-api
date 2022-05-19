@@ -1,6 +1,7 @@
 class Office < ApplicationRecord
   include FlagShihTzu
   belongs_to :user
+  has_many :staff
 
   has_flags(
     1 => :sunday,
