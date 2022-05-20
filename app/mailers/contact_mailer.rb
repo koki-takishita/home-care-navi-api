@@ -1,6 +1,8 @@
-  class ContactMailer < ApplicationMailer
-    def contact_mail(contact)
-      @contact = contact
-      mail to: 'master@gmail.com', subject: 'お問い合わせありがとうございます'
-    end
+class ContactMailer < ApplicationMailer
+  def send_message(name)
+    @name = name
+    @greeting = "お問い合わせ内容を確認して、返信してください。"
+    mail to: "master@example.com",
+    subject: 'ホームケアナビ利用者からのお問い合わせが届きました'
   end
+end
