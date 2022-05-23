@@ -1,0 +1,2 @@
+class Specialist < User
+end
