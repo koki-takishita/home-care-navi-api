@@ -5,6 +5,10 @@ class Staff < ApplicationRecord
 
   def image_url
       helpers = Rails.application.routes.url_helpers
-      helpers.url_for(image)
+      if image.blank?
+        return
+      else
+        helpers.url_for(image)
+      end
   end
 end
