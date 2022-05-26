@@ -60,6 +60,15 @@ Rails.application.configure do
   # Ignore bad email addresses and do not raise email delivery errors.
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   config.action_mailer.raise_delivery_errors = true
+  ActionMailer::Base.smtp_settings = {
+    :user_name => 'apikey', # This is the string literal 'apikey', NOT the ID of your API key
+    :password => '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'
+    :domain => 'yourdomain.com',
+    :address => 'smtp.sendgrid.net',
+    :port => 587,
+    :authentication => :plain,
+    :enable_starttls_auto => true 
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
