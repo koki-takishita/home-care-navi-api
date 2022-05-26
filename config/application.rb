@@ -26,6 +26,5 @@ module Api
     config.active_record.default_timezone = :local
     config.api_only = true
     config.middleware.use ActionDispatch::Session::CookieStore
-    config.action_mailer.default_url_options = { host: 'home-care-navi-api-v2.herokuapp.com' }
   end
 end
