@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
-  resources :contacts, only: [:create]
-  
   namespace :api do
+    resources :contacts, only: [:create]
+
     resources :offices, only: [:index, :show]
   end
 
