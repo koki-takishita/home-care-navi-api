@@ -26,5 +26,6 @@ module Api
     config.active_record.default_timezone = :local
     config.api_only = true
     config.middleware.use ActionDispatch::Session::CookieStore
+    config.action_controller.raise_on_open_redirects = false
   end
 end
