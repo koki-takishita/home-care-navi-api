@@ -18,6 +18,8 @@ services:
     stdin_open: true
     depends_on:
       - db
+    environment:
+      - EDITOR=vim
   smtp:
     image: schickling/mailcatcher
     ports:
