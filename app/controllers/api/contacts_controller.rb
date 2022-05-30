@@ -2,7 +2,7 @@ module Api
   class ContactsController < ApplicationController
     def create
     render json: {
-      status: "success"
+      contacts = contacts.new(contacts_params)
     }
     end
   end
