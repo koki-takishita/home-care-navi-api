@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   namespace :api do
     resource :specialists do
       resources :offices ,controller: 'specialists/offices' do
-        resources :staffs, controller: 'specialists/staffs', only: [:index, :create]
+        resources :staffs, controller: 'specialists/staffs', only: [:index, :show, :create, :update]
       end
     end
   end
