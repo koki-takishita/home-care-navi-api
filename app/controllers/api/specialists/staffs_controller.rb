@@ -1,5 +1,5 @@
 class Api::Specialists::StaffsController < ApplicationController
-  before_action :set_staff, only: [:show, :update]
+  before_action :set_staff, only: [:show, :update, :destroy]
 
   def index
     staffs = Staff.all
@@ -7,7 +7,7 @@ class Api::Specialists::StaffsController < ApplicationController
   end
 
   def show
-    render json: @staff
+    render json: @staff, methods: [:image_url]
   end
 
   def create
@@ -25,6 +25,14 @@ class Api::Specialists::StaffsController < ApplicationController
       render json: { status: 'success' }
     else
     render json: { status: staff.errors.full_messages }
+    end
+  end
+
+  def destroy
+    if @staff.destroy
+      render json: { status: 'success' }
+    else
+      render json: { status: staff.errors.full_messages }
     end
   end
 
