@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   namespace :api do
+    resources :contacts, only: [:create]
     resources :offices, only: [:index, :show]
   end
 
@@ -13,11 +14,11 @@ Rails.application.routes.draw do
   end
 
   mount_devise_token_auth_for "Specialist", at: 'api/specialist'
-  
+
   devise_scope :specialist do
     post 'api/specialists/users', to: 'api/overrides/specialist_registrations#create'
   end
-  
+
   namespace :api do
     resource :specialists do
       resources :offices ,controller: 'specialists/offices' do

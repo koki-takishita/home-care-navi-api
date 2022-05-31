@@ -12,7 +12,7 @@ module Api
 
     private
       def contacts_params
-       params.permit(:name, :email, git :types, :content)
+       params.permit(:name, :email, :types, :content)
       end
     end
 end
