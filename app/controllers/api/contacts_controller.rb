@@ -5,6 +5,8 @@ module Api
 
       if @contacts.valid?
         @contacts.save!
+        render json: @contacts, status: 200
+        ContactMailer.send_message(@contacts.name).deliver_now
       else
         render json: { status: @contacts.errors.full_messages }
       end
