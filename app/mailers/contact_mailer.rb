@@ -1,12 +1,8 @@
 class ContactMailer < ApplicationMailer
-    default from: 'taker@example.com'
-    default to: 'giver@example.com'
-    layout 'mailer'
-
-    def send_mail(contact)
-      @contact = contact
-      mail(from: contact.email, to: ENV['MAIL_ADDRESS'], subject: 'Webサイトより問い合わせが届きました') do |format|
-        format.text
-      end
-    end
+  def send_message(name)
+    @name = name
+    @greeting = "お問い合わせ内容を確認して、返信してください。"
+    mail to: "master@example.com",
+    subject: 'ホームケアナビ利用者からのお問い合わせが届きました'
   end
+end
