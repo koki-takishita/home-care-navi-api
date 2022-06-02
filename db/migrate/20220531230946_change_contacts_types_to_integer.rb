@@ -6,4 +6,4 @@ class ChangeContactsTypesToInteger < ActiveRecord::Migration[7.0]
   def down
     change_column :contacts, :types, 'integer USING CAST(types AS integer)'
   end
-
+end
