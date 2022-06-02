@@ -1,0 +1,9 @@
+setup:
+  addons:
+  - plan: heroku-postgresql
+    as: DATABASE
+  - plan: sendgrid
+    as: MAILSERVER
+build:
+  docker:
+    web: Dockerfile.production
