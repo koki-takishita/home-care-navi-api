@@ -1,8 +1,10 @@
 class Api::Specialists::StaffsController < ApplicationController
   before_action :set_staff, only: [:show, :update, :destroy]
+  before_action :authenticate_specialist!
 
   def index
     staffs = Staff.all
+    puts "log::::#{current_specialist.id}"
     render json: staffs, methods: [:image_url]
   end
 
