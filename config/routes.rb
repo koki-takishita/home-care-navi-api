@@ -5,12 +5,12 @@ Rails.application.routes.draw do
   end
 
   mount_devise_token_auth_for 'User', at: 'api/users', skip: [:omniauth_callbacks, :sessions], controllers: {
-    registrations: 'api/overrides/registrations'
+    registrations: 'api/overrides/customer/registrations'
   }
 
   devise_scope :user do
-    post   'api/login',           to: 'devise_token_auth/sessions#create'
-    delete 'api/logout',           to: 'devise_token_auth/sessions#destroy'
+  post   'api/login',           to: 'api/overrides/customer/sessions#create'
+  delete 'api/logout',           to: 'devise_token_auth/sessions#destroy'
   end
 
   mount_devise_token_auth_for "Specialist", at: 'api/specialist'
