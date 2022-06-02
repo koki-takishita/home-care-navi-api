@@ -1,7 +1,7 @@
-<h1>お問い合わせ</h1>
-
 <p>
-  <%= @greeting %> <br>
-  <%= @name %> 様 から問い合わせがありました。<br>
-#  【Mail】:<%= @email %><br>
+  <h1><%= @contact.name %> 様 から問い合わせがありました。</h1><br>
+  【メールアドレス】<%= @contact.email %><br>
+  【利用者区分】<%= @contact.types %><br>
+  【お問い合わせ内容】<br>
+<span style="white-space: pre-wrap;"><%= @contact.content %></span>
 </p>
