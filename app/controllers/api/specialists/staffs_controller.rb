@@ -1,11 +1,10 @@
 class Api::Specialists::StaffsController < ApplicationController
-  before_action :set_staff, only: [:show, :update, :destroy]
+    before_action :set_staff, only: [:show, :update, :destroy]
   before_action :authenticate_specialist!
 
   def index
-    staffs = Staff.all
-    puts "log::::#{current_specialist.id}"
-    render json: staffs, methods: [:image_url]
+    @staffs = Staff.where(office_id:params[:office_id])
+    render json: @staffs, methods: [:image_url]
   end
 
   def show
@@ -45,5 +44,6 @@ class Api::Specialists::StaffsController < ApplicationController
 
     def set_staff
       @staff = Staff.find(params[:id])
+      @office = Office.find(params[:office_id])
     end
-end
+  end
