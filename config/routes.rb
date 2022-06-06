@@ -13,8 +13,6 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for "Specialist", at: 'api/specialist'
   devise_scope :specialist do
     post 'api/specialists/users', to: 'api/overrides/specialist/specialist_registrations#create'
-    post 'api/specialists/login', to: 'api/overrides/specialist/specialist_sessions#create'
-    delete 'api/specialists/logout',  to: 'devise_token_auth/sessions#destroy'
   end
   
   namespace :api do
