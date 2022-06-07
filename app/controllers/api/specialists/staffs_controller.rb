@@ -1,6 +1,6 @@
 class Api::Specialists::StaffsController < ApplicationController
     before_action :set_staff, only: [:show, :update, :destroy]
-  before_action :authenticate_specialist!
+    before_action :authenticate_specialist!
 
   def index
     @staffs = Staff.where(office_id:params[:office_id])
