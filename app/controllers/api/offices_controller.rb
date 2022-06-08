@@ -3,6 +3,22 @@ class Api::OfficesController < ApplicationController
 
   def index
     offices = Office.all
+=begin
+{
+  data: {
+    office: {
+
+      thank: {
+        # ランダムに一つ
+      }
+      detail: {
+        # 事業所の特徴
+        # 画像
+      }
+    }
+  }
+}
+=end
     render json:offices.as_json{ :offices }
   end
 
