@@ -1,5 +1,5 @@
 class Staff < ApplicationRecord
-  has_many :office
+  belongs_to :office
   has_one_attached :image
 
   def image_url

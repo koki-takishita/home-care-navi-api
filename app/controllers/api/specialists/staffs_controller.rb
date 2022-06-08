@@ -3,7 +3,7 @@ class Api::Specialists::StaffsController < ApplicationController
     before_action :authenticate_specialist!
 
   def index
-    @staffs = Staff.where(office_id:params[:office_id])
+    @staffs = current_specialist.office.staffs
     render json: @staffs, methods: [:image_url]
   end
 
