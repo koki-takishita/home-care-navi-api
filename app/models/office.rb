@@ -2,6 +2,8 @@ class Office < ApplicationRecord
   include FlagShihTzu
   belongs_to :user
   has_many :staff
+  has_many :thanks, dependent: :destroy
+  has_one  :office_detail, dependent: :destroy
 
   has_flags(
     1 => :sunday,
