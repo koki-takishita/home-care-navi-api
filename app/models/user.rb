@@ -1,4 +1,5 @@
 class User < ApplicationRecord
+  has_one :office, foreign_key: 'user_id', dependent: :destroy
 
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable, :confirmable
