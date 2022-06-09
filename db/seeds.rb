@@ -80,7 +80,9 @@ end
     post_code:             '000-0000',
     address:               '東京都千代田区丸の内1-1-1',)}
 specialist = Specialist.third
+specialist2 = Specialist.last
 specialist.confirm
+specialist2.confirm
 if(Specialist.all.offset(2).count == 2)
   puts ""
   puts "Specialistサンプルデータ作成完了"
@@ -97,11 +99,15 @@ else
   puts "失敗"
 end
 
+# 県の情報
+# 市の情報
+# 市町村の情報
+# 番地
 office = specialist.create_office!(
   name:                'サンプルオフィス',
   title:               'サンプルタイトル',
   flags:               65,
-  address:             'サンプル県サンプル市サンプル町 1-1-1',
+  address:             '東京都新宿区西早稲田3丁目31番11号 ニューライフ西早稲田ビル 別館5階',
   post_code:           '111-1111',
   phone_number:        '111-1111-1111',
   fax_number:          '111-1111-1111',

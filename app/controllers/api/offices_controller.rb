@@ -2,24 +2,26 @@ class Api::OfficesController < ApplicationController
   before_action :set_office, only: [:show]
 
   def index
-    offices = Office.all
-=begin
-{
-  data: {
-    office: {
-
-      thank: {
-        # ランダムに一つ
-      }
-      detail: {
-        # 事業所の特徴
-        # 画像
+    tmp        = params[:cities]
+    cities     = tmp.split(',')
+    offices = Office.where("address LIKE ?", "%#{params[:prefecture]}%")
+    puts "県で絞り込み#{offices}"
+    search_sql = []
+    cities = cities.map{|city|
+      search_sql.push('address LIKE ?')
+      "%#{city}%"
+    }
+    puts "cities map #{cities}"
+    offices = offices.where(search_sql.join(' or '), *cities )
+    arry = offices.map{|office|
+      office_data = {
+        office: office,
+        thank:  office.thanks.sample,
+        detail: office.office_detail
       }
     }
-  }
-}
-=end
-    render json:offices.as_json{ :offices }
+    puts arry
+    render json: { data: arry }
   end
 
   def show

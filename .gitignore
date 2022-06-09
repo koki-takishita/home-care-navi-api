@@ -28,5 +28,3 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 /config/devise_secret_key.rb
-
-db/schema.rb
