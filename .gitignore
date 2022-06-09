@@ -30,3 +30,5 @@
 /config/devise_secret_key.rb
 
 db/schema.rb
+
+.DS_Store
