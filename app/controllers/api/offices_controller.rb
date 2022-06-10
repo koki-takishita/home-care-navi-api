@@ -16,7 +16,7 @@ class Api::OfficesController < ApplicationController
     office = Office.new(office_params)
     if office.valid?
       office.save!
-      # puts "log::#{office_params}"
+      render json: { status: 200}
     else
       render json: { status: office.errors.full_messages }
     end
