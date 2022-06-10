@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     resources :contacts, only: [:create]
-    resources :offices, only: [:index, :show, :create]
+    resources :offices, only: [:index, :show]
   end
 
   mount_devise_token_auth_for 'User', at: 'api/users', skip: [:omniauth_callbacks, :sessions], controllers: {
