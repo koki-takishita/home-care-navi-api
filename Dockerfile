@@ -11,3 +11,4 @@ ENTRYPOINT ["entrypoint.sh"]
 EXPOSE 3000
 
 RUN bundle install
+

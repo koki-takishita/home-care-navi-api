@@ -1,9 +1,6 @@
 require "active_support/core_ext/integer/time"
 
 Rails.application.configure do
-  # Blocked host: heroku push時のエラー回避
-  config.hosts << "home-care-navi-api-v2.herokuapp.com"
-
   # Settings specified here will take precedence over those in config/application.rb.
 
   # In the development environment your application's code is reloaded any time
