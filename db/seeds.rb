@@ -67,10 +67,10 @@ if(User.count == 2)
     puts "---------------------------------"
   }
 else
-  puts "失敗"
+  puts "User作成失敗"
 end
 
-2.times{|n|
+30.times{|n|
   Specialist.create!(
     email:                 "specialist#{n + 3}@example.com",
     password:              'password',
@@ -83,7 +83,8 @@ specialist = Specialist.third
 specialist2 = Specialist.last
 specialist.confirm
 specialist2.confirm
-if(Specialist.all.offset(2).count == 2)
+Specialist.all.offset(2).each{|s| s.confirm}
+if(Specialist.all.offset(2).count == 30)
   puts ""
   puts "Specialistサンプルデータ作成完了"
   puts "---------------------------------"
@@ -96,14 +97,14 @@ if(Specialist.all.offset(2).count == 2)
     puts "---------------------------------"
   }
 else
-  puts "失敗"
+  puts "スペシャリスト作成失敗"
 end
 
 # 県の情報
 # 市の情報
 # 市町村の情報
 # 番地
-office = specialist.create_office!(
+specialist.create_office!(
   name:                'サンプルオフィス',
   title:               'サンプルタイトル',
   flags:               65,
@@ -112,7 +113,10 @@ office = specialist.create_office!(
   phone_number:        '111-1111-1111',
   fax_number:          '111-1111-1111',
   business_day_detail: '営業日の説明が入ります')
+puts Office.first.id
 office = specialist.office
+puts Office.all.ids
+puts office.id
 if(office)
   puts ""
   puts "Officeサンプルデータ作成完了"
@@ -122,11 +126,62 @@ if(office)
   puts "---------------------------------"
 end
 
+address = [
+  "東京都目黒区",
+  "東京都渋谷区宇田川町３６−６ ワールド宇田川ビル ５階B室",
+  "静岡県浜松市南区遠州浜２丁目１１番地３９号",
+  "新潟県佐渡市秋津４１７ー９",
+  "東京都中央区",
+  "東京都港区",
+  "東京都新宿区",
+  "東京都文京区",
+  "東京都台東区",
+  "東京都墨田区",
+  "東京都江東区",
+  "東京都品川区",
+  "東京都目黒区",
+  "東京都渋谷区宇田川町３６−６ ワールド宇田川ビル ５階B室",
+  "静岡県浜松市南区遠州浜２丁目１１番地３９号",
+  "新潟県佐渡市秋津４１７ー９",
+  "東京都中央区",
+  "東京都港区",
+  "東京都新宿区",
+  "東京都文京区",
+  "東京都台東区",
+  "東京都墨田区",
+  "東京都江東区",
+  "東京都品川区",
+  "東京都目黒区",
+  "東京都渋谷区宇田川町３６−６ ワールド宇田川ビル ５階B室",
+  "静岡県浜松市南区遠州浜２丁目１１番地３９号",
+  "新潟県佐渡市秋津４１７ー９",
+  "東京都中央区",
+  "東京都港区",
+  "東京都新宿区",
+  "東京都文京区",
+  "東京都台東区",
+  "東京都墨田区",
+  "東京都江東区",
+  "東京都品川区"
+]
+Specialist.all.offset(3).each_with_index {|s, i|
+  s.create_office!(
+    name:                'サンプルオフィス',
+    title:               'サンプルタイトル',
+    flags:               65,
+    address:             address[i],
+    post_code:           '111-1111',
+    phone_number:        "111-1111-111#{i}",
+    fax_number:          '111-1111-1111',
+    business_day_detail: '営業日の説明が入ります')
+}
+
 10.times {|n|
-  office.staffs.create!(
+  office.staffs.create(
     name:         "サンプルスタッフ#{n}",
     kana:         "さんぷるすたっふ",
-    introduction: "サンプルスタッフ#{n}の紹介文")}
+    introduction: "サンプルスタッフ#{n}の紹介文")
+}
 staffs = office.staffs
 if(staffs)
   puts ""
@@ -166,7 +221,7 @@ office    = Office.first
 office_id = office.id
 customer  = User.first
 2.times {|n|
-  staff     = office.staffs.sample
+  staff     = office.staffs.offset(n).sample
   staff_id  = staff.id
   customer.thanks.create!(
     staff_id:  staff_id,
@@ -184,4 +239,5 @@ thanks.each{|tnk|
     puts "お礼されたスタッフ  #{tnk.staff.name}"
     puts "お礼されたオフィス  #{tnk.office.name}"
     puts "---------------------------------"
-  end}
+  end
+}
