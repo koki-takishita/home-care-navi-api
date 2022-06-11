@@ -28,7 +28,11 @@ class Api::OfficesController < ApplicationController
                     search_sql.push('address LIKE ?')
                     "%#{city}%"
                   }
-                  offices.where(search_sql.join(' or '), *cities )
+                  offices = offices.where(search_sql.join(' or '), *cities )
+                  if(offices.empty?)
+                    return [{ message: '選択されたエリア内にオフィスは存在しません' }]
+                  end
+                  offices
                 else
                   [{ message: '選択されたエリア内にオフィスは存在しません'}]
                 end
