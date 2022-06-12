@@ -3,7 +3,11 @@ class Api::OfficesController < ApplicationController
 
   def index
     offices = search_office_from_params
-    result  = build_json(offices)
+    result = if(offices.empty?)
+                []
+              else
+                build_json(offices)
+              end
     render json: result
   end
 
@@ -30,16 +34,15 @@ class Api::OfficesController < ApplicationController
                   }
                   offices = offices.where(search_sql.join(' or '), *cities )
                   if(offices.empty?)
-                    return [{ message: '選択されたエリア内にオフィスは存在しません' }]
+                    return []
                   end
                   offices
                 else
-                  [{ message: '選択されたエリア内にオフィスは存在しません'}]
+                  return []
                 end
               else
-                [{ message: '選択されたエリア内にオフィスは存在しません'}]
+                return []
               end
-    offices
   end
 
   def build_json(offices)
