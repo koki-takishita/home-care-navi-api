@@ -4,6 +4,8 @@ class Office < ApplicationRecord
   has_many :staffs, dependent: :destroy
   has_many_attached :images
 
+  validates :user_id, uniqueness: true
+
   def image_url
     helpers = Rails.application.routes.url_helpers
     if images.blank?
