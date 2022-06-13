@@ -8,7 +8,7 @@ class Api::Specialists::OfficesController < ApplicationController
       office.save!
       render json: { status: 200}
     else
-      render json: { status: office.errors.full_messages }
+      render status: 401, json: { errors: office.errors.full_messages }
     end
   end
 
