@@ -83,39 +83,3 @@ if(specialist)
   puts "有効化済み? #{specialist.confirmed?}"
   puts "---------------------------------"
 end
-
-specialist.create_office!(
-  name:                'サンプルオフィス',
-  title:               'サンプルタイトル',
-  flags:               65,
-  address:             'サンプル県サンプル市サンプル町 1-1-1',
-  post_code:           '111-1111',
-  phone_number:        '111-1111-1111',
-  fax_number:          '111-1111-1111',
-  business_day_detail: '営業日の説明が入ります',
-)
-office = specialist.office
-if(office)
-  puts ""
-  puts "Officeサンプルデータ作成完了"
-  puts "---------------------------------"
-  puts "name #{office.name}"
-  puts "休日   #{office.selected_flags}"
-  puts "---------------------------------"
-end
-
-10.times {|n|
-  office.staffs.create!(
-    name:         "サンプルスタッフ#{n}",
-    kana:         "さんぷるすたっふ１",
-    introduction: "サンプルスタッフ#{n}の紹介文",
-  )
-}
-staffs = office.staffs
-if(staffs)
-  puts ""
-  puts "Staffsサンプルデータ作成完了"
-  puts "---------------------------------"
-  puts "作成したスタッフ数 #{staffs.count}"
-  puts "---------------------------------"
-end
