@@ -10,5 +10,8 @@ class User < ApplicationRecord
 
   validates :name, :phone_number, :post_code, :address, :email, presence: true
   validates :phone_number, uniqueness: true
-  has_one :office
+
+
+  has_one :office, dependent: :destroy
+
 end
