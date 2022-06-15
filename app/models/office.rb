@@ -1,8 +1,21 @@
 class Office < ApplicationRecord
   include FlagShihTzu
-  belongs_to :user
-  has_many :staff
-  has_many :care_recipients
+  belongs_to :specialist, foreign_key: 'user_id'
+  has_many :staffs, dependent: :destroy
+  has_many :care_recipients, dependent: :destroy
+  has_many_attached :images
+
+  validates :user_id, uniqueness: true
+
+  def image_url
+    helpers = Rails.application.routes.url_helpers
+    if images.blank?
+      return
+    else
+      images.map{|image| helpers.url_for(image) }
+    end
+  end
+
 
   has_flags(
     1 => :sunday,

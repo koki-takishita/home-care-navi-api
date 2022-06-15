@@ -7,11 +7,11 @@ class Api::OfficesController < ApplicationController
   end
 
   def show
-    render json:@office.as_json{ :@office }
+    render json: @office, methods: [:image_url]
   end
 
   private
-   def set_office
+    def set_office
       @office = Office.find(params[:id])
-   end
+    end
 end
