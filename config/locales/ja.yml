@@ -30,8 +30,12 @@ ja:
         unconfirmed_email: 未確認Eメール
         unlock_token: ロック解除用トークン
         updated_at: 更新日
+      office:
+        user_id: 事業所
     models:
       user: 'ユーザ'
+    models:
+      office: '事業所'
   devise:
     confirmations:
       confirmed: メールアドレスが確認できました。

@@ -22,6 +22,7 @@ filename: 'youngman_27.png')
 end
 =end
 
+=begin
 puts "テーブル全削除処理スタート"
 exclusion_tables = [
   'active_storage_variant_records',
@@ -241,3 +242,82 @@ thanks.each{|tnk|
     puts "---------------------------------"
   end
 }
+=end
+# tables = ["User", "Office", "Staff", "Contact"]
+puts "テーブル全削除処理スタート"
+User.destroy_all
+Office.destroy_all
+Staff.destroy_all
+Contact.destroy_all
+puts "テーブル全削除完了"
+
+User.create!(
+  name:                     'カスタマー',
+  password:                 'password',
+  password_confirmation:    'password',
+  phone_number:             '000-0000-0000',
+  post_code:                '111-1111',
+  email:                    'customer@example.com',
+  address:                  'カスタマ県カスタマ市カスタマ町 1-1-1',
+  user_type:                'customer'
+)
+user = User.first
+user.confirm
+if(user)
+  puts ""
+  puts "Userサンプルデータ作成完了"
+  puts "---------------------------------"
+  puts "email       #{user.email}"
+  puts "password    password"
+  puts "user_type   #{user.user_type}"
+  puts "有効化済み? #{user.confirmed?}"
+  puts "---------------------------------"
+end
+
+User.create!(
+  name:                     'カスタマー',
+  password:                 'password',
+  password_confirmation:    'password',
+  phone_number:             '000-0000-0001',
+  post_code:                '111-1111',
+  email:                    'customer2@example.com',
+  address:                  'カスタマ県カスタマ市カスタマ町 1-1-2',
+  user_type:                'customer'
+)
+user2 = User.second
+if(user)
+  puts ""
+  puts "Userサンプルデータ作成完了"
+  puts "---------------------------------"
+  puts "email       #{user2.email}"
+  puts "password    password"
+  puts "user_type   #{user2.user_type}"
+  puts "有効化済み? #{user2.confirmed?}"
+  puts "---------------------------------"
+end
+
+
+Specialist.create!(
+  name:                     'スペシャリスト',
+  password:                 'password',
+  password_confirmation:    'password',
+  phone_number:             '000-0000-1111',
+  post_code:                '111-1111',
+  email:                    'specialist@example.com',
+  address:                  'スペシャリスト県スペシャリスト市スペシャリスト町 1-1-1',
+  user_type:                'specialist'
+)
+
+specialist = Specialist.third
+specialist.specialist!
+specialist.confirm
+if(specialist)
+  puts ""
+  puts "Specialistサンプルデータ作成完了"
+  puts "---------------------------------"
+  puts "email       #{specialist.email}"
+  puts "password    password"
+  puts "user_type   #{specialist.user_type}"
+  puts "有効化済み? #{specialist.confirmed?}"
+  puts "---------------------------------"
+end

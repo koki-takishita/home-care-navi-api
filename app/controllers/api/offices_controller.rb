@@ -12,7 +12,7 @@ class Api::OfficesController < ApplicationController
   end
 
   def show
-    render json:@office.as_json{ :@office }
+    render json: @office, methods: [:image_url]
   end
 
   private
@@ -97,5 +97,4 @@ class Api::OfficesController < ApplicationController
       true
     end
   end
-
 end
