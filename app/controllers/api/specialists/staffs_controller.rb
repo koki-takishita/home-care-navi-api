@@ -12,11 +12,11 @@ class Api::Specialists::StaffsController < ApplicationController
   end
 
   def create
-    staff = Staff.new(staff_params)
-    if staff.valid?
-      staff.save!
+    @staff = Staff.new(staff_params)
+    if @staff.valid?
+      @staff.save!
     else
-      render json: { status: staff.errors.full_messages }
+      render json: { status: @staff.errors.full_messages }
     end
   end
 
@@ -25,15 +25,16 @@ class Api::Specialists::StaffsController < ApplicationController
       @staff.update(staff_params)
       render json: { status: 'success' }
     else
-    render json: { status: staff.errors.full_messages }
+    render json: { status: @staff.errors.full_messages }
     end
   end
 
   def destroy
-    if @staff.destroy
+    if @staff.valid?
+      @staff.destroy
       render json: { status: 'success' }
     else
-      render json: { status: staff.errors.full_messages }
+      render json: { status: @staff.errors.full_messages }
     end
   end
 
@@ -43,7 +44,7 @@ class Api::Specialists::StaffsController < ApplicationController
     end
 
     def set_staff
-      @staff = Staff.find(params[:id])
-      @office = Office.find(params[:office_id])
+      @staff = current_specialist.office.staffs.find(params[:id])
+      @office = current_specialist.office.id
     end
   end
