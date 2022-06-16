@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_08_064154) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,11 +42,27 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_064154) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
-  create_table "contacts", force: :cascade do |t|
+  create_table "appointments", force: :cascade do |t|
+    t.bigint "office_id"
+    t.string "meet_date"
+    t.string "meet_time"
     t.string "name"
-    t.string "email"
-    t.string "types"
-    t.text "content"
+    t.string "age"
+    t.string "phone_number"
+    t.string "comment"
+    t.bigint "user_id"
+    t.integer "called_status", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_appointments_on_office_id"
+    t.index ["user_id"], name: "index_appointments_on_user_id"
+  end
+
+  create_table "contacts", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "types", null: false
+    t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -134,6 +150,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_08_064154) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "appointments", "offices"
+  add_foreign_key "appointments", "users"
   add_foreign_key "office_details", "offices"
   add_foreign_key "offices", "users"
   add_foreign_key "staffs", "offices"

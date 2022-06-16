@@ -1,6 +1,7 @@
 class User < ApplicationRecord
+  has_many :appointments, dependent: :destroy
   has_one :office, foreign_key: 'user_id', dependent: :destroy
-
+  
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable, :confirmable
 
