@@ -32,7 +32,8 @@ class Api::OfficesController < ApplicationController
                     search_sql.push('address LIKE ?')
                     "%#{city}%"
                   }
-                  offices = offices.where(search_sql.join(' or '), *cities )
+                  @count = { count: offices.where(search_sql.join(' or '), *cities ).count }
+                  offices = offices.where(search_sql.join(' or '), *cities ).limit(10).offset(params[:page].to_i * 10)
                   if(offices.empty?)
                     return []
                   end
@@ -51,7 +52,7 @@ class Api::OfficesController < ApplicationController
       detail      = build_json_from_detail_table_attributes(office)
       staff_count = build_json_from_staff_table_count_json(office)
       office      = build_json_from_office_table_attributes(office)
-      result      = office.merge(thank, detail, staff_count)
+      result      = office.merge(thank, detail, staff_count, @count)
     }
     result
   end
