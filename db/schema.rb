@@ -67,6 +67,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "office_details", force: :cascade do |t|
+    t.bigint "office_id", null: false
+    t.string "detail", null: false
+    t.string "service_type", null: false
+    t.string "open_date"
+    t.integer "rooms"
+    t.string "requirement"
+    t.string "facility"
+    t.string "management"
+    t.string "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_office_details_on_office_id"
+  end
+
   create_table "offices", force: :cascade do |t|
     t.string "name"
     t.string "title"
@@ -91,6 +106,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
     t.datetime "updated_at", null: false
     t.bigint "office_id"
     t.index ["office_id"], name: "index_staffs_on_office_id"
+  end
+
+  create_table "thanks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "office_id", null: false
+    t.bigint "staff_id", null: false
+    t.string "comments", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_thanks_on_office_id"
+    t.index ["staff_id"], name: "index_thanks_on_staff_id"
+    t.index ["user_id", "office_id", "staff_id"], name: "ci_thanks_01", unique: true
+    t.index ["user_id"], name: "index_thanks_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -124,6 +152,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "appointments", "offices"
   add_foreign_key "appointments", "users"
+  add_foreign_key "office_details", "offices"
   add_foreign_key "offices", "users"
   add_foreign_key "staffs", "offices"
+  add_foreign_key "thanks", "offices"
+  add_foreign_key "thanks", "staffs"
+  add_foreign_key "thanks", "users"
 end

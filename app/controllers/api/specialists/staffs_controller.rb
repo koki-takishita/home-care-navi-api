@@ -1,6 +1,6 @@
 class Api::Specialists::StaffsController < ApplicationController
-    before_action :set_staff, only: [:show, :update, :destroy]
-    before_action :authenticate_specialist!
+  before_action :set_staff, only: [:show, :update, :destroy]
+  before_action :authenticate_specialist!
 
   def index
     @staffs = current_specialist.office.staffs
@@ -39,6 +39,7 @@ class Api::Specialists::StaffsController < ApplicationController
   end
 
   private
+
     def staff_params
       params.permit(:office_id, :name, :kana, :introduction, :image)
     end
@@ -47,4 +48,5 @@ class Api::Specialists::StaffsController < ApplicationController
       @staff = current_specialist.office.staffs.find(params[:id])
       @office = current_specialist.office.id
     end
+
   end
