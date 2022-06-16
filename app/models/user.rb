@@ -12,7 +12,5 @@ class User < ApplicationRecord
   validates :phone_number, uniqueness: true
   has_many :thanks, dependent: :destroy
 
-
   has_one :office, dependent: :destroy
-
 end

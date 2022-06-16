@@ -6,7 +6,6 @@ class Office < ApplicationRecord
   has_many :care_recipients, dependent: :destroy
   has_many :thanks, dependent: :destroy
   has_one  :office_detail, dependent: :destroy
-
   has_many_attached :images
 
   validates :user_id, uniqueness: true
@@ -19,7 +18,6 @@ class Office < ApplicationRecord
       images.map{|image| helpers.url_for(image) }
     end
   end
-
 
   has_flags(
     1 => :sunday,
