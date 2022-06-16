@@ -1,9 +1,9 @@
 class Api::Specialists::StaffsController < ApplicationController
-    before_action :set_staff, only: [:show, :update, :destroy]
-    before_action :authenticate_specialist!
+  before_action :set_staff, only: [:show, :update, :destroy]
+  before_action :authenticate_specialist!
 
   def index
-    @staffs = Staff.where(office_id:params[:office_id])
+    @staffs = current_specialist.office.staffs
     render json: @staffs, methods: [:image_url]
   end
 
@@ -38,6 +38,7 @@ class Api::Specialists::StaffsController < ApplicationController
   end
 
   private
+
     def staff_params
       params.permit(:office_id, :name, :kana, :introduction, :image)
     end
@@ -46,4 +47,5 @@ class Api::Specialists::StaffsController < ApplicationController
       @staff = Staff.find(params[:id])
       @office = Office.find(params[:office_id])
     end
+
   end

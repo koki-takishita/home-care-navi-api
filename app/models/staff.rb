@@ -1,13 +1,14 @@
 class Staff < ApplicationRecord
-  has_many :office
+  belongs_to :office
   has_one_attached :image
+  has_many :thanks, dependent: :destroy
 
   def image_url
-      helpers = Rails.application.routes.url_helpers
-      if image.blank?
-        return
-      else
-        helpers.url_for(image)
-      end
+    helpers = Rails.application.routes.url_helpers
+    if image.blank?
+      return
+    else
+      helpers.url_for(image)
+    end
   end
 end
