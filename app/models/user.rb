@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_one :office , dependent: :destroy
-  
+  has_one :office, foreign_key: 'user_id', dependent: :destroy
+
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable, :confirmable
 
@@ -10,6 +10,7 @@ class User < ApplicationRecord
 
   validates :name, :phone_number, :post_code, :address, :email, presence: true
   validates :phone_number, uniqueness: true
+  has_many :thanks, dependent: :destroy
 
 
   has_one :office, dependent: :destroy

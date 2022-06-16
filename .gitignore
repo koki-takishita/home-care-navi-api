@@ -29,9 +29,13 @@
 /config/master.key
 /config/devise_secret_key.rb
 
+<<<<<<< HEAD
 
 .DS_Store
 
 # db/schema.rb
 
 .vscode/
+=======
+db/schema.rb
+>>>>>>> origin/develop
