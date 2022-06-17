@@ -51,10 +51,19 @@ class Api::OfficesController < ApplicationController
       thank       = build_json_from_thank_table_attributes(office)
       detail      = build_json_from_detail_table_attributes(office)
       staff_count = build_json_from_staff_table_count_json(office)
+      image       = build_json_image(office)
       office      = build_json_from_office_table_attributes(office)
-      result      = office.merge(thank, detail, staff_count, @count)
+      result      = office.merge(thank, detail, image, staff_count, @count)
     }
     result
+  end
+
+  def build_json_image(office)
+    image = if(office_exists_check(office) && office.images.length > 0)
+              { image: rails_storage_proxy_url(office.images_attachments[0]) }
+            else
+              { image: { message: '画像は登録されていません'} }
+            end
   end
 
   def build_json_from_thank_table_attributes(office)
