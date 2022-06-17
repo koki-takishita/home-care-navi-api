@@ -10,7 +10,7 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     origins 'localhost:8000', 'home-care-navi-v2.herokuapp.com'
     resource '*',
       headers: :any,
-      expose: ['access-token', 'expiry', 'token-type', 'uid', 'client'],
+      expose: ['access-token', 'expiry', 'token-type', 'uid', 'client', 'office_data'],
       methods: [:get, :post, :options, :delete, :put]
   end
 end

@@ -29,4 +29,9 @@
 /config/master.key
 /config/devise_secret_key.rb
 
-db/schema.rb
+
+.DS_Store
+
+# db/schema.rb
+
+.vscode/
