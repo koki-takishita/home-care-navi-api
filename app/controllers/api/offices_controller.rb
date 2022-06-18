@@ -3,7 +3,7 @@ class Api::OfficesController < ApplicationController
 
   def index
     offices = search_office_from_params
-    result = if(offices.empty?)
+    result = if(offices.size <= 0)
                 []
               else
                 build_json(offices)
@@ -23,19 +23,22 @@ class Api::OfficesController < ApplicationController
   end
 
   def search_office_from_params
-    offices = if(params[:prefecture])
-                offices = Office.where("address LIKE ?", "%#{params[:prefecture]}%")
-                if(offices.exists? && params[:cities])
+    # 県と市の情報が存在する前提のコードを記述する フロント側でalertで弾く
+    offices = if(params[:prefecture] && params[:prefecture].length > 0)
+ #   User.includes(:posts).where(posts: { name: 'example' })
+                offices = Office.includes(:thanks, :office_detail, :staffs).where("offices.address LIKE ?", "%#{params[:prefecture]}%")
+
+                if(params[:cities] && params[:cities].length > 0 && offices.size > 0)
                   tmp        = params[:cities]
                   cities     = tmp.split(',')
                   search_sql = []
                   cities = cities.map{|city|
-                    search_sql.push('address LIKE ?')
+                    search_sql.push('offices.address LIKE ?')
                     "%#{city}%"
                   }
-                  @count = { count: offices.where(search_sql.join(' or '), *cities ).count }
-                  offices = offices.where(search_sql.join(' or '), *cities ).limit(10).offset(params[:page].to_i * 10)
-                  if(offices.empty?)
+                  @size = { count: offices.where(search_sql.join(' or '), *cities ).size }
+                  offices = offices.includes(:thanks, :office_detail, :staffs).where(search_sql.join(' or '), *cities ).with_attached_images.limit(10).offset(params[:page].to_i * 10)
+                  if(offices.size <= 0)
                     return []
                   end
                   offices
@@ -53,14 +56,14 @@ class Api::OfficesController < ApplicationController
       detail      = build_json_from_detail_table_attributes(office)
       staff_count = build_json_from_staff_table_count_json(office)
       image       = build_json_image(office)
-      office      = build_json_from_office_table_attributes(office)
-      result      = office.merge(thank, detail, image, staff_count, @count)
+      office      = office.attributes
+      result      = office.merge(thank, detail, image, staff_count, @size)
     }
     result
   end
 
   def build_json_image(office)
-    image = if(office_exists_check(office) && office.images.length > 0)
+    image = if(office.images.size > 0)
               image_url = return_random_image_url(office)
               { image: image_url }
             else
@@ -76,7 +79,7 @@ class Api::OfficesController < ApplicationController
   end
 
   def build_json_from_thank_table_attributes(office)
-    thank = if(office_exists_check(office) && office.thanks.exists?)
+    thank = if(office.thanks.size > 0)
       { thank: office.thanks.sample.attributes }
     else
       { thank: { message: 'お礼の投稿はまだありません'} }
@@ -84,35 +87,20 @@ class Api::OfficesController < ApplicationController
   end
 
   def build_json_from_detail_table_attributes(office)
-    detail = if(office_exists_check(office) && !office.office_detail.nil?)
+    detail = if(!office.office_detail.nil?)
       { detail: office.office_detail.attributes }
     else
       { detail: { message: '詳細情報は登録されていません'} }
     end
   end
 
-  def build_json_from_office_table_attributes(office)
-    office = if(office_exists_check(office))
-                office.attributes
-              else
-                office
-              end
-  end
-
   def build_json_from_staff_table_count_json(office)
-    staffInfo = if(office_exists_check(office) && office.staffs.exists?)
-                  office.staff_ids.length
+    staffInfo = if(office.staffs.size > 0)
+                  office.staffs.size
                 else
                   0
                 end
     { staffCount: staffInfo }
   end
 
-  def office_exists_check(office)
-    unless(office.class == Office)
-      return office[:message].empty?
-    else
-      true
-    end
-  end
 end
