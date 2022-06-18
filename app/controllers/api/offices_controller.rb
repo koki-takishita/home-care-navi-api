@@ -61,10 +61,18 @@ class Api::OfficesController < ApplicationController
 
   def build_json_image(office)
     image = if(office_exists_check(office) && office.images.length > 0)
-              { image: rails_storage_proxy_url(office.images_attachments[0]) }
+              image_url = return_random_image_url(office)
+              { image: image_url }
             else
-              { image: { message: '画像は登録されていません'} }
+              { image: [] }
             end
+  end
+
+  # active_storageに保存してあるランダムな画像のurlを返す
+  def return_random_image_url(obj)
+    images_ids_to_arry = obj.images_attachment_ids
+    find_id = images_ids_to_arry.sample 
+    obj.images.find(find_id).url
   end
 
   def build_json_from_thank_table_attributes(office)
