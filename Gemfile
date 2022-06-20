@@ -33,8 +33,6 @@ gem 'bootsnap', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
-# N+1問題の検出
-gem 'bullet', '~> 7.0', '>= 7.0.2'
 
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'devise_token_auth', '>= 1.2.0', git: "https://github.com/lynndylanhurley/devise_token_auth"

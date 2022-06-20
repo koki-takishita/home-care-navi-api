@@ -26,7 +26,7 @@ class Api::OfficesController < ApplicationController
     # 県と市の情報が存在する前提のコードを記述する フロント側でalertで弾く
     offices = if(params[:prefecture] && params[:prefecture].length > 0)
  #   User.includes(:posts).where(posts: { name: 'example' })
-                offices = Office.includes(:thanks, :office_detail, :staffs).where("offices.address LIKE ?", "%#{params[:prefecture]}%")
+                offices = Office.includes(:thanks, :office_detail, :staffs).with_attached_images.where("offices.address LIKE ?", "%#{params[:prefecture]}%")
 
                 if(params[:cities] && params[:cities].length > 0 && offices.size > 0)
                   tmp        = params[:cities]
