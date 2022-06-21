@@ -33,24 +33,45 @@ class Api::OfficesController < ApplicationController
       }
       set_offices(search_sql, params[:prefecture], cities)
       get_offices.limit(10).offset(params[:page].to_i * 10)
+    elsif(keywords_exist?)
+      Office.eager_load(:thanks, :office_detail, :staffs)
+      .where.like(address: to_like(params[:keywords]))
     else
       return []
     end
   end
 
-  def area_exist?
-    parameters = params.permit(:prefecture, :cities).to_h
-    if( parameters.empty? || parameters[:prefecture].empty? || parameters[:cities].empty?)
+  def to_like(string)
+    arry = string.split(',')
+    result = arry.map{|ele| "%#{ele}%" }
+  end
+
+  def keywords_exist?
+    parameters = params.permit(:prefecture, :cities, :page, :keywords, :postCodes).to_h
+    if(parameters.empty? || parameter_exist?(parameters[:keywords]) && parameter_exist?(parameters[:postCodes]))
       false
     else
       true
     end
   end
 
+  def area_exist?
+    parameters = params.permit(:prefecture, :cities, :page, :keywords, :postCodes).to_h
+    if(parameters.empty? || parameter_exist?(parameters[:prefecture]) || parameters_exist?(parameters[:cities]))
+      false
+    else
+      true
+    end
+  end
+
+  def parameter_exist?(obj)
+    (obj.nil? || obj&.empty?) ? true : false
+  end
+
   def set_offices(sql, prefecture, cities)
     @offices = Office.eager_load(:thanks, :office_detail, :staffs)
     .with_attached_images
-    .where("offices.address LIKE ?", "%#{prefecture}%")
+    .where("offices.address LIKE ?", Office.sanitize_sql_like(prefecture) + "%")
     .where(sql.join(' or '), *cities )
   end
 
