@@ -40,7 +40,7 @@ class Api::OfficesController < ApplicationController
 
   def area_exist?
     parameters = params.permit(:prefecture, :cities).to_h
-    if(parameters[:prefecture].empty? || parameters[:cities].empty?)
+    if( parameters.empty? || parameters[:prefecture].empty? || parameters[:cities].empty?)
       false
     else
       true
