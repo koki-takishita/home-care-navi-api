@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_20_125926) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -44,7 +44,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
 
   create_table "appointments", force: :cascade do |t|
     t.bigint "office_id"
-    t.string "meet_date"
+    t.date "meet_date"
     t.string "meet_time"
     t.string "name"
     t.string "age"
@@ -56,6 +56,21 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
     t.datetime "updated_at", null: false
     t.index ["office_id"], name: "index_appointments_on_office_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
+  end
+
+  create_table "care_recipients", force: :cascade do |t|
+    t.string "name"
+    t.string "kana"
+    t.integer "age"
+    t.string "post_code"
+    t.string "address"
+    t.string "family"
+    t.bigint "office_id"
+    t.bigint "staff_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_care_recipients_on_office_id"
+    t.index ["staff_id"], name: "index_care_recipients_on_staff_id"
   end
 
   create_table "contacts", force: :cascade do |t|
@@ -152,6 +167,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_050702) do
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "appointments", "offices"
   add_foreign_key "appointments", "users"
+  add_foreign_key "care_recipients", "offices"
+  add_foreign_key "care_recipients", "staffs"
   add_foreign_key "office_details", "offices"
   add_foreign_key "offices", "users"
   add_foreign_key "staffs", "offices"
