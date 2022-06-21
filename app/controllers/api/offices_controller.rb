@@ -23,41 +23,57 @@ class Api::OfficesController < ApplicationController
   end
 
   def search_office_from_params
-    # 県と市の情報が存在する前提のコードを記述する フロント側でalertで弾く
-    offices = if(params[:prefecture] && params[:prefecture].length > 0)
- #   User.includes(:posts).where(posts: { name: 'example' })
-                offices = Office.includes(:thanks, :office_detail, :staffs).with_attached_images.where("offices.address LIKE ?", "%#{params[:prefecture]}%")
+    if(area_exist?)
+      tmp        = params[:cities]
+      cities     = tmp.split(',')
+      search_sql = []
+      cities = cities.map{|city|
+        search_sql.push('offices.address LIKE ?')
+        "%#{city}%"
+      }
+      set_offices(search_sql, params[:prefecture], cities)
+      get_offices.limit(10).offset(params[:page].to_i * 10)
+    else
+      return []
+    end
+  end
 
-                if(params[:cities] && params[:cities].length > 0 && offices.size > 0)
-                  tmp        = params[:cities]
-                  cities     = tmp.split(',')
-                  search_sql = []
-                  cities = cities.map{|city|
-                    search_sql.push('offices.address LIKE ?')
-                    "%#{city}%"
-                  }
-                  @size = { count: offices.where(search_sql.join(' or '), *cities ).size }
-                  offices = offices.includes(:thanks, :office_detail, :staffs).where(search_sql.join(' or '), *cities ).with_attached_images.limit(10).offset(params[:page].to_i * 10)
-                  if(offices.size <= 0)
-                    return []
-                  end
-                  offices
-                else
-                  return []
-                end
-              else
-                return []
-              end
+  def area_exist?
+    parameters = params.permit(:prefecture, :cities).to_h
+    if(parameters[:prefecture].empty? || parameters[:cities].empty?)
+      false
+    else
+      true
+    end
+  end
+
+  def set_offices(sql, prefecture, cities)
+    @offices = Office.eager_load(:thanks, :office_detail, :staffs)
+    .with_attached_images
+    .where("offices.address LIKE ?", "%#{prefecture}%")
+    .where(sql.join(' or '), *cities )
+  end
+
+  def get_offices
+    @offices
+  end
+
+  def get_offices_count
+    get_offices.size
   end
 
   def build_json(offices)
-    result = offices.map{|office|
+    result = offices.each_with_index.map{|office, index|
       thank       = build_json_from_thank_table_attributes(office)
       detail      = build_json_from_detail_table_attributes(office)
       staff_count = build_json_from_staff_table_count_json(office)
       image       = build_json_image(office)
       office      = office.attributes
-      result      = office.merge(thank, detail, image, staff_count, @size)
+      result = if(index == 0)
+                 office.merge(thank, detail, image, staff_count, {count: get_offices_count})
+               else
+                 office.merge(thank, detail, image, staff_count)
+               end
     }
     result
   end
