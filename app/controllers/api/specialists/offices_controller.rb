@@ -1,6 +1,11 @@
 class Api::Specialists::OfficesController < ApplicationController
   before_action :authenticate_specialist!
 
+  def show
+    @office = current_specialist.office
+    render json: @office
+  end
+
   def create
     params[:user_id] = current_specialist.id
     office = Office.new(office_params)

@@ -1,5 +1,6 @@
 class Staff < ApplicationRecord
   belongs_to :office
+  has_many :care_recipients, dependent: :destroy
   has_one_attached :image
   has_many :thanks, dependent: :destroy
 
