@@ -21,7 +21,7 @@ module Api
 
         def  add_office_data
           user = User.find_by(email: params[:email])
-          if !user.office.nil? 
+          if user && !user.office.nil?
             response.headers['office_data'] = 'true'
           end
         end
