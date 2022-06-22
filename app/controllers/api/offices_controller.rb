@@ -31,17 +31,19 @@ class Api::OfficesController < ApplicationController
         search_sql.push('offices.address LIKE ?')
         "%#{city}%"
       }
-      set_offices(search_sql, params[:prefecture], cities)
-      get_offices.limit(10).offset(params[:page].to_i * 10)
+      #set_offices(search_sql, params[:prefecture], cities)
+      search_area_offices(search_sql, params[:prefecture], cities).limit(10).offset(params[:page].to_i * 10)
     elsif(keywords_exist?)
-      Office.eager_load(:thanks, :office_detail, :staffs)
-      .where.like(address: to_like(params[:keywords]))
+      keyword = to_like(params[:keywords])
+      post_cord = (params[:postCodes])
+      search_keywords_offices(keyword, post_cord).limit(10).offset(params[:page].to_i * 10)
     else
       return []
     end
   end
 
   def to_like(string)
+    return if(string.nil?)
     arry = string.split(',')
     result = arry.map{|ele| "%#{ele}%" }
   end
@@ -57,7 +59,7 @@ class Api::OfficesController < ApplicationController
 
   def area_exist?
     parameters = params.permit(:prefecture, :cities, :page, :keywords, :postCodes).to_h
-    if(parameters.empty? || parameter_exist?(parameters[:prefecture]) || parameters_exist?(parameters[:cities]))
+    if(parameters.empty? || parameter_exist?(parameters[:prefecture]) || parameter_exist?(parameters[:cities]))
       false
     else
       true
@@ -68,15 +70,28 @@ class Api::OfficesController < ApplicationController
     (obj.nil? || obj&.empty?) ? true : false
   end
 
-  def set_offices(sql, prefecture, cities)
+  def search_area_offices(sql, prefecture, cities)
     @offices = Office.eager_load(:thanks, :office_detail, :staffs)
     .with_attached_images
     .where("offices.address LIKE ?", Office.sanitize_sql_like(prefecture) + "%")
     .where(sql.join(' or '), *cities )
   end
 
+  def search_keywords_offices(keywords, post_codes)
+    return if(keywords.nil? && post_codes.nil?)
+    @offices = Office.eager_load(:thanks, :office_detail, :staffs)
+    .with_attached_images
+    .where.like(address: keywords)
+    .or(Office.eager_load(:thanks, :office_detail, :staffs)
+    .with_attached_images
+    .where.like(title: keywords))
+    .or(Office.eager_load(:thanks, :office_detail, :staffs)
+    .with_attached_images
+    .where.like(post_code: post_codes))
+  end
+
   def get_offices
-    @offices
+    @offices || ""
   end
 
   def get_offices_count
