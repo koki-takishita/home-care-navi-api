@@ -22,7 +22,6 @@ filename: 'youngman_27.png')
 end
 =end
 
-=begin
 puts "テーブル全削除処理スタート"
 exclusion_tables = [
   'active_storage_variant_records',
@@ -52,7 +51,7 @@ puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてな�
     password_confirmation: 'password',
     name:                  "customer#{n}",
     phone_number:          "000-0000-000#{n}",
-    post_code:             '000-0000',
+    post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
 user = User.first
 user.confirm
@@ -78,7 +77,7 @@ end
     password_confirmation: 'password',
     name:                  "specialist#{n}",
     phone_number:          "000-0000-000#{n + 3}",
-    post_code:             '000-0000',
+    post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
 specialist = Specialist.third
 specialist2 = Specialist.last
@@ -105,32 +104,10 @@ end
 # 市の情報
 # 市町村の情報
 # 番地
-specialist.create_office!(
-  name:                'サンプルオフィス',
-  title:               'サンプルタイトル',
-  flags:               65,
-  address:             '東京都新宿区西早稲田3丁目31番11号 ニューライフ西早稲田ビル 別館5階',
-  post_code:           '111-1111',
-  phone_number:        '111-1111-1111',
-  fax_number:          '111-1111-1111',
-  business_day_detail: '営業日の説明が入ります')
-puts Office.first.id
-office = specialist.office
-puts Office.all.ids
-puts office.id
-if(office)
-  puts ""
-  puts "Officeサンプルデータ作成完了"
-  puts "---------------------------------"
-  puts "name #{office.name}"
-  puts "休日   #{office.selected_flags}"
-  puts "---------------------------------"
-end
 
 address = [
   "東京都目黒区",
   "東京都渋谷区宇田川町３６−６ ワールド宇田川ビル ５階B室",
-  "静岡県浜松市南区遠州浜２丁目１１番地３９号",
   "新潟県佐渡市秋津４１７ー９",
   "東京都中央区",
   "東京都港区",
@@ -154,7 +131,6 @@ address = [
   "東京都品川区",
   "東京都目黒区",
   "東京都渋谷区宇田川町３６−６ ワールド宇田川ビル ５階B室",
-  "静岡県浜松市南区遠州浜２丁目１１番地３９号",
   "新潟県佐渡市秋津４１７ー９",
   "東京都中央区",
   "東京都港区",
@@ -165,18 +141,18 @@ address = [
   "東京都江東区",
   "東京都品川区"
 ]
-Specialist.all.offset(3).each_with_index {|s, i|
+Specialist.all.each_with_index {|s, i|
   s.create_office!(
-    name:                'サンプルオフィス',
-    title:               'サンプルタイトル',
-    flags:               65,
+    name:                "サンプルオフィス-#{i}",
+    title:               "サンプルタイトル-#{i}",
+    flags:               "#{i}",
     address:             address[i],
-    post_code:           '111-1111',
-    phone_number:        "111-1111-111#{i}",
+    post_code:           "111111#{i}",
+    phone_number:        "111-1111-112#{i}",
     fax_number:          '111-1111-1111',
     business_day_detail: '営業日の説明が入ります')
 }
-
+office = Office.first
 10.times {|n|
   office.staffs.create(
     name:         "サンプルスタッフ#{n}",
@@ -242,82 +218,3 @@ thanks.each{|tnk|
     puts "---------------------------------"
   end
 }
-=end
-# tables = ["User", "Office", "Staff", "Contact"]
-puts "テーブル全削除処理スタート"
-User.destroy_all
-Office.destroy_all
-Staff.destroy_all
-Contact.destroy_all
-puts "テーブル全削除完了"
-
-User.create!(
-  name:                     'カスタマー',
-  password:                 'password',
-  password_confirmation:    'password',
-  phone_number:             '000-0000-0000',
-  post_code:                '111-1111',
-  email:                    'customer@example.com',
-  address:                  'カスタマ県カスタマ市カスタマ町 1-1-1',
-  user_type:                'customer'
-)
-user = User.first
-user.confirm
-if(user)
-  puts ""
-  puts "Userサンプルデータ作成完了"
-  puts "---------------------------------"
-  puts "email       #{user.email}"
-  puts "password    password"
-  puts "user_type   #{user.user_type}"
-  puts "有効化済み? #{user.confirmed?}"
-  puts "---------------------------------"
-end
-
-User.create!(
-  name:                     'カスタマー',
-  password:                 'password',
-  password_confirmation:    'password',
-  phone_number:             '000-0000-0001',
-  post_code:                '111-1111',
-  email:                    'customer2@example.com',
-  address:                  'カスタマ県カスタマ市カスタマ町 1-1-2',
-  user_type:                'customer'
-)
-user2 = User.second
-if(user)
-  puts ""
-  puts "Userサンプルデータ作成完了"
-  puts "---------------------------------"
-  puts "email       #{user2.email}"
-  puts "password    password"
-  puts "user_type   #{user2.user_type}"
-  puts "有効化済み? #{user2.confirmed?}"
-  puts "---------------------------------"
-end
-
-
-Specialist.create!(
-  name:                     'スペシャリスト',
-  password:                 'password',
-  password_confirmation:    'password',
-  phone_number:             '000-0000-1111',
-  post_code:                '111-1111',
-  email:                    'specialist@example.com',
-  address:                  'スペシャリスト県スペシャリスト市スペシャリスト町 1-1-1',
-  user_type:                'specialist'
-)
-
-specialist = Specialist.third
-specialist.specialist!
-specialist.confirm
-if(specialist)
-  puts ""
-  puts "Specialistサンプルデータ作成完了"
-  puts "---------------------------------"
-  puts "email       #{specialist.email}"
-  puts "password    password"
-  puts "user_type   #{specialist.user_type}"
-  puts "有効化済み? #{specialist.confirmed?}"
-  puts "---------------------------------"
-end
