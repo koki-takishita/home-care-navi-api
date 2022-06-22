@@ -8,7 +8,7 @@ class Office < ApplicationRecord
   has_many :thanks, dependent: :destroy
   has_one  :office_detail, dependent: :destroy
   has_many_attached :images
-  validates :user_id, uniqueness: true
+  validates :user_id, uniqueness: true, allow_nil: true
 
   before_create do
     self.post_code = post_code.delete('-')
