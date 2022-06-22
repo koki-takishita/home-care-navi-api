@@ -84,7 +84,7 @@ class Api::OfficesController < ApplicationController
     .where.like(address: keywords)
     .or(Office.eager_load(:thanks, :office_detail, :staffs)
     .with_attached_images
-    .where.like(title: keywords))
+    .where.like(name: keywords))
     .or(Office.eager_load(:thanks, :office_detail, :staffs)
     .with_attached_images
     .where.like(post_code: post_codes))
