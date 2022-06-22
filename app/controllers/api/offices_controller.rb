@@ -12,13 +12,14 @@ class Api::OfficesController < ApplicationController
   end
 
   def show
-    render json: @office, methods: [:image_url]
+    render json: {office: @office, images: @office.image_url, staffs: @staffs}
   end
 
   private
 
   def set_office
     @office = Office.find(params[:id])
+    @staffs = @office.staffs
   end
 
   def search_office_from_params
