@@ -5,6 +5,6 @@ class Api::AppointmentsController < ApplicationController
     @appointments = Appointment.where(user_id: current_user.id)
     @office_id = current_user.appointments.pluck(:office_id)
     offices = Office.find(@office_id)
-    render json: offices.to_json(:include => [:appointments], methods: [:image_url])
+    render json: offices.to_json(:include => [:appointments, :staffs], methods: [:image_url])
   end
 end
