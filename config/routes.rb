@@ -22,10 +22,11 @@ Rails.application.routes.draw do
   devise_scope :specialist do
     post 'api/specialists/users', to: 'api/overrides/specialist/specialist_registrations#create'
   end
-  
+
   namespace :api do
     resource :specialists do
       resources :offices ,controller: 'specialists/offices' do
+        resources :office_details, controller: 'specialists/office_details', only: [:create]
         resources :staffs, controller: 'specialists/staffs', only: [:index, :show, :create, :update, :destroy]
         resources :care_recipients, controller: 'specialists/care_recipients', only: [:create]
       end
