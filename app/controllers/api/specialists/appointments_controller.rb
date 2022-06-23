@@ -1,5 +1,6 @@
 class Api::Specialists::AppointmentsController < ApplicationController
-  include ActionController::MimeResponds
+  before_action :authenticate_specialist!
+
   def index
     data_length = current_specialist.office.appointments.length
     @appointments = current_specialist.office.appointments.limit(10).offset(params[:page].to_i * 10)
