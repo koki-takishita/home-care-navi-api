@@ -1,3 +1,9 @@
+require "csv"
+CSV.foreach("db/dummy_files/dummy.csv", headers: true) do |row|
+  #p row.headers
+  p row.fields
+end
+=begin
 puts "テーブル全削除処理スタート"
 exclusion_tables = [
   'active_storage_variant_records',
@@ -19,4 +25,4 @@ tables.each {|table|
   end
 }
 puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてないテーブルがあります"
-
+=end
