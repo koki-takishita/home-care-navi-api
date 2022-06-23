@@ -2,7 +2,7 @@ class Api::Specialists::OfficeDetailsController < ApplicationController
   before_action :authenticate_specialist!
 
   def create
-    office_details = Office_Details.new(office_details_params)
+    office_details = OfficeDetail.new(office_details_params)
     if office_details.valid?
       office_details.save!
       render json: { status: 200}
