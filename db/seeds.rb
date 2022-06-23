@@ -193,6 +193,38 @@ if(office_detail)
   puts "---------------------------------"
 end
 
+# 顧客が予約を作成
+office    = User.third.office
+office_id = office.id
+customer  = User.first
+from = Time.parse("2023/01/01")
+to = Time.parse("2023/12/31")
+20.times {|n|
+  office.appointments.create!(
+    office_id:     office_id,
+    name:          "利用者#{n}",
+    meet_date:     Random.rand(from..to),
+    meet_time:     "18:00〜20:00",
+    phone_number:  "000-00#{n}-0000",
+    age:           Random.rand(60..120),
+    user_id:       customer.id,
+    comment:       "お困りごと#{n}",
+    called_status: Random.rand(0..2)
+  )
+}
+appointments = office.appointments
+appointments.each{|appt|
+  if(appt)
+    puts ""
+    puts "appointmentsサンプルデータ作成完了"
+    puts "---------------------------------"
+    puts "予約した事業所名  #{appt.office.name}"
+    puts "利用者名         #{appt.name}"
+    puts "連絡済み?        #{appt.called_status}"
+    puts "---------------------------------"
+  end
+}
+
 # 顧客がお礼を作成
 office    = Office.first
 office_id = office.id
