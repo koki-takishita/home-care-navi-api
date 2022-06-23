@@ -28,6 +28,7 @@ Rails.application.routes.draw do
       resources :offices ,controller: 'specialists/offices' do
         resources :staffs, controller: 'specialists/staffs', only: [:index, :show, :create, :update, :destroy]
         resources :care_recipients, controller: 'specialists/care_recipients', only: [:create]
+        resources :appointments, controller: 'specialists/appointments', only: [:index]
       end
     end
   end
