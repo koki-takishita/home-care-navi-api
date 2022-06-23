@@ -5,8 +5,6 @@ class Customer < User
 
   enum user_type: { customer: 0 }
 
-  def self.default_scope
-    where(user_type: 0)
-  end
+  default_scope { where(user_type: :customer) }
 
 end
