@@ -2,7 +2,6 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable, :confirmable
   include DeviseTokenAuth::Concerns::User
-  default_scope { where(user_type: 0) }
 
   has_many :appointments, dependent: :destroy
   has_one :office, foreign_key: 'user_id', dependent: :destroy
@@ -12,5 +11,12 @@ class User < ApplicationRecord
   enum user_type: { customer: 0, specialist: 1 }
 
   validates :name, :phone_number, :post_code, :address, :email, presence: true
-  validates :phone_number, uniqueness: true
+  validates :phone_number, :email, uniqueness: true
+
+  before_save :set_enum_customer
+
+  def set_enum_customer
+    self.user_type = 0
+  end
+
 end
