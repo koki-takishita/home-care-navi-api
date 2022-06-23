@@ -12,11 +12,4 @@ class User < ApplicationRecord
 
   validates :name, :phone_number, :post_code, :address, :email, presence: true
   validates :phone_number, :email, uniqueness: true
-
-  before_save :set_enum_customer
-
-  def set_enum_customer
-    self.user_type = 0
-  end
-
 end

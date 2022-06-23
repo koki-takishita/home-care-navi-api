@@ -28,7 +28,7 @@ tables.each {|table|
 puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてないテーブルがあります"
 
 2.times{|n|
-  User.create!(
+  Customer.create!(
     email:                 "customer#{n}@example.com",
     password:              'password',
     password_confirmation: 'password',
