@@ -1,10 +1,3 @@
-=begin
-require "csv"
-CSV.foreach("db/dummy_files/dummy.csv", headers: true) do |row|
-  #p row.headers
-end
-=end
-
 puts "テーブル全削除処理スタート"
 exclusion_tables = [
   'active_storage_variant_records',
@@ -36,13 +29,12 @@ puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてな�
     phone_number:          "000-0000-000#{n}",
     post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
-user = User.first
-user.confirm
-if(User.count == 2)
+if(Customer.count == 2)
   puts ""
-  puts "Userサンプルデータ作成完了"
+  puts "カスタマーサンプルデータ作成完了"
   puts "---------------------------------"
-  User.all.each{|user|
+  Customer.all.each{|user|
+    user.confirm
     puts "email       #{user.email}"
     puts "password    password"
     puts "user_type   #{user.user_type}"
@@ -50,7 +42,7 @@ if(User.count == 2)
     puts "---------------------------------"
   }
 else
-  puts "User作成失敗"
+  puts "カスタマー作成失敗"
 end
 
 30.times{|n|
@@ -62,16 +54,12 @@ end
     phone_number:          "100-0000-000#{n + 3}",
     post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
-specialist = Specialist.third
-specialist2 = Specialist.last
-specialist.confirm
-specialist2.confirm
-Specialist.offset(2).each{|s| s.confirm}
-if(Specialist.offset(2).count == 30)
+if(Specialist.count == 30)
   puts ""
   puts "Specialistサンプルデータ作成完了"
   puts "---------------------------------"
-  Specialist.offset(2).each{|user|
+  Specialist.all.each{|user|
+    user.confirm
     puts "email       #{user.email}"
     puts "password    password"
     puts "user_type   #{user.user_type}"
@@ -129,7 +117,7 @@ Specialist.all.each_with_index {|s, i|
     title:               "サンプルタイトル-#{i}",
     flags:               "#{i}",
     address:             address[i],
-    post_code:           "111111#{i}",
+    post_code:           "111111#{rand(1..9)}",
     phone_number:        "111-1111-112#{i}",
     fax_number:          '111-1111-1111',
     business_day_detail: '営業日の説明が入ります')
