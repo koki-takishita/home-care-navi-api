@@ -4,7 +4,7 @@ class Api::Offices::AppointmentsController < ApplicationController
 
   def create
     params[:user_id] = current_user.id
-    appointment = Appointment.new(staff_params)
+    appointment = Appointment.new(appointment_params)
     if appointment.valid?
       appointment.save!
       render json: { status: 'success' }
@@ -14,7 +14,7 @@ class Api::Offices::AppointmentsController < ApplicationController
   end
 
   private
-    def staff_params
+    def appointment_params
       params.permit(:office_id, :meet_date, :meet_time, :name, :age, :phone_number, :comment, :user_id, :called_status)
     end
 
