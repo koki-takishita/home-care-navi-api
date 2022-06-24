@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     resources :contacts, only: [:create]
+    resources :appointments, only: [:index]
     resources :offices, only: [:index, :show]
     resources :offices do
       resources :appointments, controller: 'offices/appointments', only: [:create]
@@ -26,7 +27,9 @@ Rails.application.routes.draw do
     resource :specialists do
       resources :offices ,controller: 'specialists/offices' do
         resources :staffs, controller: 'specialists/staffs', only: [:index, :show, :create, :update, :destroy]
-        resources :care_recipients, controller: 'specialists/care_recipients', only: [:create]
+        resources :care_recipients, controller: 'specialists/care_recipients', only: [:index, :create, :show, :update, :destroy]
+        resources :appointments, controller: 'specialists/appointments', only: [:index, :update, :destroy]
+
       end
     end
   end

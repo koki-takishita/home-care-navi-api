@@ -1,7 +1,7 @@
 class Office < ApplicationRecord
   include FlagShihTzu
   belongs_to :specialist, foreign_key: 'user_id'
-  has_many :appointments
+  has_many :appointments, dependent: :destroy
   belongs_to :user
   has_many :staffs, dependent: :destroy
   has_many :care_recipients, dependent: :destroy

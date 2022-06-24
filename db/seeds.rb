@@ -51,7 +51,7 @@ puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてな�
     password_confirmation: 'password',
     name:                  "customer#{n}",
     phone_number:          "000-0000-000#{n}",
-    post_code:             '000-0000',
+    post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
 user = User.first
 user.confirm
@@ -77,7 +77,7 @@ end
     password_confirmation: 'password',
     name:                  "specialist#{n}",
     phone_number:          "000-0000-000#{n + 3}",
-    post_code:             '000-0000',
+    post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
 specialist = Specialist.third
 specialist2 = Specialist.last
@@ -108,7 +108,6 @@ end
 address = [
   "東京都目黒区",
   "東京都渋谷区宇田川町３６−６ ワールド宇田川ビル ５階B室",
-  "静岡県浜松市南区遠州浜２丁目１１番地３９号",
   "新潟県佐渡市秋津４１７ー９",
   "東京都中央区",
   "東京都港区",
@@ -132,7 +131,6 @@ address = [
   "東京都品川区",
   "東京都目黒区",
   "東京都渋谷区宇田川町３６−６ ワールド宇田川ビル ５階B室",
-  "静岡県浜松市南区遠州浜２丁目１１番地３９号",
   "新潟県佐渡市秋津４１７ー９",
   "東京都中央区",
   "東京都港区",
@@ -143,14 +141,14 @@ address = [
   "東京都江東区",
   "東京都品川区"
 ]
-Specialist.all.offset(3).each_with_index {|s, i|
+Specialist.all.each_with_index {|s, i|
   s.create_office!(
-    name:                'サンプルオフィス',
-    title:               'サンプルタイトル',
-    flags:               65,
+    name:                "サンプルオフィス-#{i}",
+    title:               "サンプルタイトル-#{i}",
+    flags:               "#{i}",
     address:             address[i],
-    post_code:           '111-1111',
-    phone_number:        "111-1111-111#{i}",
+    post_code:           "111111#{i}",
+    phone_number:        "111-1111-112#{i}",
     fax_number:          '111-1111-1111',
     business_day_detail: '営業日の説明が入ります')
 }
@@ -194,6 +192,38 @@ if(office_detail)
   puts "open_date    #{office_detail.open_date}"
   puts "---------------------------------"
 end
+
+# 顧客が予約を作成
+office    = User.third.office
+office_id = office.id
+customer  = User.first
+from = Time.parse("2023/01/01")
+to = Time.parse("2023/12/31")
+20.times {|n|
+  office.appointments.create!(
+    office_id:     office_id,
+    name:          "利用者#{n}",
+    meet_date:     Random.rand(from..to),
+    meet_time:     "18:00〜20:00",
+    phone_number:  "000-00#{n}-0000",
+    age:           Random.rand(60..120),
+    user_id:       customer.id,
+    comment:       "お困りごと#{n}",
+    called_status: Random.rand(0..2)
+  )
+}
+appointments = office.appointments
+appointments.each{|appt|
+  if(appt)
+    puts ""
+    puts "appointmentsサンプルデータ作成完了"
+    puts "---------------------------------"
+    puts "予約した事業所名  #{appt.office.name}"
+    puts "利用者名         #{appt.name}"
+    puts "連絡済み?        #{appt.called_status}"
+    puts "---------------------------------"
+  end
+}
 
 # 顧客がお礼を作成
 office    = Office.first
@@ -335,5 +365,4 @@ if(staffs)
   puts "作成したスタッフ数 #{staffs.count}"
   puts "---------------------------------"
 end
-=======
 =end
