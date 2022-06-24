@@ -1,24 +1,7 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
 =begin
-Office.create(name: 'ホームケアナビ佐渡1ホームケアナビ佐渡1', title: '事業所タイトル1事業所タイトル1', flags: '9', business_day_detail:'営業日の説明が入ります営業日の説明が入ります', address:'東京都中央区入船3-9-1第二細矢ビル1階', post_code:'001-0001', phone_number:'0001-01-0001', fax_number:'096-273-8765', user_id:'1', )
-Office.create(name: 'ホームケアナビ佐渡2ホームケアナビ佐渡2', title: '事業所タイトル2事業所タイトル2', flags: '8', business_day_detail:'営業日の説明が入ります営業日の説明が入ります', address:'東京都中央区新川2-27-3', post_code:'002-0002', phone_number:'0002-02-0002', fax_number:'090-145-5678', user_id:'2', )
-Office.create(name: 'ホームケアナビ佐渡3ホームケアナビ佐渡3', title: '事業所タイトル3事業所タイトル3', flags: '96', business_day_detail:'営業日の説明が入ります営業日の説明が入ります', address:'東京都中央区明石町1-6', post_code:'003-0003', phone_number:'0003-03-0003', fax_number:'050-687-2915', user_id:'3', )
-
-10.times do |n|
-  staff = Staff.create!(
-  office_id: '1',
-  name: "スタッフ#{n+1}",
-  kana: "すたっふ",
-  introduction: "スタッフ#{n+1}の紹介文です",
- )
- staff.image.attach(io: File.open(Rails.root.join('public/images/youngman_27.png')),
-filename: 'youngman_27.png')
+require "csv"
+CSV.foreach("db/dummy_files/dummy.csv", headers: true) do |row|
+  #p row.headers
 end
 =end
 
@@ -45,7 +28,7 @@ tables.each {|table|
 puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてないテーブルがあります"
 
 2.times{|n|
-  User.create!(
+  Customer.create!(
     email:                 "customer#{n}@example.com",
     password:              'password',
     password_confirmation: 'password',
@@ -76,20 +59,19 @@ end
     password:              'password',
     password_confirmation: 'password',
     name:                  "specialist#{n}",
-    phone_number:          "000-0000-000#{n + 3}",
+    phone_number:          "100-0000-000#{n + 3}",
     post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
 specialist = Specialist.third
 specialist2 = Specialist.last
 specialist.confirm
 specialist2.confirm
-Specialist.all.offset(2).each{|s| s.confirm}
-if(Specialist.all.offset(2).count == 30)
+Specialist.offset(2).each{|s| s.confirm}
+if(Specialist.offset(2).count == 30)
   puts ""
   puts "Specialistサンプルデータ作成完了"
   puts "---------------------------------"
-  Specialist.all.offset(2).each{|user|
-    user.specialist!
+  Specialist.offset(2).each{|user|
     puts "email       #{user.email}"
     puts "password    password"
     puts "user_type   #{user.user_type}"
