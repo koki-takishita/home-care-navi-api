@@ -1,16 +1,52 @@
 class Api::Specialists::StaffsController < ApplicationController
+  before_action :set_staff, only: [:show, :update, :destroy]
+  before_action :authenticate_specialist!
+
+  def index
+    @staffs = current_specialist.office.staffs
+    render json: @staffs, methods: [:image_url]
+  end
+
+  def show
+    render json: @staff, methods: [:image_url]
+  end
+
   def create
-    staff = Staff.new(staff_params)
-    if staff.valid?
-      staff.save!
+    @staff = Staff.new(staff_params)
+    if @staff.valid?
+      @staff.save!
+    else
+      render json: { status: @staff.errors.full_messages }
+    end
+  end
+
+  def update
+    if @staff.valid?
+      @staff.update(staff_params)
       render json: { status: 'success' }
     else
-      render json: { status: staff.errors.full_messages }
+    render json: { status: @staff.errors.full_messages }
+    end
+  end
+
+  def destroy
+    if @staff.valid?
+      @staff.destroy
+      render json: { status: 'success' }
+    else
+      render json: { status: @staff.errors.full_messages }
     end
   end
 
   private
+
     def staff_params
-      params.permit(:office_id, :name, :kana, :introduction)
+      params.permit(:office_id, :name, :kana, :introduction, :image)
     end
-end
+
+    def set_staff
+      @staff = current_specialist.office.staffs.find(params[:id])
+      @office = current_specialist.office.id
+    end
+
+  end
