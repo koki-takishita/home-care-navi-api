@@ -20,5 +20,42 @@ class Api::Specialists::OfficesController < ApplicationController
   private
   def office_params
     params.permit(:name, :title, :flags, :business_day_detail, :address, :post_code, :phone_number, :fax_number, :user_id, images: [])
+    params.require(:office).permit(:office_name, office_detail_attributes:
+    [
+      :office_detail_name, image_comments_attributes:
+        [
+          :image_comment_name
+        ]
+    ]
+  )
   end
 end
+
+
+private
+def office_params
+  # formから送られてくるパラメータの取得（ストロングパラメーター）
+  params.require(:office).permit(:office_name, office_detail_attributes:
+    [
+      :office_detail_name, image_comments_attributes:
+        [
+          :image_comment_name
+        ]
+    ]
+  )
+end
+
+
+  def new
+    # インスタンス作成
+    @office = Office.new
+    office_detail = @office.build_office_detail
+    office_detail.image_comments.build
+  end
+
+  def create
+    # 親子孫のデータの作成
+    @office = Office.create(office_params)
+  end
+
+

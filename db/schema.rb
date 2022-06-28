@@ -97,6 +97,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_125926) do
     t.index ["office_id"], name: "index_office_details_on_office_id"
   end
 
+#  create_table "image_comments", force: :cascade do |t|
+#    t.bigint "office_detail_id", null: false
+#    t.string "comment",
+#    t.datetime "created_at", null: false
+#    t.datetime "updated_at", null: false
+#    t.index ["office_detail_id"], name: "index_image_comments_on_office_detail_id"
+#  end
+
   create_table "offices", force: :cascade do |t|
     t.string "name"
     t.string "title"
