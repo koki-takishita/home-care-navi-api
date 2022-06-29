@@ -67,12 +67,13 @@ Rails.application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_url_options = { :host => 'home-care-navi-api-v2.herokuapp.com' }
   config.action_mailer.delivery_method = :smtp
+  
   config.action_mailer.smtp_settings = {
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'example.com',
-    user_name:            'koki.takishita@prum.jp',
-    password:             'mxaducgznytvhrey',
+    user_name:            'hogehoge,
+    password:             'hogehoge',
     authentication:       'plain',
     enable_starttls_auto: true,
     open_timeout:         5,
