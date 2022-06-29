@@ -1,15 +1,24 @@
 class Office < ApplicationRecord
   include FlagShihTzu
-  belongs_to :specialist, foreign_key: 'user_id'
-  has_many :appointments
-  belongs_to :user
+  # TODO 存在しないuser_idが入力されたらバリテーションで引っかかるようにしたい
+  belongs_to :user, foreign_key: 'user_id', class_name: 'Specialist', optional: true
+  has_many :appointments, dependent: :destroy
   has_many :staffs, dependent: :destroy
   has_many :care_recipients, dependent: :destroy
   has_many :thanks, dependent: :destroy
   has_one  :office_detail, dependent: :destroy
   has_many_attached :images
+  validates :user_id, uniqueness: true, allow_nil: true
 
-  validates :user_id, uniqueness: true
+  before_create do
+    self.post_code = post_code.delete('-')
+  end
+
+  after_find do |office|
+    purse_post_code = office.post_code
+    purse_post_code[3, 0] = '-'
+    office.post_code = purse_post_code
+  end
 
   def image_url
     helpers = Rails.application.routes.url_helpers
