@@ -1,5 +1,5 @@
 class Api::Specialists::OfficesController < ApplicationController
-  before_action :authenticate_specialist!
+  before_action :authenticate_specialist!,
 
   def show
     @office = current_specialist.office
@@ -15,21 +15,23 @@ class Api::Specialists::OfficesController < ApplicationController
     else
       render status: 401, json: { errors: office.errors.full_messages }
     end
+    @office.build_office_detail
+    if office_detail.valid?
+      office_detail.save!
+      render json: { status: 'success' }
+    else
+      render status: 401, json: { errors: office_detail.errors.full_messages }
+    end
   end
 
   private
+
   def office_params
-    params.permit(:name, :title, :flags, :business_day_detail, :address, :post_code, :phone_number, :fax_number, :user_id, images: [])
-    params.require(:office).permit(:office_name, office_detail_attributes:
-    [
-      :office_detail_name, image_comments_attributes:
-        [
-          :image_comment_name
-        ]
-    ]
-  )
+    params.require(:office).permit(:name, :title, :flags, :business_day_detail, :address, :post_code, :phone_number, :fax_number, :user_id, images: [], office_detail_attribute: [:id, :detail, :service_type, :open_date, :rooms, :requirement, :facility, :management, :link])
   end
 end
+
+
 
 
 private
@@ -44,18 +46,3 @@ def office_params
     ]
   )
 end
-
-
-  def new
-    # インスタンス作成
-    @office = Office.new
-    office_detail = @office.build_office_detail
-    office_detail.image_comments.build
-  end
-
-  def create
-    # 親子孫のデータの作成
-    @office = Office.create(office_params)
-  end
-
-

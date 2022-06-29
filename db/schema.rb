@@ -84,16 +84,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_20_125926) do
 
   create_table "office_details", force: :cascade do |t|
     t.bigint "office_id", null: false
-    t.string "detail", null: false
-    t.string "service_type", null: false
+    t.string "detail"
+    t.string "service_type"
     t.string "open_date"
     t.integer "rooms"
     t.string "requirement"
     t.string "facility"
     t.string "management"
     t.string "link"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["office_id"], name: "index_office_details_on_office_id"
   end
 
