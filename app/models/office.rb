@@ -8,6 +8,7 @@ class Office < ApplicationRecord
   has_many :thanks, dependent: :destroy
   has_one  :office_detail, dependent: :destroy
   accepts_nested_attributes_for :office_detail
+  has_many_attached :images
   validates :user_id, uniqueness: true, allow_nil: true
 
   before_create do
