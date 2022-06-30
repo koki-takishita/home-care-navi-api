@@ -7,6 +7,7 @@ class Office < ApplicationRecord
   has_many :care_recipients, dependent: :destroy
   has_many :thanks, dependent: :destroy
   has_one  :office_detail, dependent: :destroy
+  accepts_nested_attributes_for :office_detail
   validates :user_id, uniqueness: true, allow_nil: true
 
   before_create do
