@@ -8,7 +8,7 @@ class Api::Specialists::OfficesController < ApplicationController
 
   def create
     # detailとoffice両方作成
-    if(detail_exist?(detail_params.to_h))
+    if(detail_exist?(detail_params.to_hash))
       office = current_specialist.build_office(office_params)
       if office.valid?
         office.save!
@@ -22,7 +22,7 @@ class Api::Specialists::OfficesController < ApplicationController
       else
         render status: 401, json: { errors: office.errors.full_messages }
       end
-      #officeのみ
+      #officeのみ作成
     else
       office = current_specialist.build_office(office_params)
       if office.valid?
@@ -38,8 +38,8 @@ class Api::Specialists::OfficesController < ApplicationController
 
   def detail_exist?(hash)
     test = true
-    hash.each{|k, v|
-      if v.to_s.length == 0
+    hash.each{|key, value|
+      if value.to_s.length == 0
         test = false
         break
       end

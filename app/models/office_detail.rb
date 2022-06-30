@@ -1,4 +1,4 @@
 class OfficeDetail < ApplicationRecord
-  belongs_to :office, dependent: :destroy
-  foreign_key: 'office_id'
+  belongs_to :office, foreign_key: 'office_id',
+  dependent: :destroy
 end
