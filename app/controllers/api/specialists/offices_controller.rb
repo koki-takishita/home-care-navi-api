@@ -37,14 +37,14 @@ class Api::Specialists::OfficesController < ApplicationController
   private
 
   def detail_exist?(hash)
-    test = true
+    sevedcheck = true
     hash.each{|key, value|
       if value.to_s.length == 0
-        test = false
+        sevedcheck = false
         break
       end
     }
-    return test
+    return sevedcheck
   end
 
     def office_params
