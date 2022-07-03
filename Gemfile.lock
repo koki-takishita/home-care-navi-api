@@ -292,6 +292,7 @@ DEPENDENCIES
   rubocop-performance
   rubocop-rails
   rubocop-rspec
+  ruby-progressbar (~> 1.11)
   seedbank (~> 0.5.0)
   tzinfo-data
 
