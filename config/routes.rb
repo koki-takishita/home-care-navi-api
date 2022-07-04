@@ -2,9 +2,12 @@ Rails.application.routes.draw do
   namespace :api do
     resources :contacts, only: [:create]
     resources :appointments, only: [:index]
-    resources :offices, controller: 'customer/offices', only: [:index, :show]
     resources :offices do
       resources :appointments, controller: 'offices/appointments', only: [:create]
+    end
+    scope module: :customer do
+      resources :offices, only: [:index, :show]
+      resources :thanks,  only: [:create]
     end
   end
 

@@ -1,37 +1,66 @@
-def build_image
-  Faker::Config.locale = :en
-  faker_image_path = Faker::Avatar.image
-  image = URI.open(faker_image_path)
-  Faker::Config.locale = :ja
-  ActionDispatch::Http::UploadedFile.new(tempfile: image, filename: 'avatar_image', type: image.content_type)
-end
+require 'open-uri'
 
-def create_staffs(office: , count: 10)
-  count.times{
-    name = Faker::Name.name
-    image = build_image
-    office.staffs.create!(
-      name: name,
-      kana: name.yomi,
-      introduction: "#{office.name}の#{name}です。素晴らしいスタッフです。",
-      image: image
-    )
-  }
-end
+Rails.application.reloader.wrap do
+  def dl_image
+    retry_count = 0
+    begin
+      faker_image_path = Faker::Avatar.image
+      image = URI.open(faker_image_path)
+    rescue OpenURI::HTTPError => e
+      puts "#{e.class} #{e.message}"
+      puts e.backtrace
+      retry_count += 1
+      if retry_count <= 3
+        retry 
+      else
+        image = nil
+      end
+    end
+    return image
+  end
 
-def create_office_staffs
-  # use https://github.com/jfelchner/ruby-progressbar/wiki/Options
-  # ProgressBar.create(:title => "Items", :starting_at => 20, :total => 200)
-  progressbar = ProgressBar.create(:format => '%a |%b>>%i| %p%% %t',
-                                   :starting_at => 10,
-                                   :total => Office.count,
-                                   :length => 80) 
+  def build_image
+    Faker::Config.locale = :en
+    image = dl_image
+    Faker::Config.locale = :ja
+    unless image.nil?
+      ActionDispatch::Http::UploadedFile.new(tempfile: image, filename: 'avatar_image', type: image.content_type)
+    else
+      nil
+    end
+  end
+  
+  def create_staffs(office: , count: 6)
+    office.staffs.destroy_all
+    count.times{
+      name = Faker::Name.name
+      image = build_image
+      office.staffs.create!(
+        name: name,
+        kana: name.yomi,
+        introduction: "#{office.name}の#{name}です。素晴らしいスタッフです。",
+        image: image
+      )
+    }
+  end
+  
+  def set_progressbar(total: nil)
+    @progressbar = ProgressBar.create(:format => '%a |%b>>%i| %p%% %t',
+                                     :starting_at => 0,
+                                     :total => total,
+                                     :length => 80) 
+  end
 
-  Office.find_each(batch_size: 100) do |office|
-    progressbar.increment
-    create_staffs(office: office)
+  def create_office_staffs
+    # use https://github.com/jfelchner/ruby-progressbar/wiki/Options
+    # ProgressBar.create(:title => "Items", :starting_at => 20, :total => 200)
+    offices = Office.eager_load(:staffs).with_attached_images.limit(1000)
+    set_progressbar(total: offices.count)
+    offices.each{|office|
+      create_staffs(office: office)
+      @progressbar.increment
+    }
   end
 end
 
-# 実行program
 create_office_staffs
