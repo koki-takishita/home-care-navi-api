@@ -3,6 +3,7 @@ module Api
     module Customer
       class RegistrationsController < DeviseTokenAuth::RegistrationsController
         before_action :configure_permitted_parameters
+        before_action :password_check, only: [:update]
       
         def render_create_success
           render json: {
@@ -12,8 +13,35 @@ module Api
           }
         end
 
+        def show
+          @user = User.find(current_user.id)
+          render json: @user
+        end
+
+        def update
+          super
+          @user = User.find(current_user.id)
+          if @user.valid?
+            @user.update(update_params)
+          else
+            render_error(401, I18n.t('errors.messages.validate_account_update_params'))
+          end
+        end
+
         protected
-      
+        def password_check
+          if (params[:current_password]).present?
+            @user = User.find(current_user.id)
+           unless @user.valid_password?(params[:current_password])
+            render_error(401, I18n.t('errors.messages.validate_account_update_params'))
+           end
+          end
+        end
+        
+        def update_params
+          params.permit(:phone_number, :name, :post_code, :address)
+        end
+
         def configure_permitted_parameters
           devise_parameter_sanitizer.permit(:sign_up, keys: %i( name 
                                                                 phone_number
