@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     end
     scope module: :customer do
       resources :offices, only: [:index, :show] do
-        resources :thanks, only: [:create]
+        resources :thanks, only: [:create], controller: 'thanks'
       end
     end
   end

@@ -2,24 +2,39 @@ require 'rails_helper'
 include ActionController::RespondWith
 
 RSpec.describe "Api::Customer::Thanks", type: :request do
+
   before(:each) do
-    @current_user = FactoryBot.build(:user)
-    @current_user.skip_confirmation!
-    @current_user.save 
-		@customer = create(:user, :customer)
-		@specialist = create(:user, :specialist)
-		@office = create(:office, user: @specialist)
-		#@office_user_exist = build(:office, specialist: @specialist)
+    customer = build(:customer)
+    customer.skip_confirmation!
+    customer.save
+    @customer = Customer.find_by_id(customer.id)
+    @office = create(:office, :with_staffs)
+    @staff  = Staff.find_by(office_id: @office.id)
+    @thank  = build(:thank, user: @customer, office: @office, staff: @staff)
   end
 
   it "if you are logged in can create thank msg" do
-		login
+		login(@customer)
 		auth_params = get_auth_params_from_login_response_headers(response)
-		puts @specialist.attributes
+
+    expect {
+      post api_office_thanks_path(@thank.office_id),
+      params: {
+        thank: {
+            comments: @thank.comments,
+            office_id: @thank.office_id,
+            staff_id: @thank.staff_id
+          }
+      },
+      headers: auth_params
+    }.to change(@customer.thanks, :count).by(1)
   end
 
-	def login
-    post api_login_path, params:  { email: @current_user.email, password: 'password' }.to_json, headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
+	def login(user)
+    post api_login_path,
+    params: { email: user.email, password: 'password' }
+    .to_json,
+    headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
 	end
 
   def get_auth_params_from_login_response_headers(response)

@@ -1,5 +1,3 @@
-require 'open-uri'
-
 FactoryBot.define do
   factory :staff do
     name { 'sample staff' }
