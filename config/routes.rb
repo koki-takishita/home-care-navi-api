@@ -8,8 +8,6 @@ Rails.application.routes.draw do
   }
   mount_devise_token_auth_for "User", at: 'api/users',  skip: [:registrations, :omniauth_callbacks, :sessions, :token_validations, :password, :confirmations]
 
-  # customerとspecialist兼任
-  #devise_scope :customer do
   devise_scope :user do
     post   'api/login',  to: 'api/overrides/customer/sessions#create'
     delete 'api/logout', to: 'devise_token_auth/sessions#destroy'
@@ -18,12 +16,11 @@ Rails.application.routes.draw do
   namespace :api do
     resources :contacts, only: [:create]
     resources :appointments, only: [:index]
-    resources :offices do
-      resources :appointments, controller: 'offices/appointments', only: [:create]
-    end
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'
+        #resources :appointments, controller: 'offices/appointments', only: [:create]
+        resources :appointments, only: [:create]
       end
     end
   end
