@@ -17,18 +17,18 @@ module Api
           @user = User.find(current_user.id)
           render json: @user
         end
-
+        
         def update
-          super
           @user = User.find(current_user.id)
-          if @user.valid?
-            @user.update(update_params)
+          if @user.update(update_params)
           else
-            render_error(401, I18n.t('errors.messages.validate_account_update_params'))
+            @user.update(update_params)
+            render status: 401, json: { errors: @user.errors.full_messages }
           end
         end
 
         protected
+        
         def password_check
           if (params[:current_password]).present?
             @user = User.find(current_user.id)
@@ -39,7 +39,7 @@ module Api
         end
         
         def update_params
-          params.permit(:phone_number, :name, :post_code, :address)
+          params.permit(:phone_number, :name, :post_code, :address,:email)
         end
 
         def configure_permitted_parameters
