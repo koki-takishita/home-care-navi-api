@@ -34,18 +34,24 @@ class Api::OfficesController < ApplicationController
       #set_offices(search_sql, params[:prefecture], cities)
       search_area_offices(search_sql, params[:prefecture], cities).limit(10).offset(params[:page].to_i * 10)
     elsif(keywords_exist?)
-      keyword = to_like(params[:keywords])
-      post_cord = (params[:postCodes])
+      keyword = partial_match(params[:keywords])
+      post_cord = exact_match(params[:postCodes])
       search_keywords_offices(keyword, post_cord).limit(10).offset(params[:page].to_i * 10)
     else
       return []
     end
   end
 
-  def to_like(string)
+  def partial_match(string)
     return if(string.nil?)
     arry = string.split(',')
     result = arry.map{|ele| "%#{ele}%" }
+  end
+
+  def exact_match(string)
+    return if(string.nil?)
+    arry = string.split(',')
+    result = arry.map{|ele| "#{ele}" }
   end
 
   def keywords_exist?
