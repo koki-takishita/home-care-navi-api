@@ -4,9 +4,8 @@ class User < ApplicationRecord
   include DeviseTokenAuth::Concerns::User
 
   has_many :appointments, dependent: :destroy
-  has_one :office, foreign_key: 'user_id', dependent: :destroy
-  has_many :thanks, dependent: :destroy
   has_one :office, dependent: :destroy
+  has_many :thanks, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
 
   enum user_type: { customer: 0, specialist: 1 }

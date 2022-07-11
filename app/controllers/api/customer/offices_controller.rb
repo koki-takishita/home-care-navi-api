@@ -1,4 +1,4 @@
-class Api::OfficesController < ApplicationController
+class Api::Customer::OfficesController < ApplicationController
   before_action :set_office, only: [:show]
 
   def index
