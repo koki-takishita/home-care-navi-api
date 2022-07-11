@@ -12,7 +12,7 @@ class Api::Specialists::CareRecipientsController < ApplicationController
   def show
     render json: @care_recipient, methods: [:image_url]
   end
- 
+
   def create
     care_recipient = current_specialist.office.care_recipients.build(care_recipient_params)
     if care_recipient.valid?
