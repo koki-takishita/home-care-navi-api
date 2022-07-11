@@ -7,14 +7,13 @@ class Api::Customer::ThanksController < ApplicationController
     if(thank.valid?)
       thank.save!
       render json: {
-        status: 'success',
         message: 'お礼作成に成功しました'
-      }
+      }, status: :ok
     else
       render json: {
-        status: 'danger',
-        message: 'お礼作成に失敗しました'
-      }
+        message: 'お礼作成に失敗しました',
+        errors: thank.errors.full_messages
+      }, status: 403
     end
   end
 
