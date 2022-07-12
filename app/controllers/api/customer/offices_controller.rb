@@ -13,11 +13,9 @@ class Api::Customer::OfficesController < ApplicationController
 
   def show
     staffs = add_image_h(@staffs)
-    thanks = build_thanks_hash(@thanks)
     render json: {
       office: @office,
       officeImages: @office.image_url,
-      thanks: thanks,
       staffs: staffs
     }, staus: :ok
   end
@@ -30,27 +28,17 @@ class Api::Customer::OfficesController < ApplicationController
     @thanks = @office.thanks
   end
 
-  def build_thanks_hash(records)
-    array = []
-    if records.exists?
-      records.each{|record|
-        hash  = record.attributes
-        staff = add_image(record.staff)
-        hash[:staff] = staff
-        array.push(hash)
-      }
-    else
-      []
-    end
-    array
-  end
-
   def add_image_h(records)
     array = []
-    records.each{|record|
-      add_image(record)
+    records.each{|re|
+      hash = add_image(re)
+      if re.thanks.exists?
+        thanks = re.thanks
+        hash[:thanks] = thanks
+      end 
       array.push(hash)
     }
+    array
   end 
 
   def add_image(obj)
