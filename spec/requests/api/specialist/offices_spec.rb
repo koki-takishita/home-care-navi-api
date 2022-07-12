@@ -9,34 +9,78 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
     specialist.save
     @specialist = Specialist.find_by_id(specialist.id)
     @office = build(:office, user: @specialist)
+
+    customer = build(:customer)
+    customer.skip_confirmation!
+    customer.save
+    @customer = Customer.find_by_id(customer.id)
+
+    @sampleImage = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/island.png'), 'image/png')
   end
 
   context 'ログイン済み' do
     context 'スペシャリスト' do
-      it "事業所を登録できる" do
+      it '事業所を登録できる' do
         login(@specialist)
 	    	auth_params = get_auth_params_from_login_response_headers(response)
-        incoming_office_body = File.read(Rails.root.join("spec/fixtures/office_data.txt"))
 
-        expect {
-          post api_specialists_offices_path,
-          params: incoming_office_body,
-          headers: auth_params
-        }#.to change(@specialist.office, :count).by(1)
-        puts ""
-        puts "事業所::#{@specialist.office}"
-        puts ""
-        # puts "事業所::#{@specialist.id}"
-        # puts "事業所::#{@office.name}"
-        # puts "事業所::#{@office.title}"
-        # puts "事業所::#{@office.flags}"
-        # puts "事業所::#{@office.business_day_detail}"
-        # puts "事業所::#{@office.address}"
-        # puts "事業所::#{@office.post_code}"
-        # puts "事業所::#{@office.phone_number}"
-        # puts "事業所::#{@office.fax_number}"
-        # puts "事業所::#{@office.user_id}"
-        # puts "事業所::#{@office.selected_flags}"
+            post api_specialists_offices_path,
+            params: {
+                name: @specialist.name,
+                titie: @office.title,
+                flags: @office.flags,
+                business_day_detail: @office.business_day_detail,
+                "images[]" => @sampleImage,
+                address: @office.address,
+                post_code: @office.post_code,
+                fax_number: @office.fax_number,
+                user_id: @specialist.id
+          },
+            headers: auth_params
+
+            expect(Office.count).to eq(1)
+            expect(@specialist.office.images_blobs.blank?).to eq(false)
+      end
+    end
+
+    context 'カスタマー' do
+      it '事業所を登録できない' do
+        login(@customer)
+	    	auth_params = get_auth_params_from_login_response_headers(response)
+
+            post api_specialists_offices_path,
+            params: {
+                name: @customer.name,
+                titie: @office.title,
+                flags: @office.flags,
+                business_day_detail: @office.business_day_detail,
+                "images[]" => @sampleImage,
+                address: @office.address,
+                post_code: @office.post_code,
+                fax_number: @office.fax_number,
+                user_id: @customer.id
+          },
+            headers: auth_params
+
+            expect(Office.count).to eq(0)
+      end
+    end
+
+    context 'ログインしていない' do
+      it '事業所を登録できない' do
+        post api_specialists_offices_path,
+        params: {
+            name: @specialist.name,
+            titie: @office.title,
+            flags: @office.flags,
+            business_day_detail: @office.business_day_detail,
+            "images[]" => @sampleImage,
+            address: @office.address,
+            post_code: @office.post_code,
+            fax_number: @office.fax_number,
+            user_id: @specialist.id
+      }
+        expect(Office.count).to eq(0)
       end
     end
   end
