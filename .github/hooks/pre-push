@@ -1,6 +1,9 @@
 #!/bin/bash
 
+bundle exec rubocop
+cop=$?
+
 bundle exec rspec spec/requests/
 pec=$?
 
-exit $(($pec))
+exit $(($cop || $pe))
