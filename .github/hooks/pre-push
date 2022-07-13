@@ -1,0 +1,6 @@
+#!/bin/bash
+
+bundle exec rspec spec/requests/
+pec=$?
+
+exit $(($pec))
