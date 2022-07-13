@@ -9,13 +9,12 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
     specialist.save
     @specialist = Specialist.find_by_id(specialist.id)
     @office = build(:office, user: @specialist)
+    @sampleImage = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/island.png'), 'image/png')
 
     customer = build(:customer)
     customer.skip_confirmation!
     customer.save
     @customer = Customer.find_by_id(customer.id)
-
-    @sampleImage = Rack::Test::UploadedFile.new(File.join(Rails.root, 'spec/fixtures/island.png'), 'image/png')
   end
 
   context 'ログイン済み' do
@@ -24,22 +23,22 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
         login(@specialist)
 	    	auth_params = get_auth_params_from_login_response_headers(response)
 
-            post api_specialists_offices_path,
-            params: {
-                name: @specialist.name,
-                titie: @office.title,
-                flags: @office.flags,
-                business_day_detail: @office.business_day_detail,
-                "images[]" => @sampleImage,
-                address: @office.address,
-                post_code: @office.post_code,
-                fax_number: @office.fax_number,
-                user_id: @specialist.id
-          },
-            headers: auth_params
+        post api_specialists_offices_path,
+        params: {
+          name: @specialist.name,
+          titie: @office.title,
+          flags: @office.flags,
+          business_day_detail: @office.business_day_detail,
+          "images[]" => @sampleImage,
+          address: @office.address,
+          post_code: @office.post_code,
+          fax_number: @office.fax_number,
+          user_id: @specialist.id
+        },
+        headers: auth_params
 
-            expect(Office.count).to eq(1)
-            expect(@specialist.office.images_blobs.blank?).to eq(false)
+        expect(Office.count).to eq(1)
+        expect(@specialist.office.images_blobs.blank?).to eq(false)
       end
     end
 
@@ -48,21 +47,21 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
         login(@customer)
 	    	auth_params = get_auth_params_from_login_response_headers(response)
 
-            post api_specialists_offices_path,
-            params: {
-                name: @customer.name,
-                titie: @office.title,
-                flags: @office.flags,
-                business_day_detail: @office.business_day_detail,
-                "images[]" => @sampleImage,
-                address: @office.address,
-                post_code: @office.post_code,
-                fax_number: @office.fax_number,
-                user_id: @customer.id
-          },
-            headers: auth_params
+        post api_specialists_offices_path,
+        params: {
+          name: @customer.name,
+          titie: @office.title,
+          flags: @office.flags,
+          business_day_detail: @office.business_day_detail,
+          "images[]" => @sampleImage,
+          address: @office.address,
+          post_code: @office.post_code,
+          fax_number: @office.fax_number,
+          user_id: @customer.id
+        },
+        headers: auth_params
 
-            expect(Office.count).to eq(0)
+        expect(Office.count).to eq(0)
       end
     end
 
@@ -70,16 +69,16 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
       it '事業所を登録できない' do
         post api_specialists_offices_path,
         params: {
-            name: @specialist.name,
-            titie: @office.title,
-            flags: @office.flags,
-            business_day_detail: @office.business_day_detail,
-            "images[]" => @sampleImage,
-            address: @office.address,
-            post_code: @office.post_code,
-            fax_number: @office.fax_number,
-            user_id: @specialist.id
-      }
+          name: @specialist.name,
+          titie: @office.title,
+          flags: @office.flags,
+          business_day_detail: @office.business_day_detail,
+          "images[]" => @sampleImage,
+          address: @office.address,
+          post_code: @office.post_code,
+          fax_number: @office.fax_number,
+          user_id: @specialist.id
+        }
         expect(Office.count).to eq(0)
       end
     end
