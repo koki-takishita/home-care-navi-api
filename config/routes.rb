@@ -19,8 +19,8 @@ Rails.application.routes.draw do
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'
-        #resources :appointments, controller: 'offices/appointments', only: [:create]
         resources :appointments, only: [:create]
+        resources :bookmarks, only: [:create, :destroy, :index]
       end
     end
   end
