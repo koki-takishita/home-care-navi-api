@@ -57,13 +57,13 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
   context 'ログインしていない' do
     it 'ブックマークを登録できない' do
       post api_office_bookmarks_path(@bookmark.office_id),
-          params: {
-            office_id: @bookmark.office_id,
-            user_id: @customer.id
-          }
+        params: {
+          office_id: @bookmark.office_id,
+          user_id: @customer.id
+        }
 
-          getBookmark = Customer.first.bookmarks
-          expect(getBookmark.count).to eq(0)
+        getBookmark = Customer.first.bookmarks
+        expect(getBookmark.count).to eq(0)
     end
   end
 
