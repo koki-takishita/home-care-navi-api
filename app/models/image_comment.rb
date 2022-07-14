@@ -1,13 +1,14 @@
 class ImageComment < ApplicationRecord
-    belongs_to :office_detail, dependent: :destroy
-    has_many_attached :images
+    include Rails.application.routes.url_helpers
+    belongs_to :office_detail
+    has_one_attached :image
   end
 
   def image_url
     helpers = Rails.application.routes.url_helpers
-    if images.blank?
+    if image.blank?
       return
     else
-      images.map{|image| helpers.url_for(image) }
+      helpers.url_for(image)
     end
-end
+  end

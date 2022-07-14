@@ -14,7 +14,7 @@ class Api::Specialists::OfficesController < ApplicationController
         detail = office.build_office_detail(detail_params)
         if detail.valid?
           detail.save!
-          image_comment = detail.build_image_comment(image_comment_params)
+          image_comment = detail.image_comment.build(image_comment_params)
             if image_comment.valid?
             image_comment.save!
           render json: { status: 200}
@@ -44,5 +44,5 @@ class Api::Specialists::OfficesController < ApplicationController
 
     def image_comment_params
       params.require(:image_comment)
-      .permit(:comment, images: [])
+      .permit(:comment, :image)
     end
