@@ -21,7 +21,7 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
   context 'ログイン済み' do
     context 'カスタマー' do
       it "ブックマークを登録できる" do
-	    	login(@customer)
+        login(@customer)
         auth_params = get_auth_params_from_login_response_headers(response)
 
           post api_office_bookmarks_path(@bookmark.office_id),
@@ -67,12 +67,12 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
     end
   end
 
-	def login(user)
+  def login(user)
     post api_login_path,
     params: { email: user.email, password: 'password' }
     .to_json,
     headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-	end
+  end
 
   def get_auth_params_from_login_response_headers(response)
     client = response.headers['client']
