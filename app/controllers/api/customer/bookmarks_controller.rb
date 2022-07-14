@@ -6,7 +6,7 @@ class Api::Customer::BookmarksController < ApplicationController
     if user_signed_in?
       bookmark = Bookmark.where(office_id: params[:office_id], user_id: current_customer.id)
     else
-      bookmark = null
+      return
     end
     render json: { bookmark: bookmark }
   end
