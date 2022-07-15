@@ -1,4 +1,4 @@
-class Api::OfficesController < ApplicationController
+class Api::Customer::OfficesController < ApplicationController
   before_action :set_office, only: [:show]
 
   def index
@@ -12,7 +12,12 @@ class Api::OfficesController < ApplicationController
   end
 
   def show
-    render json: {office: @office, images: @office.image_url, staffs: @staffs}
+    staffs = add_image_h(@staffs)
+    render json: {
+      office: @office,
+      officeImages: @office.image_url,
+      staffs: staffs
+    }, staus: :ok
   end
 
   private
@@ -20,6 +25,30 @@ class Api::OfficesController < ApplicationController
   def set_office
     @office = Office.find(params[:id])
     @staffs = @office.staffs
+    @thanks = @office.thanks
+  end
+
+  def add_image_h(records)
+    array = []
+    records.each{|re|
+      hash = add_image(re)
+      if re.thanks.exists?
+        thanks = re.thanks
+        hash[:thanks] = thanks
+      end 
+      array.push(hash)
+    }
+    array
+  end 
+
+  def add_image(obj)
+    hash = obj.attributes
+    hash[:image] = nil
+    if obj.image.attached?
+      image = obj.image_url
+      hash[:image] = image 
+    end
+    hash
   end
 
   def search_office_from_params
