@@ -1,4 +1,4 @@
-class Api::Offices::AppointmentsController < ApplicationController
+class Api::Customer::AppointmentsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_office, only: [:create]
 

@@ -1,4 +1,4 @@
-class Api::OfficesController < ApplicationController
+class Api::Customer::OfficesController < ApplicationController
   before_action :set_office, only: [:show]
 
   def index
@@ -12,7 +12,12 @@ class Api::OfficesController < ApplicationController
   end
 
   def show
-    render json: {office: @office, images: @office.image_url, staffs: @staffs}
+    staffs = add_image_h(@staffs)
+    render json: {
+      office: @office,
+      officeImages: @office.image_url,
+      staffs: staffs
+    }, staus: :ok
   end
 
   private
@@ -20,6 +25,30 @@ class Api::OfficesController < ApplicationController
   def set_office
     @office = Office.find(params[:id])
     @staffs = @office.staffs
+    @thanks = @office.thanks
+  end
+
+  def add_image_h(records)
+    array = []
+    records.each{|re|
+      hash = add_image(re)
+      if re.thanks.exists?
+        thanks = re.thanks
+        hash[:thanks] = thanks
+      end 
+      array.push(hash)
+    }
+    array
+  end 
+
+  def add_image(obj)
+    hash = obj.attributes
+    hash[:image] = nil
+    if obj.image.attached?
+      image = obj.image_url
+      hash[:image] = image 
+    end
+    hash
   end
 
   def search_office_from_params
@@ -34,18 +63,24 @@ class Api::OfficesController < ApplicationController
       #set_offices(search_sql, params[:prefecture], cities)
       search_area_offices(search_sql, params[:prefecture], cities).limit(10).offset(params[:page].to_i * 10)
     elsif(keywords_exist?)
-      keyword = to_like(params[:keywords])
-      post_cord = (params[:postCodes])
+      keyword = partial_match(params[:keywords])
+      post_cord = exact_match(params[:postCodes])
       search_keywords_offices(keyword, post_cord).limit(10).offset(params[:page].to_i * 10)
     else
       return []
     end
   end
 
-  def to_like(string)
+  def partial_match(string)
     return if(string.nil?)
     arry = string.split(',')
     result = arry.map{|ele| "%#{ele}%" }
+  end
+
+  def exact_match(string)
+    return if(string.nil?)
+    arry = string.split(',')
+    result = arry.map{|ele| "#{ele}" }
   end
 
   def keywords_exist?

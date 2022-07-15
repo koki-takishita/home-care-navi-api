@@ -24,6 +24,10 @@ gem 'puma', '~> 5.0'
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem 'bcrypt', '~> 3.1.7'
 
+# doc faker_japanese  https://github.com/denvazh/faker_japanese/
+# doc falker          https://github.com/faker-ruby/faker/
+gem 'faker_japanese', '~> 0.2.5'
+
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
@@ -32,7 +36,6 @@ gem 'bootsnap', require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
-
 
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'devise_token_auth', '>= 1.2.0', git: "https://github.com/lynndylanhurley/devise_token_auth"
@@ -45,6 +48,11 @@ gem 'flag_shih_tzu'
 
 gem "aws-sdk-s3", require: false
 
+# seedを使いやすくする https://rubygems.org/gems/seedbank
+gem 'seedbank', '~> 0.5.0'
+
+# 重い処理など進捗を表すものを標示する https://github.com/jfelchner/ruby-progressbar/
+gem 'ruby-progressbar', '~> 1.11'
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem

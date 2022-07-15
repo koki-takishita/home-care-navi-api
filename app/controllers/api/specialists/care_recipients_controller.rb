@@ -3,14 +3,16 @@ class Api::Specialists::CareRecipientsController < ApplicationController
   before_action :set_care_recipient, only: [:show, :update, :destroy]
 
   def index
-    @care_recipients = current_specialist.office.care_recipients  
-    render json: @care_recipients,:include => {:staff => {:only => [:name]}}, methods: [:image_url]
+    @order_care_recipients = current_specialist.office.care_recipients.order(updated_at: :desc)
+    @data_length = @order_care_recipients.count
+    @care_recipients = @order_care_recipients.limit(10).offset(params[:page].to_i * 10)
+    render json: { care_recipients: @care_recipients.as_json(:include => [:staff], methods: [:image_url]), data_length: @data_length}
   end
 
   def show
     render json: @care_recipient, methods: [:image_url]
   end
- 
+
   def create
     care_recipient = current_specialist.office.care_recipients.build(care_recipient_params)
     if care_recipient.valid?

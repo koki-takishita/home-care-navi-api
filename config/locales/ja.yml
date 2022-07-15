@@ -1,6 +1,10 @@
 ---
 ja:
   activerecord:
+    models:
+      user: ユーザ
+      office: 事業所
+      thank: お礼
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
@@ -16,7 +20,7 @@ ja:
           one: "エラーが発生したため %{resource} は保存されませんでした。"
           other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした。"
     attributes:
-      users:
+      user:
         phone_number: 電話番号
         post_code: 郵便番号
         name: 名前
@@ -44,23 +48,24 @@ ja:
         unconfirmed_email: 未確認Eメール
         unlock_token: ロック解除用トークン
         updated_at: 更新日
-      offices:
-        user_id: 'スペシャリスト'
-        name: 'オフィス名'
-        title: 'タイトル名'
-        flags: '休日の2進数'
-        business_day_detail: '休日の説明'
-        address: '住所'
-        post_code: '郵便番号'
-        phone_number: '電話番号'
-        fax_number: 'ファックス'
-        selected_flags: '休日の組み合わせ'
-        created_at: '作成日'
-        updated_at: '更新日'
-    models:
-      user: 'ユーザ'
-    models:
-      office: '事業所'
+      thank:
+        user: カスタマー
+        office: オフィス
+        staff: スタッフ
+        comments: お礼コメント
+      office:
+        user: スペシャリスト
+        name: オフィス名
+        title: タイトル名
+        flags: 休日の2進数
+        business_day_detail: 休日の説明
+        address: 住所
+        post_code: 郵便番号
+        phone_number: 電話番号
+        fax_number: ファックス
+        selected_flags: 休日の組み合わせ
+        created_at: 作成日
+        updated_at: 更新日
   devise:
     confirmations:
       confirmed: メールアドレスが確認できました。

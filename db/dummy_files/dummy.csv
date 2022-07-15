@@ -1,4 +1,4 @@
-﻿last_name,first_name,kana_last_name,kana_first_name,age,birth_day,gender,blod,email,tel_number,phone_number,post_code,address,company,credit,credit_deadline,my_number
+﻿last_name,first_name,last_name_kana,first_name_kana,age,birth_day,gender,blod,email,tel_number,phone_number,post_code,address,company,credit,credit_deadline,my_number
 馬渡,亜耶子,まわたり,あやこ,91,1930年06月29日,女,B,mawatari_ayako@example.net,03-5293-4548,080-2351-4622,117-7079,東京都西東京市富士町2丁目2番地5号,株式会社SKY,5320015839129111,09/24,004334672897
 澤田,慶,さわだ,けい,115,1906年07月28日,男,B,kei_sawada@example.net,03-9189-3099,070-1247-5621,164-6178,東京都世田谷区用賀3丁目1番地6号,有限会社伊藤製作所,3582750558589230,09/25,845945647744
 西岡,由美子,にしおか,ゆみこ,105,1916年08月08日,女,A,yumiko_nishioka@example.com,0564-65-5726,090-6142-0844,444-7810,愛知県名古屋市瑞穂区船原町2-4-13,株式会社北斗,376344021035405,05/24,469833405703

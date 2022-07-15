@@ -1,10 +1,3 @@
-=begin
-require "csv"
-CSV.foreach("db/dummy_files/dummy.csv", headers: true) do |row|
-  #p row.headers
-end
-=end
-
 puts "テーブル全削除処理スタート"
 exclusion_tables = [
   'active_storage_variant_records',
@@ -36,13 +29,12 @@ puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてな�
     phone_number:          "000-0000-000#{n}",
     post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
-user = User.first
-user.confirm
-if(User.count == 2)
+if(Customer.count == 2)
   puts ""
-  puts "Userサンプルデータ作成完了"
+  puts "カスタマーサンプルデータ作成完了"
   puts "---------------------------------"
-  User.all.each{|user|
+  Customer.all.each{|user|
+    user.confirm
     puts "email       #{user.email}"
     puts "password    password"
     puts "user_type   #{user.user_type}"
@@ -50,7 +42,7 @@ if(User.count == 2)
     puts "---------------------------------"
   }
 else
-  puts "User作成失敗"
+  puts "カスタマー作成失敗"
 end
 
 30.times{|n|
@@ -62,16 +54,12 @@ end
     phone_number:          "100-0000-000#{n + 3}",
     post_code:             '0000000',
     address:               '東京都千代田区丸の内1-1-1',)}
-specialist = Specialist.third
-specialist2 = Specialist.last
-specialist.confirm
-specialist2.confirm
-Specialist.offset(2).each{|s| s.confirm}
-if(Specialist.offset(2).count == 30)
+if(Specialist.count == 30)
   puts ""
   puts "Specialistサンプルデータ作成完了"
   puts "---------------------------------"
-  Specialist.offset(2).each{|user|
+  Specialist.all.each{|user|
+    user.confirm
     puts "email       #{user.email}"
     puts "password    password"
     puts "user_type   #{user.user_type}"
@@ -129,7 +117,7 @@ Specialist.all.each_with_index {|s, i|
     title:               "サンプルタイトル-#{i}",
     flags:               "#{i}",
     address:             address[i],
-    post_code:           "111111#{i}",
+    post_code:           "111111#{rand(1..9)}",
     phone_number:        "111-1111-112#{i}",
     fax_number:          '111-1111-1111',
     business_day_detail: '営業日の説明が入ります')
@@ -176,11 +164,13 @@ if(office_detail)
 end
 
 # 顧客が予約を作成
-office    = User.third.office
+office = Specialist.first.office
 office_id = office.id
-customer  = User.first
 from = Time.parse("2023/01/01")
 to = Time.parse("2023/12/31")
+timezone_from = Time.zone.parse('2010-01-01 00:00:00')
+timezone_to   = Time.zone.parse('2021-12-31 00:00:00')
+## 様々なユーザーが事業所に予約をする
 20.times {|n|
   office.appointments.create!(
     office_id:     office_id,
@@ -189,23 +179,43 @@ to = Time.parse("2023/12/31")
     meet_time:     "18:00〜20:00",
     phone_number:  "000-00#{n}-0000",
     age:           Random.rand(60..120),
-    user_id:       customer.id,
+    user_id:       Random.rand(Customer.first.id..Customer.last.id),
     comment:       "お困りごと#{n}",
-    called_status: Random.rand(0..2)
+    called_status: Random.rand(0..2),
+    created_at: rand(timezone_from..timezone_to)
   )
 }
-appointments = office.appointments
-appointments.each{|appt|
-  if(appt)
-    puts ""
-    puts "appointmentsサンプルデータ作成完了"
-    puts "---------------------------------"
-    puts "予約した事業所名  #{appt.office.name}"
-    puts "利用者名         #{appt.name}"
-    puts "連絡済み?        #{appt.called_status}"
-    puts "---------------------------------"
-  end
+## 特定のユーザーが様々な事業所に予約をする
+5.times {|n|
+  office = Specialist.find(Random.rand(Specialist.first.id..Specialist.last.id)).office
+  office_id = office.id
+  office.appointments.create!(
+    office_id:     office_id,
+    name:          "利用者#{n}",
+    meet_date:     Random.rand(from..to),
+    meet_time:     "18:00〜20:00",
+    phone_number:  "000-00#{n}-0000",
+    age:           Random.rand(60..120),
+    user_id:       Customer.first.id,
+    comment:       "お困りごと#{n}",
+    called_status: Random.rand(0..2),
+    created_at: rand(timezone_from..timezone_to)
+  )
 }
+if(Appointment.count == 25)
+  puts ""
+  puts ""
+  puts "Appointmentsサンプルデータ作成完了"
+  puts "---------------------------------"
+  puts "作成した予約数 #{Appointment.count}"
+  puts "---------------------------------"
+else
+  puts ""
+  puts ""
+  puts "Appointmentsサンプルデータ作成失敗"
+  puts ""
+  puts ""
+end
 
 # 顧客がお礼を作成
 office    = Office.first
