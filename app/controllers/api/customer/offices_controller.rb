@@ -24,7 +24,9 @@ class Api::Customer::OfficesController < ApplicationController
 
   def set_office
     @office = Office.find(params[:id])
-    @staffs = @office.staffs
+    @staffs = @office.staffs.select('staffs.*', 'count(staffs.id) AS thanks')
+                     .left_joins(:thanks)
+                     .group("staffs.id").order('thanks DESC')
     @thanks = @office.thanks
   end
 
