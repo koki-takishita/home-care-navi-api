@@ -164,11 +164,13 @@ if(office_detail)
 end
 
 # 顧客が予約を作成
-office    = User.third.office
+office = Specialist.first.office
 office_id = office.id
-customer  = User.first
 from = Time.parse("2023/01/01")
 to = Time.parse("2023/12/31")
+timezone_from = Time.zone.parse('2010-01-01 00:00:00')
+timezone_to   = Time.zone.parse('2021-12-31 00:00:00')
+## 様々なユーザーが事業所に予約をする
 20.times {|n|
   office.appointments.create!(
     office_id:     office_id,
@@ -177,23 +179,43 @@ to = Time.parse("2023/12/31")
     meet_time:     "18:00〜20:00",
     phone_number:  "000-00#{n}-0000",
     age:           Random.rand(60..120),
-    user_id:       customer.id,
+    user_id:       Random.rand(Customer.first.id..Customer.last.id),
     comment:       "お困りごと#{n}",
-    called_status: Random.rand(0..2)
+    called_status: Random.rand(0..2),
+    created_at: rand(timezone_from..timezone_to)
   )
 }
-appointments = office.appointments
-appointments.each{|appt|
-  if(appt)
-    puts ""
-    puts "appointmentsサンプルデータ作成完了"
-    puts "---------------------------------"
-    puts "予約した事業所名  #{appt.office.name}"
-    puts "利用者名         #{appt.name}"
-    puts "連絡済み?        #{appt.called_status}"
-    puts "---------------------------------"
-  end
+## 特定のユーザーが様々な事業所に予約をする
+5.times {|n|
+  office = Specialist.find(Random.rand(Specialist.first.id..Specialist.last.id)).office
+  office_id = office.id
+  office.appointments.create!(
+    office_id:     office_id,
+    name:          "利用者#{n}",
+    meet_date:     Random.rand(from..to),
+    meet_time:     "18:00〜20:00",
+    phone_number:  "000-00#{n}-0000",
+    age:           Random.rand(60..120),
+    user_id:       Customer.first.id,
+    comment:       "お困りごと#{n}",
+    called_status: Random.rand(0..2),
+    created_at: rand(timezone_from..timezone_to)
+  )
 }
+if(Appointment.count == 25)
+  puts ""
+  puts ""
+  puts "Appointmentsサンプルデータ作成完了"
+  puts "---------------------------------"
+  puts "作成した予約数 #{Appointment.count}"
+  puts "---------------------------------"
+else
+  puts ""
+  puts ""
+  puts "Appointmentsサンプルデータ作成失敗"
+  puts ""
+  puts ""
+end
 
 # 顧客がお礼を作成
 office    = Office.first

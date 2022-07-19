@@ -3,9 +3,10 @@ class Api::Specialists::AppointmentsController < ApplicationController
   before_action :set_office_appointment, only: [:update, :destroy]
 
   def index
-    data_length = current_specialist.office.appointments.length
-    @appointments = current_specialist.office.appointments.limit(10).offset(params[:page].to_i * 10)
-    render json: { appointments: @appointments, data_length: data_length }
+    @data_length = current_specialist.office.appointments.length
+    @order_called_status = current_specialist.office.appointments.order(:called_status)
+    @appointments = @order_called_status.limit(10).offset(params[:page].to_i * 10)
+    render json: { appointments: @appointments, data_length: @data_length }
   end
 
   def update

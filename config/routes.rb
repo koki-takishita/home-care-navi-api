@@ -1,16 +1,12 @@
 Rails.application.routes.draw do
-  namespace :api do
-    resources :contacts, only: [:create]
-    resources :appointments, only: [:index]
-    resources :offices, only: [:index, :show]
-    resources :offices do
-      resources :appointments, controller: 'offices/appointments', only: [:create]
-    end
-  end
 
-  mount_devise_token_auth_for 'User', at: 'api/users', skip: [:omniauth_callbacks, :sessions], controllers: {
+  mount_devise_token_auth_for "Specialist", at: 'api/specialists/users', skip: [:omniauth_callbacks, :sessions, :token_validations, :password], controllers: {
+    registrations: 'api/overrides/specialist/specialist_registrations'
+  }
+  mount_devise_token_auth_for "Customer", at: 'api/customer', skip: [:omniauth_callbacks, :sessions, :token_validations, :password], controllers: {
     registrations: 'api/overrides/customer/registrations'
   }
+  mount_devise_token_auth_for "User", at: 'api/users',  skip: [:registrations, :omniauth_callbacks, :sessions, :token_validations, :password, :confirmations]
 
   devise_scope :user do
     post   'api/login',           to: 'api/overrides/customer/sessions#create'
@@ -19,19 +15,24 @@ Rails.application.routes.draw do
     get 'api/users',           to: 'api/overrides/customer/registrations#show'
   end
 
-  mount_devise_token_auth_for "Specialist", at: 'api/specialist'
-
-  devise_scope :specialist do
-    post 'api/specialists/users', to: 'api/overrides/specialist/specialist_registrations#create'
+  namespace :api do
+    resources :contacts, only: [:create]
+    resources :appointments, only: [:index]
+    scope module: :customer do
+      resources :offices, only: [:index, :show] do
+        resources :thanks, only: [:create], controller: 'thanks'
+        resources :appointments, only: [:create]
+        resources :bookmarks, only: [:create, :destroy, :index]
+      end
+    end
   end
-  
+
   namespace :api do
     resource :specialists do
       resources :offices ,controller: 'specialists/offices' do
         resources :staffs, controller: 'specialists/staffs', only: [:index, :show, :create, :update, :destroy]
         resources :care_recipients, controller: 'specialists/care_recipients', only: [:index, :create, :show, :update, :destroy]
         resources :appointments, controller: 'specialists/appointments', only: [:index, :update, :destroy]
-
       end
     end
   end
