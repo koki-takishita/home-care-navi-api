@@ -33,7 +33,11 @@ module Api
           if (params[:current_password]).present?
             @user = User.find(current_user.id)
            unless @user.valid_password?(params[:current_password])
-            render_error(401, I18n.t('errors.messages.validate_account_update_params'))
+            render json: {
+              message: 'パスワードが違います',
+              errors: ["パスワードが違います"],
+            }, status: 401
+            # render_error(401, I18n.t('errors.messages.validate_account_update_params'))
            end
           end
         end
