@@ -1,9 +1,13 @@
 class Api::Customer::BookmarksController < ApplicationController
-  before_action :authenticate_customer!
+  before_action :authenticate_customer!, only: [:create, :destroy]
   before_action :set_bookmark, only: [:destroy]
 
   def index
-    bookmark = Bookmark.where(office_id: params[:office_id], user_id: current_customer.id)
+    if customer_signed_in?
+      bookmark = Bookmark.where(office_id: params[:office_id], user_id: current_customer.id)
+    else
+      return
+    end
     render json: { bookmark: bookmark }
   end
 
