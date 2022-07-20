@@ -7,8 +7,9 @@ class Api::Specialists::OfficesController < ApplicationController
   end
 
   def create
-    # detailとoffice両方作成
-      office = current_specialist.build_office(office_params)
+      # 画像データも含め、officeが作成できる
+      params[:user_id] = current_specialist.id
+      office = Office.new(office_params)
       if office.valid?
         office.save!
         detail = office.build_office_detail(detail_params)
@@ -31,10 +32,8 @@ class Api::Specialists::OfficesController < ApplicationController
   end
 
   private
-
     def office_params
-      params.require(:office)
-      .permit(:name, :title, :flags, :business_day_detail, :address, :post_code, :phone_number, :fax_number, images: [])
+      params.permit(:name, :title, :flags, :business_day_detail, :address, :post_code, :phone_number, :fax_number, :user_id, images: [])
     end
 
     def detail_params
