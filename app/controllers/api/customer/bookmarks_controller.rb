@@ -4,7 +4,7 @@ class Api::Customer::BookmarksController < ApplicationController
 
   def index
     if customer_signed_in?
-      bookmark = Bookmark.where(office_id: params[:office_id], user_id: current_customer.id)
+      bookmark = Bookmark.where(office_id: params[:office_id], user_id: current_customer.id).first
     else
       return
     end
