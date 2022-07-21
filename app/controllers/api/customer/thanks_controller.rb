@@ -36,9 +36,11 @@ class Api::Customer::ThanksController < ApplicationController
   #   .
   #   .
   #   .
-  #   {
   # ],
-  # count: 999
+  # {
+  #   count: 999
+  # }
+
   def index
     thanks = current_customer.thanks.order("created_at DESC").order("updated_at DESC").limit(10).offset(params[:page].to_i * 10)
     render json: { thank: thanks.as_json(include: {
