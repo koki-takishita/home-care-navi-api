@@ -20,6 +20,15 @@ class Api::Customer::OfficesController < ApplicationController
     }, staus: :ok
   end
 
+  def office_bookmark_index
+    if customer_signed_in?
+      bookmark = Bookmark.where(office_id: params[:office_id], user_id: current_customer.id).first
+    else
+      return
+    end
+    render json: { bookmark: bookmark }
+  end
+
   private
 
   def set_office
@@ -134,9 +143,6 @@ class Api::Customer::OfficesController < ApplicationController
   end
 
   def build_json(offices)
-    if customer_signed_in?
-      
-    end
     result = offices.each_with_index.map{|office, index|
       thank       = build_json_from_thank_table_attributes(office)
       detail      = build_json_from_detail_table_attributes(office)
@@ -152,6 +158,8 @@ class Api::Customer::OfficesController < ApplicationController
     }
     result
   end
+
+  public
 
   def build_json_image(office)
     image = if(office.images.size > 0)
