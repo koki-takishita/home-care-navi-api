@@ -49,9 +49,9 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
       thank:
-        user: カスタマー_id
-        office: オフィス_id
-        staff: スタッフ_id
+        user: カスタマー
+        office: オフィス
+        staff: スタッフ
         comments: お礼コメント
       office:
         user: スペシャリスト
