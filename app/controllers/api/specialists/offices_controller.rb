@@ -8,10 +8,7 @@ class Api::Specialists::OfficesController < ApplicationController
 
   def create
     # detailとoffice両方作成
-    office_data = JSON.parse(params[:office])
-    office = Office.new(office_data)
-/      office = current_specialist.build_office(office_params)
-/
+      office = current_specialist.build_office(office_params)
       if office.valid?
         office.save!
         detail = office.build_office_detail(detail_params)
