@@ -22,6 +22,7 @@ Rails.application.routes.draw do
         #resources :appointments, controller: 'offices/appointments', only: [:create]
         resources :appointments, only: [:create]
       end
+      resources :thanks, only: [:index]
     end
   end
 
