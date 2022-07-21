@@ -1,8 +1,8 @@
 class Api::Customer::ThanksController < ApplicationController
   before_action :authenticate_customer!
 
-  # 戻り値 type: Array
-  # [
+  # 戻り値 type: Hash
+  # thanks: [
   #   {
   #     id: 1
   #     comments: "hogege",
@@ -37,15 +37,14 @@ class Api::Customer::ThanksController < ApplicationController
   #   .
   #   .
   #   {
-  #     count: 999
-  #   }
-  # ]
+  # ],
+  # count: 999
   def index
     thanks = current_customer.thanks.order("created_at DESC").order("updated_at DESC").limit(10).offset(params[:page].to_i * 10)
-    #methods: [:create_thanks_count(current_customer.id)]
-    render json: thanks.as_json(include: {
-                                    staff: { only: [:name, :kana], methods: [:image_url], include: { office: { only: :name }}}
-                                    }).push({count: current_customer.thanks.count})
+    render json: { thank: thanks.as_json(include: {
+                          staff: {only: [:name, :kana], methods: [:image_url], include: { office: { only: :name }}}}),
+                            count: current_customer.thanks.count
+                          }
   end
 
   def create
