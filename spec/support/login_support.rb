@@ -1,3 +1,5 @@
+include ActionController::RespondWith
+
 module LoginSupport
 
 	def login(user)

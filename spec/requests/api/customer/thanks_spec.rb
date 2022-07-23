@@ -1,5 +1,4 @@
 require 'rails_helper'
-include ActionController::RespondWith
 
 RSpec.describe "Api::Customer::Thanks", type: :request do
   include LoginSupport
