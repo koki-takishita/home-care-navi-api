@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Api::Customer::Thanks", type: :request do
-  include LoginSupport
 
   before(:each) do
     customer = build(:customer)
