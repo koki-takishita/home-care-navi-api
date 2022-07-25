@@ -1,5 +1,6 @@
 class Api::Customer::ThanksController < ApplicationController
   before_action :authenticate_customer!
+  before_action :set_thank, only: [:update, :destroy]
 
   # 戻り値 type: Hash
   # thanks: [
@@ -66,15 +67,27 @@ class Api::Customer::ThanksController < ApplicationController
   end
 
   def update
-    thank = current_customer.thanks.find(params[:id])
-    if thank.update(thank_params)
+    if @thank.update(thank_params)
       render json: {
         message: 'お礼を更新しました',
       }, status: :ok
     else
       render json: {
         message: '更新に失敗しました',
-        errors: thank.errors.full_messages
+        errors: @thank.errors.full_messages
+      }, status: 403
+    end
+  end
+
+  def destroy
+    @thank.destroy
+    if @thank.destroyed?
+      render json: {
+        message: 'お礼を削除しました',
+      }, status: :ok
+    else
+      render json: {
+        message: 'お礼削除に失敗しました',
       }, status: 403
     end
   end
@@ -83,6 +96,10 @@ class Api::Customer::ThanksController < ApplicationController
 
   def thank_params
     params.require(:thank).permit(:comments, :office_id, :staff_id)
+  end
+
+  def set_thank
+    @thank = current_customer.thanks.find(params[:id])
   end
 
 end
