@@ -1,12 +1,11 @@
-# customerが10人いる前提
 def create_appointments(count: Customer.count, office: nil)
   customers = User.customer
   unless(customers.count > 0)
     e = <<-TEXT
-    customerの数が足りません
+    customerが存在しません。
     最後まで実行したい場合1か2の指示に従ってください。
     1. rails db:seed:dummy_customer
-    2. customerを10人以上作成してください
+    2. customerを1人以上作成してください
     TEXT
 
     raise e
