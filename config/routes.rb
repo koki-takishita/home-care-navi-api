@@ -22,7 +22,7 @@ Rails.application.routes.draw do
         resources :appointments, only: [:create]
         resources :bookmarks, only: [:create, :destroy, :index]
       end
-      resources :thanks, only: [:index, :update]
+      resources :thanks, only: [:index, :update, :destroy]
     end
   end
 
