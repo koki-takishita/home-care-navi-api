@@ -71,6 +71,13 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
           }.to change{ Thank.first.comments }.from(before_comment).to(update_comment)
           expect(response).to have_http_status(200)
         end
+
+        it "お礼を削除できる" do
+          thank
+          delete api_thank_path(thank.id),
+          headers: auth_params
+          expect(response).to have_http_status(200)
+        end
       end
 
       context 'ケアマネ' do
