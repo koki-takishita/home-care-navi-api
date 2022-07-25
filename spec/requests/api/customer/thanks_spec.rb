@@ -78,6 +78,13 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
           headers: auth_params
           expect(response).to have_http_status(200)
         end
+
+        it "お礼を取得できる" do
+          thank
+          get api_thank_path(thank.id),
+          headers: auth_params
+          expect(response).to have_http_status(200)
+        end
       end
 
       context 'ケアマネ' do
