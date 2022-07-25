@@ -1,6 +1,6 @@
 class Api::Customer::ThanksController < ApplicationController
   before_action :authenticate_customer!
-  before_action :set_thank, only: [:update, :destroy]
+  before_action :set_thank, only: [:update, :destroy, :show]
 
   # 戻り値 type: Hash
   # thanks: [
@@ -64,6 +64,10 @@ class Api::Customer::ThanksController < ApplicationController
         errors: thank.errors.full_messages
       }, status: 403
     end
+  end
+
+  def show
+    render json: @thank.as_json
   end
 
   def update
