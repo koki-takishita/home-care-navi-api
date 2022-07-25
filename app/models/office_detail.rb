@@ -1,11 +1,15 @@
 class OfficeDetail < ApplicationRecord
+  include Rails.application.routes.url_helpers
   belongs_to :office
-  has_many :image_comment, dependent: :destroy
+  has_many_attached :images
   validates :detail, :service_type, presence: true
+end
 
-  validate :check_number_image_comment
-
-  def check_number_image_comment
-    errors.add(:image_comment, "登録できる数は２つまで") if image_comment.count > 2
+  def images_url
+    helpers = Rails.application.routes.url_helpers
+    if images.blank?
+      return
+    else
+      helpers.url_for(image)
   end
 end
