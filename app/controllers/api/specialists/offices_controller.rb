@@ -7,13 +7,6 @@ class Api::Specialists::OfficesController < ApplicationController
   end
 
   def create
-    # detailとoffice両方作成
-=begin
-    office_data = JSON.parse(params[:office])
-    office = Office.new(office_data)
-
-
-=end
       string_to_actionController_parameters
       office = current_specialist.build_office(office_params)
       if office.valid?
@@ -51,8 +44,8 @@ class Api::Specialists::OfficesController < ApplicationController
     officeHash = json_parse(params[:office])
     officeHash.store("images", params[:officeImages])
     detailHash = json_parse(params[:detail])
-    imageHash.store("image_1", params[:detailImage1])
-    imageHash.store("image_2", params[:detailImage2])
+#    detailHash.store("images", params[:detailImages])
+#    detailHash.store("image_2", params[:detailImage2])
     @params = ActionController::Parameters.new({
       office: officeHash,
       detail: detailHash,
