@@ -67,7 +67,7 @@ class Api::Customer::ThanksController < ApplicationController
   end
 
   def show
-    render json: @thank.as_json
+    render json: @thank
   end
 
   def update
