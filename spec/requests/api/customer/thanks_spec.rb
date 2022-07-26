@@ -109,7 +109,7 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
         end
       end
     end
-
+    
     context 'ログインしていない' do
 
       let(:thank) { create(:thank, user: @customer) }
