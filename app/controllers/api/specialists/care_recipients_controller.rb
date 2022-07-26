@@ -17,16 +17,17 @@ class Api::Specialists::CareRecipientsController < ApplicationController
     care_recipient = current_specialist.office.care_recipients.build(care_recipient_params)
     if care_recipient.valid?
       care_recipient.save!
-      render json: { status: 'success' }
+      render json: { status: :ok }
     else
       render json: { status: care_recipient.errors.full_messages }
     end
   end
 
   def create
-    @care_recipient = CareRecipient.new(care_recipient_params)
+    @care_recipient = current_specialist.office.care_recipients.build(care_recipient_params)
     if @care_recipient.valid?
       @care_recipient.save!
+			render json: { status: :ok }
     else
       render json: { status: @care_recipient.errors.full_messages }
     end
@@ -57,6 +58,5 @@ class Api::Specialists::CareRecipientsController < ApplicationController
 
   def set_care_recipient
     @care_recipient = current_specialist.office.care_recipients.find(params[:id])
-    @office = current_specialist.office.id
   end
 end
