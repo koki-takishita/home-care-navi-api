@@ -78,6 +78,7 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
           headers: auth_params
           expect(response).to have_http_status(200)
         end
+
       end
 
       context 'ケアマネ' do
@@ -111,7 +112,7 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
     end
     
     context 'ログインしていない' do
-
+    
       let(:thank) { create(:thank, user: @customer) }
       let(:update_comment) { "#{thank.staff.name}さん、ありがとうございました!!" }
 
