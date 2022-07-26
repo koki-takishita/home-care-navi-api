@@ -10,6 +10,7 @@ module LoginSupport
   	return get_auth_params_from_login_response_headers(response)
 	end
 
+
   def get_auth_params_from_login_response_headers(response)
     client = response.headers['client']
     token = response.headers['access-token']
@@ -26,7 +27,6 @@ module LoginSupport
     }
     auth_params
   end
-
 end
 
 RSpec.configure do |config|

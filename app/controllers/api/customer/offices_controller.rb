@@ -24,8 +24,9 @@ class Api::Customer::OfficesController < ApplicationController
 
   def set_office
     @office = Office.find(params[:id])
-    @staffs = @office.staffs
-    @thanks = @office.thanks
+    @staffs = @office.staffs.select('staffs.*', 'count(thanks.id) AS thanks')
+                     .left_joins(:thanks)
+                     .group("staffs.id").order('thanks DESC')
   end
 
   def add_image_h(records)
@@ -152,6 +153,8 @@ class Api::Customer::OfficesController < ApplicationController
     }
     result
   end
+
+	public
 
   def build_json_image(office)
     image = if(office.images.size > 0)
