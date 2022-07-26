@@ -11,13 +11,13 @@ def create_appointments(count: Customer.count, office: nil)
     raise e
   end
 
-	from = Time.parse("2023/01/01")
-	to = Time.parse("2023/12/31")
-	timezone_from = Time.zone.parse('2010-01-01 00:00:00')
-	timezone_to   = Time.zone.parse('2021-12-31 00:00:00')
-	random_timezone = rand(timezone_from..timezone_to)
-
   count.times{|n|
+    from = Time.parse("2023/01/01")
+    to = Time.parse("2023/12/31")
+    timezone_from = Time.zone.parse('2010-01-01 00:00:00')
+    timezone_to   = Time.zone.parse('2021-12-31 00:00:00')
+    random_timezone = rand(timezone_from..timezone_to)
+
     customers[n].appointments.create!(
       meet_date:     rand(from..to),
       meet_time:     "18:00〜20:00",
