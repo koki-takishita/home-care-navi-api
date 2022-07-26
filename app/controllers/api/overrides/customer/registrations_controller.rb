@@ -43,7 +43,7 @@ module Api
         end
         
         def update_params
-          params.permit(:phone_number, :name, :post_code, :address,:email)
+          params.permit(:phone_number, :name, :post_code, :address,:email,:password)
         end
 
         def configure_permitted_parameters
