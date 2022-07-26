@@ -26,7 +26,6 @@ module LoginSupport
     }
     auth_params
   end
-
 end
 
 RSpec.configure do |config|
