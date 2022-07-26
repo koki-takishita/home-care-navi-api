@@ -58,7 +58,8 @@ class Api::Customer::AppointmentsController < Api::Customer::OfficesController
     def build_json_from_appointments_table_json(office)
       if office.appointments.exists?
       appointments = office.appointments.where(user_id: current_customer.id)
-       latest_office_appointment = appointments.order(created_at: :desc).build_json_from_appointments_table_js    { appointment: latest_office_appointment }
+      latest_office_appointment = appointments.order(created_at: :desc).first
+			{ appointment: latest_office_appointment }
       else
        { appointment: nil}
       end
