@@ -65,6 +65,20 @@ class Api::Customer::ThanksController < ApplicationController
     end
   end
 
+  def update
+    thank = current_customer.thanks.find(params[:id])
+    if thank.update(thank_params)
+      render json: {
+        message: 'お礼を更新しました',
+      }, status: :ok
+    else
+      render json: {
+        message: '更新に失敗しました',
+        errors: thank.errors.full_messages
+      }, status: 403
+    end
+  end
+
   private
 
   def thank_params
