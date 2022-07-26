@@ -4,7 +4,7 @@ class Api::Specialists::AppointmentsController < ApplicationController
 
   def index
     @data_length = current_specialist.office.appointments.length
-    @order_called_status = current_specialist.office.appointments.order(:called_status)
+    @order_called_status = current_specialist.office.appointments.order(:called_status, created_at: :desc)
     @appointments = @order_called_status.limit(10).offset(params[:page].to_i * 10)
     render json: { appointments: @appointments, data_length: @data_length }
   end

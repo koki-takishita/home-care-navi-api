@@ -154,6 +154,8 @@ class Api::Customer::OfficesController < ApplicationController
     result
   end
 
+	public
+
   def build_json_image(office)
     image = if(office.images.size > 0)
               image_url = return_random_image_url(office)
