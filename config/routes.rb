@@ -16,7 +16,7 @@ Rails.application.routes.draw do
   namespace :api do
     resources :contacts, only: [:create]
     resources :appointments, only: [:index]
-    resources :bookmarks, controller: 'customer/bookmarks', only: [:index]
+    get '/appointments', to: 'customer/appointments#index'
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'
@@ -24,6 +24,7 @@ Rails.application.routes.draw do
         resources :bookmarks, only: [:create, :destroy]
         get '/bookmarks', to: 'offices#office_bookmark_index'
       end
+      resources :thanks, only: [:index, :update, :destroy]
     end
   end
 
