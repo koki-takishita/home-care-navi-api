@@ -16,17 +16,9 @@ class Api::Customer::OfficesController < ApplicationController
     render json: {
       office: @office,
       officeImages: @office.image_url,
-      staffs: staffs
+      staffs: staffs,
+			bookmark: @bookmark
     }, staus: :ok
-  end
-
-  def office_bookmark_index
-    if customer_signed_in?
-      bookmark = Bookmark.where(office_id: params[:office_id], user_id: current_customer.id).first
-    else
-      return
-    end
-    render json: { bookmark: bookmark }
   end
 
   private
@@ -36,6 +28,11 @@ class Api::Customer::OfficesController < ApplicationController
     @staffs = @office.staffs.select('staffs.*', 'count(thanks.id) AS thanks')
                      .left_joins(:thanks)
                      .group("staffs.id").order('thanks DESC')
+  @bookmark = if customer_signed_in?
+                current_customer.bookmarks.where(office_id: @office.id).first
+              else
+                nil
+              end
   end
 
   def add_image_h(records)
