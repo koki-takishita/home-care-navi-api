@@ -15,13 +15,14 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :contacts, only: [:create]
-    resources :appointments, only: [:index]
+    get '/appointments', to: 'customer/appointments#index'
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'
-        #resources :appointments, controller: 'offices/appointments', only: [:create]
         resources :appointments, only: [:create]
+        resources :bookmarks, only: [:create, :destroy, :index]
       end
+      resources :thanks, only: [:index, :show, :update, :destroy]
     end
   end
 
