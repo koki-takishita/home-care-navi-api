@@ -66,8 +66,19 @@ class Api::Customer::ThanksController < ApplicationController
     end
   end
 
+  # id: 1,
+  # office_id: 1,
+  # staff_id: 1,
+  # comments: "hogehoge",
+  # staff: {
+  #   name: "名前"
+  # },
+  # office: {
+  #   name: 'office name'
+  # }
+
   def show
-    render json: @thank
+    render json: @thank.as_json(include: [ { staff: { only: :name }}, {office: { only: :name }} ])
   end
 
   def update
