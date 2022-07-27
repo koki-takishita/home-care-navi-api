@@ -18,8 +18,7 @@ RSpec.describe "Api::Specialists::Staffs", type: :request do
       it 'スタッフを登録できる' do
         login(@specialist)
 	    	auth_params = get_auth_params_from_login_response_headers(response)
-
-        post api_specialists_office_staffs_path(@staff.office_id),
+        post api_specialists_offices_staffs_path(@staff.office_id),
         params: {
           name: @staff.name,
           kana: @staff.kana,
@@ -39,7 +38,7 @@ RSpec.describe "Api::Specialists::Staffs", type: :request do
 
     context 'ログインしていない' do
       it 'スタッフを登録できない' do
-        post api_specialists_office_staffs_path(@staff.office_id),
+        post api_specialists_offices_staffs_path(@staff.office_id),
         params: {
           name: @staff.name,
           kana: @staff.kana,
