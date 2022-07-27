@@ -119,11 +119,6 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
     end
     
     context 'ログインしていない' do
-    
-      let(:thank) { create(:thank, user: @customer) }
-      let(:update_comment) { "#{thank.staff.name}さん、ありがとうございました!!" }
-
-    context 'ログインしていない' do
 
       let(:thank) { create(:thank, user: @customer) }
       let(:update_comment) { "#{thank.staff.name}さん、ありがとうございました!!" }
