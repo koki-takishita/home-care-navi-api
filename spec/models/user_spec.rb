@@ -12,13 +12,13 @@ RSpec.describe User, type: :model do
     FactoryBot.create(:user, email: "sample@gmail.com")
     @user = FactoryBot.build(:user, email: "sample@gmail.com")
     @user.valid?
-    expect(@user.errors[:email]).to include("has already been taken")
+    expect(@user.errors[:email]).to include("はすでに存在します")
    end
   it "重複した電話番号ではアカウントが作れないこと" do
     FactoryBot.create(:user, phone_number: "11111111111")
     @user = FactoryBot.build(:user, phone_number: "11111111111")
     @user.valid?
-    expect(@user.errors[:phone_number]).to include("has already been taken")
+    expect(@user.errors[:phone_number]).to include("はすでに存在します")
    end
 end
 
