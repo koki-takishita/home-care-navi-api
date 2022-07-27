@@ -24,13 +24,13 @@ Rails.application.routes.draw do
         resources :appointments, only: [:create]
         resources :bookmarks, only: [:create, :destroy]
       end
-      resources :thanks, only: [:index, :update, :destroy]
+      resources :thanks, only: [:index, :show, :update, :destroy]
     end
   end
 
   namespace :api do
     resource :specialists do
-      resources :offices ,controller: 'specialists/offices' do
+      resource :offices ,controller: 'specialists/offices' do
         resources :staffs, controller: 'specialists/staffs', only: [:index, :show, :create, :update, :destroy]
         resources :care_recipients, controller: 'specialists/care_recipients', only: [:index, :create, :show, :update, :destroy]
         resources :appointments, controller: 'specialists/appointments', only: [:index, :update, :destroy]

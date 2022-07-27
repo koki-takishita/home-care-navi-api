@@ -1,6 +1,6 @@
 class Api::Customer::ThanksController < ApplicationController
   before_action :authenticate_customer!
-  before_action :set_thank, only: [:update, :destroy]
+  before_action :set_thank, only: [:update, :destroy, :show]
 
   # 戻り値 type: Hash
   # thanks: [
@@ -43,7 +43,7 @@ class Api::Customer::ThanksController < ApplicationController
   # }
 
   def index
-    thanks = current_customer.thanks.order("created_at DESC").order("updated_at DESC").limit(10).offset(params[:page].to_i * 10)
+    thanks = current_customer.thanks.order("updated_at DESC").order("created_at DESC").limit(10).offset(params[:page].to_i * 10)
     render json: { thank: thanks.as_json(include: {
                           staff: {only: [:name, :kana], methods: [:image_url], include: { office: { only: :name }}}}),
                             count: current_customer.thanks.count
@@ -64,6 +64,21 @@ class Api::Customer::ThanksController < ApplicationController
         errors: thank.errors.full_messages
       }, status: 403
     end
+  end
+
+  # id: 1,
+  # office_id: 1,
+  # staff_id: 1,
+  # comments: "hogehoge",
+  # staff: {
+  #   name: "名前"
+  # },
+  # office: {
+  #   name: 'office name'
+  # }
+
+  def show
+    render json: @thank.as_json(include: [ { staff: { only: :name }}, {office: { only: :name }} ])
   end
 
   def update

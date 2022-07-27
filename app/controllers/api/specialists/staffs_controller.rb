@@ -22,6 +22,7 @@ class Api::Specialists::StaffsController < ApplicationController
     @staff = current_specialist.office.staffs.build(staff_params)
     if @staff.valid?
       @staff.save!
+			render json: { status: :ok }
     else
       render json: { status: @staff.errors.full_messages }
     end
@@ -30,7 +31,7 @@ class Api::Specialists::StaffsController < ApplicationController
   def update
     if @staff.valid?
       @staff.update(staff_params)
-      render json: { status: 'success' }
+      render json: { status: :ok }
     else
     render json: { status: @staff.errors.full_messages }
     end
@@ -39,7 +40,7 @@ class Api::Specialists::StaffsController < ApplicationController
   def destroy
     if @staff.valid?
       @staff.destroy
-      render json: { status: 'success' }
+      render json: { status: :ok }
     else
       render json: { status: @staff.errors.full_messages }
     end
@@ -53,6 +54,5 @@ class Api::Specialists::StaffsController < ApplicationController
 
     def set_staff
       @staff = current_specialist.office.staffs.find(params[:id])
-      @office = current_specialist.office.id
     end
   end
