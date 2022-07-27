@@ -37,14 +37,14 @@ class Api::Specialists::OfficesController < ApplicationController
 
   def detail_params
     @params.require(:detail)
-    .permit(:detail, :service_type, :open_date, :rooms, :requirement, :facility, :management, :link, :comment_1, :comment_2, images: [])
+    .permit(:detail, :service_type, :open_date, :rooms, :requirement, :facility, :management, :link, :comment_1, :comment_2, :image)
   end
 
   def string_to_actionController_parameters
     officeHash = json_parse(params[:office])
     officeHash.store("images", params[:officeImages])
     detailHash = json_parse(params[:detail])
-    detailHash.store("images", params[:detailImages])
+    detailHash.store("image", params[:detailImage])
 #    detailHash.store("image_2", params[:detailImage2])
     @params = ActionController::Parameters.new({
       office: officeHash,
