@@ -23,10 +23,10 @@ def set_progressbar(total: nil)
   @progressbar = ProgressBar.create(:format => '%a |%b>>%i| %p%% %t',
                                    :starting_at => 0,
                                    :total => total,
-                                   :length => 80) 
+                                   :length => 80)
 end
 
-def create_customer(count: 10)
+def create_customer(count: 100)
   User.customer.destroy_all
   set_progressbar(total: count)
   count.times{|n|
@@ -40,7 +40,7 @@ def create_customer(count: 10)
           password_confirmation: 'password')
     c.confirm
     @progressbar.increment
-  } 
+  }
 end
 
 set_data
