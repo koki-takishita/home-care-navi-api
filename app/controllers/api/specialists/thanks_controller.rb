@@ -49,4 +49,18 @@ class Api::Specialists::ThanksController < ApplicationController
     }
   end
 
+  def destroy
+    thank = current_specialist.office.thanks.find(params[:id])
+    thank.destroy
+    if thank.destroyed?
+      render json: {
+        message: 'お礼を削除しました',
+      }, status: :ok
+    else
+      render json: {
+        message: 'お礼削除に失敗しました',
+        }
+    end
+  end
+
 end
