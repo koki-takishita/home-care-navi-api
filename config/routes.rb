@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         resources :staffs, controller: 'specialists/staffs', only: [:index, :show, :create, :update, :destroy]
         resources :care_recipients, controller: 'specialists/care_recipients', only: [:index, :create, :show, :update, :destroy]
         resources :appointments, controller: 'specialists/appointments', only: [:index, :update, :destroy]
+        resources :thanks, controller: 'specialists/thanks', only: [:index]
       end
     end
   end
