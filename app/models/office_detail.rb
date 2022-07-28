@@ -1,11 +1,11 @@
 class OfficeDetail < ApplicationRecord
   belongs_to :office
-  has_many_attached :image
+  has_many_attached :images
   validates :detail, :service_type, presence: true
 
   def image_url
     helpers = Rails.application.routes.url_helpers
-    if image.blank?
+    if images.blank?
       return
     else
       helpers.url_for(image)
