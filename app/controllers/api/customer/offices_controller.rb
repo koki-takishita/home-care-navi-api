@@ -16,7 +16,8 @@ class Api::Customer::OfficesController < ApplicationController
     render json: {
       office: @office,
       officeImages: @office.image_url,
-      staffs: staffs
+      staffs: staffs,
+			bookmark: @bookmark
     }, staus: :ok
   end
 
@@ -24,8 +25,14 @@ class Api::Customer::OfficesController < ApplicationController
 
   def set_office
     @office = Office.find(params[:id])
-    @staffs = @office.staffs
-    @thanks = @office.thanks
+    @staffs = @office.staffs.select('staffs.*', 'count(thanks.id) AS thanks')
+                     .left_joins(:thanks)
+                     .group("staffs.id").order('thanks DESC')
+  @bookmark = if customer_signed_in?
+                current_customer.bookmarks.where(office_id: @office.id).first
+              else
+                nil
+              end
   end
 
   def add_image_h(records)
@@ -35,18 +42,18 @@ class Api::Customer::OfficesController < ApplicationController
       if re.thanks.exists?
         thanks = re.thanks
         hash[:thanks] = thanks
-      end 
+      end
       array.push(hash)
     }
     array
-  end 
+  end
 
   def add_image(obj)
     hash = obj.attributes
     hash[:image] = nil
     if obj.image.attached?
       image = obj.image_url
-      hash[:image] = image 
+      hash[:image] = image
     end
     hash
   end
@@ -106,7 +113,7 @@ class Api::Customer::OfficesController < ApplicationController
   end
 
   def search_area_offices(sql, prefecture, cities)
-    @offices = Office.eager_load(:thanks, :office_detail, :staffs)
+    @offices = Office.eager_load(:thanks, :office_detail, :staffs, :bookmarks)
     .with_attached_images
     .where("offices.address LIKE ?", Office.sanitize_sql_like(prefecture) + "%")
     .where(sql.join(' or '), *cities )
@@ -114,13 +121,13 @@ class Api::Customer::OfficesController < ApplicationController
 
   def search_keywords_offices(keywords, post_codes)
     return if(keywords.nil? && post_codes.nil?)
-    @offices = Office.eager_load(:thanks, :office_detail, :staffs)
+    @offices = Office.eager_load(:thanks, :office_detail, :staffs, :bookmarks)
     .with_attached_images
     .where.like(address: keywords)
-    .or(Office.eager_load(:thanks, :office_detail, :staffs)
+    .or(Office.eager_load(:thanks, :office_detail, :staffs, :bookmarks)
     .with_attached_images
     .where.like(name: keywords))
-    .or(Office.eager_load(:thanks, :office_detail, :staffs)
+    .or(Office.eager_load(:thanks, :office_detail, :staffs, :bookmarks)
     .with_attached_images
     .where.like(post_code: post_codes))
   end
@@ -138,16 +145,19 @@ class Api::Customer::OfficesController < ApplicationController
       thank       = build_json_from_thank_table_attributes(office)
       detail      = build_json_from_detail_table_attributes(office)
       staff_count = build_json_from_staff_table_count_json(office)
+      bookmark    = build_json_from_bookmark_table(office)
       image       = build_json_image(office)
       office      = office.attributes
       result = if(index == 0)
-                 office.merge(thank, detail, image, staff_count, {count: get_offices_count})
+                 office.merge(thank, detail, image, staff_count, bookmark, {count: get_offices_count})
                else
-                 office.merge(thank, detail, image, staff_count)
+                 office.merge(thank, detail, image, staff_count, bookmark)
                end
     }
     result
   end
+
+	public
 
   def build_json_image(office)
     image = if(office.images.size > 0)
@@ -161,7 +171,7 @@ class Api::Customer::OfficesController < ApplicationController
   # active_storageに保存してあるランダムな画像のurlを返す
   def return_random_image_url(obj)
     images_ids_to_arry = obj.images_attachment_ids
-    find_id = images_ids_to_arry.sample 
+    find_id = images_ids_to_arry.sample
     obj.images.find(find_id).url
   end
 
@@ -190,4 +200,17 @@ class Api::Customer::OfficesController < ApplicationController
     { staffCount: staffInfo }
   end
 
+  def build_json_from_bookmark_table(office)
+    if customer_signed_in?
+      if office.bookmarks.exists?
+        bookmarks = office.bookmarks.where(user_id: current_customer.id)
+        # 配列の中のオブジェクトを取り出す
+        { bookmark: bookmarks.first }
+      else
+        { bookmark: nil}
+      end
+    else
+      { bookmark: nil}
+    end
+  end
 end
