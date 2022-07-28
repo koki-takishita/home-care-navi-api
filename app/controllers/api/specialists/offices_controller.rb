@@ -45,7 +45,6 @@ class Api::Specialists::OfficesController < ApplicationController
     officeHash.store("images", params[:officeImages])
     detailHash = json_parse(params[:detail])
     detailHash.store("images", params[:detailImages])
-#    detailHash.store("image_2", params[:detailImage2])
     @params = ActionController::Parameters.new({
       office: officeHash,
       detail: detailHash,
