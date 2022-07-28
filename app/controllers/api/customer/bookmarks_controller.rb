@@ -4,7 +4,7 @@ class Api::Customer::BookmarksController < Api::Customer::OfficesController
 
   def index
     if customer_signed_in?
-      bookmarks = current_customer.bookmarks.order(created_at: :desc)
+      bookmarks = current_customer.bookmarks.order(created_at: :desc).limit(10).offset(params[:page].to_i * 10)
       offices = get_office_from_bookmarks(bookmarks)
       result = if(offices.size <= 0)
         []
@@ -74,10 +74,11 @@ class Api::Customer::BookmarksController < Api::Customer::OfficesController
      staff_count = superClass.build_json_from_staff_table_count_json(office)
      bookmark    = build_json_from_bookmark_table(office)
      image       = superClass.build_json_image(office)
+		 count = current_customer.bookmarks.count
      office      = office.attributes
 
      result = if(index == 0)
-      office.merge(thank, detail, image, staff_count, bookmark, {count: offices.count})
+      office.merge(thank, detail, image, staff_count, bookmark, {count: count})
               else
                 office.merge(thank, detail, image, staff_count, bookmark)
               end

@@ -15,7 +15,6 @@ Rails.application.routes.draw do
 
   namespace :api do
     resources :contacts, only: [:create]
-    resources :appointments, only: [:index]
     get '/appointments', to: 'customer/appointments#index'
 		get '/bookmarks', to: 'customer/bookmarks#index'
     scope module: :customer do
