@@ -8,7 +8,7 @@ class OfficeDetail < ApplicationRecord
     if images.blank?
       return
     else
-      helpers.url_for(image)
+      images.map{|image| helpers.url_for(image) }
     end
   end
 end

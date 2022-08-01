@@ -16,7 +16,7 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
     customer.save
     @customer = Customer.find_by_id(customer.id)
   end
-=begin ~
+
   context 'ログイン済み' do
     context 'スペシャリスト' do
       it '事業所を登録できる' do
@@ -41,7 +41,7 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
         expect(@specialist.office.images_blobs.blank?).to eq(false)
       end
     end
-=end
+
     context 'カスタマー' do
       it '事業所を登録できない' do
         login(@customer)
