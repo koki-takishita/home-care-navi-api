@@ -7,4 +7,5 @@ class Thank < ApplicationRecord
     scope: [ :user_id, :staff_id ],
       message: "に2回以上お礼は作成できません。"
     }
+  scope :thank_list_of_office, ->(office_id) { eager_load(:staff, :office).where(office_id: office_id).order("thanks.updated_at DESC") }
 end

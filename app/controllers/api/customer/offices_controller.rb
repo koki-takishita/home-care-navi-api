@@ -16,7 +16,8 @@ class Api::Customer::OfficesController < ApplicationController
     render json: {
       office: @office,
       officeImages: @office.image_url,
-      staffs: staffs
+      staffs: staffs,
+			bookmark: @bookmark
     }, staus: :ok
   end
 
@@ -27,6 +28,11 @@ class Api::Customer::OfficesController < ApplicationController
     @staffs = @office.staffs.select('staffs.*', 'count(thanks.id) AS thanks')
                      .left_joins(:thanks)
                      .group("staffs.id").order('thanks DESC')
+  @bookmark = if customer_signed_in?
+                current_customer.bookmarks.where(office_id: @office.id).first
+              else
+                nil
+              end
   end
 
   def add_image_h(records)
@@ -135,9 +141,6 @@ class Api::Customer::OfficesController < ApplicationController
   end
 
   def build_json(offices)
-    if customer_signed_in?
-      
-    end
     result = offices.each_with_index.map{|office, index|
       thank       = build_json_from_thank_table_attributes(office)
       detail      = build_json_from_detail_table_attributes(office)
