@@ -1,12 +1,12 @@
 class Api::Customer::HistoriesController < Api::Customer::OfficesController
-  before_action :authenticate_customer!, only: [:index, :create, :update]
-  before_action :set_customer, only: [:index, :create, :update]
+  before_action :authenticate_customer!, only: %i[index create update]
+  before_action :set_customer, only: %i[index create update]
   before_action :set_history, only: [:update]
 
   def index
     histories = @customer.histories.order(updated_at: :desc).limit(10)
     offices = get_office_from_histories(histories)
-    result = if(offices.count.zero?)
+    result = if offices.count.zero?
                []
              else
                build_json(offices)
@@ -31,10 +31,12 @@ class Api::Customer::HistoriesController < Api::Customer::OfficesController
 
   def update
     if @history.valid?
-      # updated_atのみ更新
+      # rubocop:disable Rails::SkipsModelValidations
+      # update_atのみ更新
       @history.touch
+      # rubocop:enable Rails::SkipsModelValidations
       render json: {
-        message: '閲覧データを更新しました',
+        message: '閲覧データを更新しました'
       }, status: :ok
     else
       render json: {
@@ -58,24 +60,22 @@ class Api::Customer::HistoriesController < Api::Customer::OfficesController
 
   def get_office_from_histories(histories)
     offices_id = []
-    histories.each_with_index.map{|history|
+    histories.each_with_index.map do |history|
       offices_id.push(history.office_id)
-    }
-    offices = Office.find(offices_id)
-    offices
+    end
+    Office.find(offices_id)
   end
 
   def build_json(offices)
-    result = offices.each_with_index.map{|office|
-     thank       = build_json_from_thank_table_attributes(office)
-     detail      = build_json_from_detail_table_attributes(office)
-     staff_count = build_json_from_staff_table_count_json(office)
-     bookmark    = build_json_from_bookmark_table(office)
-     image       = build_json_image(office)
-     office      = office.attributes
+    offices.each_with_index.map do |office|
+      thank = build_json_from_thank_table_attributes(office)
+      detail      = build_json_from_detail_table_attributes(office)
+      staff_count = build_json_from_staff_table_count_json(office)
+      bookmark    = build_json_from_bookmark_table(office)
+      image       = build_json_image(office)
+      office      = office.attributes
 
-     office.merge(thank, detail, image, staff_count, bookmark)
-    }
-    result
+      office.merge(thank, detail, image, staff_count, bookmark)
+    end
   end
 end
