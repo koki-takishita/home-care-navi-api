@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_021247) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_01_023101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,12 +92,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_021247) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "image_comments", force: :cascade do |t|
-    t.bigint "office_detail_id"
-    t.string "comment"
+  create_table "histories", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "office_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["office_detail_id"], name: "index_image_comments_on_office_detail_id"
+    t.index ["office_id"], name: "index_histories_on_office_id"
+    t.index ["user_id", "office_id"], name: "ci_histories_01", unique: true
+    t.index ["user_id"], name: "index_histories_on_user_id"
   end
 
   create_table "office_details", force: :cascade do |t|
@@ -192,6 +194,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_021247) do
   add_foreign_key "care_recipients", "offices"
   add_foreign_key "care_recipients", "staffs"
   add_foreign_key "image_comments", "office_details"
+  add_foreign_key "histories", "offices"
+  add_foreign_key "histories", "users"
   add_foreign_key "office_details", "offices"
   add_foreign_key "offices", "users"
   add_foreign_key "staffs", "offices"
