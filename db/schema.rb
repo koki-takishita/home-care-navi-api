@@ -148,8 +148,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_021247) do
     t.string "comments", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "name"
-    t.integer "age"
+    t.string "name", limit: 30, null: false
+    t.integer "age", null: false
     t.index ["office_id"], name: "index_thanks_on_office_id"
     t.index ["staff_id"], name: "index_thanks_on_staff_id"
     t.index ["user_id", "office_id", "staff_id"], name: "ci_thanks_01", unique: true

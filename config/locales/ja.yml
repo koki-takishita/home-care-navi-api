@@ -53,6 +53,8 @@ ja:
         office: オフィス
         staff: スタッフ
         comments: お礼コメント
+        age: 年齢
+        name: 利用者名
       office:
         user: スペシャリスト
         name: オフィス名
