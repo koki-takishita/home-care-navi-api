@@ -35,7 +35,9 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
                 thank: {
                     comments: @thank.comments,
                     office_id: @thank.office_id,
-                    staff_id: @thank.staff_id
+                    staff_id: @thank.staff_id,
+                    name: @thank.name,
+                    age: @thank.age
                   }
               },
               headers: auth_params
@@ -50,7 +52,9 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
               thank: {
                   comments: thank.comments,
                   office_id: thank.office_id,
-                  staff_id: thank.staff_id
+                  staff_id: thank.staff_id,
+                  name: thank.name,
+                  age: thank.age
                 }
             },
             headers: auth_params
@@ -97,7 +101,9 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
               thank: {
                   comments: @thank.comments,
                   office_id: @thank.office_id,
-                  staff_id: @thank.staff_id
+                  staff_id: @thank.staff_id,
+                  name: @thank.name,
+                  age: @thank.age
                 }
             },
             headers: auth_params
@@ -130,7 +136,9 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
             thank: {
                 comments: @thank.comments,
                 office_id: @thank.office_id,
-                staff_id: @thank.staff_id
+                staff_id: @thank.staff_id,
+                name: @thank.name,
+                age: @thank.age
               }
           }
         }.to change(@specialist.thanks, :count).by(0)
