@@ -20,8 +20,7 @@ module Api
                                                                 phone_number
                                                                 post_code
                                                                 address
-                                                                default_confirm_success_url
-                                                                )
+                                                                default_confirm_success_url)
           )
         end
 
