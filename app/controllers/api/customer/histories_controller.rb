@@ -32,7 +32,7 @@ class Api::Customer::HistoriesController < Api::Customer::OfficesController
   def update
     if @history.valid?
       # rubocop:disable Rails::SkipsModelValidations
-      # update_atのみ更新
+      # updated_atのみ更新
       @history.touch
       # rubocop:enable Rails::SkipsModelValidations
       render json: {
