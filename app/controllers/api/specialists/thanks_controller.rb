@@ -44,7 +44,7 @@ class Api::Specialists::ThanksController < ApplicationController
     # お礼の全件の数
     thank_list_total = thank_list.count
     render json: {
-      thanks: thanks.as_json(include: [:office]),
+      thanks: thanks,
       thank_total: thank_list_total
     }
   end
