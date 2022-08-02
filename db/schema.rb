@@ -193,7 +193,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_023101) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "care_recipients", "offices"
   add_foreign_key "care_recipients", "staffs"
-  add_foreign_key "image_comments", "office_details"
   add_foreign_key "histories", "offices"
   add_foreign_key "histories", "users"
   add_foreign_key "office_details", "offices"
