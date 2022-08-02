@@ -17,11 +17,13 @@ Rails.application.routes.draw do
     resources :contacts, only: [:create]
     get '/appointments', to: 'customer/appointments#index'
 		get '/bookmarks', to: 'customer/bookmarks#index'
+    get '/histories', to: 'customer/histories#index'
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'
         resources :appointments, only: [:create]
         resources :bookmarks, only: [:create, :destroy]
+        resources :histories, only: [:create, :update]
       end
       resources :thanks, only: [:index, :show, :update, :destroy]
     end
