@@ -7,6 +7,7 @@ class User < ApplicationRecord
   has_one :office, dependent: :destroy
   has_many :thanks, dependent: :destroy
   has_many :bookmarks, dependent: :destroy
+  has_many :histories, dependent: :destroy
 
   enum user_type: { customer: 0, specialist: 1 }
 

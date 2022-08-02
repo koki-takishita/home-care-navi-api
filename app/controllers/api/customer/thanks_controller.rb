@@ -110,7 +110,7 @@ class Api::Customer::ThanksController < ApplicationController
   private
 
   def thank_params
-    params.require(:thank).permit(:comments, :office_id, :staff_id)
+    params.require(:thank).permit(:comments, :office_id, :staff_id, :name, :age)
   end
 
   def set_thank
