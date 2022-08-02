@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_07_06_024811) do
+ActiveRecord::Schema[7.0].define(version: 2022_08_01_023101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -92,6 +92,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_024811) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "histories", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "office_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["office_id"], name: "index_histories_on_office_id"
+    t.index ["user_id", "office_id"], name: "ci_histories_01", unique: true
+    t.index ["user_id"], name: "index_histories_on_user_id"
+  end
+
   create_table "office_details", force: :cascade do |t|
     t.bigint "office_id", null: false
     t.string "detail", null: false
@@ -123,31 +133,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_024811) do
     t.index ["user_id"], name: "index_offices_on_user_id"
   end
 
-  create_table "specialists", force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.boolean "allow_password_change", default: false
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name"
-    t.string "nickname"
-    t.string "image"
-    t.string "email"
-    t.json "tokens"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["confirmation_token"], name: "index_specialists_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_specialists_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_specialists_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_specialists_on_uid_and_provider", unique: true
-  end
-
   create_table "staffs", force: :cascade do |t|
     t.string "name"
     t.string "kana"
@@ -165,6 +150,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_024811) do
     t.string "comments", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name", limit: 30, null: false
+    t.integer "age", null: false
     t.index ["office_id"], name: "index_thanks_on_office_id"
     t.index ["staff_id"], name: "index_thanks_on_staff_id"
     t.index ["user_id", "office_id", "staff_id"], name: "ci_thanks_01", unique: true
@@ -206,6 +193,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_07_06_024811) do
   add_foreign_key "bookmarks", "users"
   add_foreign_key "care_recipients", "offices"
   add_foreign_key "care_recipients", "staffs"
+  add_foreign_key "image_comments", "office_details"
+  add_foreign_key "histories", "offices"
+  add_foreign_key "histories", "users"
   add_foreign_key "office_details", "offices"
   add_foreign_key "offices", "users"
   add_foreign_key "staffs", "offices"
