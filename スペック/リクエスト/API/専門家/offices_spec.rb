@@ -107,3 +107,4 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
     }
     auth_params
   end
+end
