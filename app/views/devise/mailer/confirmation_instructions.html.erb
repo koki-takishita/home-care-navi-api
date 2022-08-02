@@ -3,11 +3,13 @@
 <% else @resource.customer? %>
 <p>カスタマー</p>
 <% end %>
-debugger
+<%= @redirect_url%>
 <p><%= t(:welcome).capitalize + ' ' + @email %>!</p>
 
 <p><%= t '.confirm_link_msg' %> </p>
 
 <% if @resource.customer? %>
 <p><%= link_to t('.confirm_account_link'), customer_confirmation_url(@resource, {confirmation_token: @token, config: message['client-config'].to_s, redirect_url: message['redirect-url']}).html_safe %></p>
+<%else%>
+<p><%= link_to t('.confirm_account_link'), specialist_confirmation_url(@resource, {confirmation_token: @token, config: message['client-config'].to_s, redirect_url: message['redirect-url']}).html_safe %></p>
 <% end %>
