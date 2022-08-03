@@ -54,6 +54,9 @@ gem 'seedbank', '~> 0.5.0'
 # 重い処理など進捗を表すものを標示する https://github.com/jfelchner/ruby-progressbar/
 gem 'ruby-progressbar', '~> 1.11'
 
+# 環境変数化のためのgem https://rubygems.org/gems/dotenv-rails
+gem 'dotenv-rails', '~> 2.8', '>= 2.8.1'
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
