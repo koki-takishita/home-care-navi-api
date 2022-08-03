@@ -102,7 +102,6 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
       end
     end
   end
-<<<<<<< HEAD
 
   def login(user)
     post api_login_path,
@@ -128,6 +127,3 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
     auth_params
   end
 end
-=======
-end
->>>>>>> origin/develop
