@@ -1,5 +1,4 @@
 require 'rails_helper'
-include ActionController::RespondWith
 
 RSpec.describe "Api::Customer::Bookmarks", type: :request do
 
@@ -20,10 +19,9 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
 
   context 'ログイン済み' do
     context 'カスタマー' do
+      let(:auth_params) { login(@customer) }
+      let(:bookmark) { create(:bookmark, user: @customer) }
       it "ブックマークを登録できる" do
-        login(@customer)
-        auth_params = get_auth_params_from_login_response_headers(response)
-
           post api_office_bookmarks_path(@bookmark.office_id),
           params: {
             office_id: @bookmark.office_id,
@@ -33,14 +31,25 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
 
           getBookmark = Customer.first.bookmarks
           expect(getBookmark.count).to eq(1)
+          expect(response).to have_http_status(200)
+      end
+      it "ブックマークを解除できる" do
+          bookmark
+          delete api_office_bookmark_path(bookmark.office_id, bookmark.id),
+          params: {
+            office_id: bookmark.office_id,
+            user_id: @customer.id
+          },
+          headers: auth_params
+
+          expect(@customer.bookmarks.count).to eq(0)
+          expect(response).to have_http_status(200)
       end
     end
 
     context 'ケアマネ' do
+      let(:auth_params) { login(@specialist) }
       it "ブックマークを登録できない" do
-        login(@specialist)
-        auth_params = get_auth_params_from_login_response_headers(response)
-
         post api_office_bookmarks_path(@bookmark.office_id),
           params: {
             office_id: @bookmark.office_id,
@@ -50,11 +59,13 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
 
           getBookmark = Specialist.first.bookmarks
           expect(getBookmark.count).to eq(0)
+         expect(response).to have_http_status(401)
       end
     end
   end
 
   context 'ログインしていない' do
+    let(:bookmark) { create(:bookmark, user: @customer) }
     it 'ブックマークを登録できない' do
       post api_office_bookmarks_path(@bookmark.office_id),
         params: {
@@ -64,30 +75,7 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
 
         getBookmark = Customer.first.bookmarks
         expect(getBookmark.count).to eq(0)
+        expect(response).to have_http_status(401)
     end
-  end
-
-  def login(user)
-    post api_login_path,
-    params: { email: user.email, password: 'password' }
-    .to_json,
-    headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
-  end
-
-  def get_auth_params_from_login_response_headers(response)
-    client = response.headers['client']
-    token = response.headers['access-token']
-    expiry = response.headers['expiry']
-    token_type = response.headers['token-type']
-    uid = response.headers['uid']
-
-    auth_params = {
-      'access-token' => token,
-      'client' => client,
-      'uid' => uid,
-      'expiry' => expiry,
-      'token-type' => token_type
-    }
-    auth_params
   end
 end
