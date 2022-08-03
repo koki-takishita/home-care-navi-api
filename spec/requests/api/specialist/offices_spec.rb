@@ -24,7 +24,7 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
 	    	auth_params = get_auth_params_from_login_response_headers(response)
 
         post api_specialists_offices_path,
-        params: {
+        params: { 
           name: @specialist.name,
           titie: @office.title,
           flags: @office.flags,

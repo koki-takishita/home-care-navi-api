@@ -1,10 +1,9 @@
-class Api::Specialists::OfficesController < ApplicationController
+spec/requests/api/specialist/offices_spec.rbclass Api::Specialists::OfficesController < ApplicationController
   before_action :authenticate_specialist!
 
   def show
     @office = current_specialist.office
     render json: @office
-    render json: @detail, methods: [:image_url]
   end
 
   def create
