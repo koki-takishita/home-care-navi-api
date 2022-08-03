@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  mount_devise_token_auth_for "Specialist", at: 'api/specialists/users', skip: [:omniauth_callbacks, :sessions, :token_validations, :password], controllers: {
+  mount_devise_token_auth_for "Specialist", at: 'api/specialists/users', skip: [:omniauth_callbacks, :sessions, :token_validations], controllers: {
     registrations: 'api/overrides/specialist/specialist_registrations'
   }
   mount_devise_token_auth_for "Customer", at: 'api/customer', skip: [:omniauth_callbacks, :sessions, :token_validations], controllers: {
