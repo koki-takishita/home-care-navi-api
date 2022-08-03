@@ -4,6 +4,7 @@ class Api::Specialists::OfficesController < ApplicationController
   def show
     @office = current_specialist.office
     render json: @office
+    render json: @detail, methods: [:image_url]
   end
 
   def create
