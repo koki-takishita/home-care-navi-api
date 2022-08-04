@@ -71,8 +71,8 @@ Rails.application.configure do
     address:              'smtp.gmail.com',
     port:                 587,
     domain:               'example.com',
-    user_name:            'koki.takishita@prum.jp',
-    password:             'mxaducgznytvhrey',
+    user_name:            ENV['MAILER_USER_NAME'],
+    password:             ENV['MAILER_PASSWORD'],
     authentication:       'plain',
     enable_starttls_auto: true,
     open_timeout:         5,
@@ -101,4 +101,5 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
   Rails.application.routes.default_url_options[:host] = 'https://home-care-navi-api-v2.herokuapp.com'
+
 end
