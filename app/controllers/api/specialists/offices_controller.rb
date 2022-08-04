@@ -1,4 +1,4 @@
-spec/requests/api/specialist/offices_spec.rbclass Api::Specialists::OfficesController < ApplicationController
+class Api::Specialists::OfficesController < ApplicationController
   before_action :authenticate_specialist!
 
   def show

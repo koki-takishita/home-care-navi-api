@@ -10,7 +10,7 @@ class Office < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :histories, dependent: :destroy
   has_many_attached :images
-  validates :user_id, uniqueness: true, allow_nil: true
+  validates :user_id, :phone_number, uniqueness: true, allow_nil: true
 
   before_create do
     self.post_code = post_code.delete('-')
