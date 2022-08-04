@@ -20,6 +20,7 @@ git fetch && git checkout origin/<ここを変える>/<ここを変える>
 
 ```ruby
 git fetch && git checkout origin/<ここを変える>/<ここを変える>
+
 ```
 
 ### 動作確認 Loom 手順
