@@ -1,40 +1,6 @@
 class Api::Specialists::ThanksController < ApplicationController
   before_action :authenticate_specialist!
 
-  # {
-  #   'thanks': [
-  #     {
-  #       "id": 50627,
-  # 	  . thanksカラムすべて
-  # 	  .
-  #     "staff": {
-  #       "id": 22083,
-  #       .staffsのカラムすべてk
-  # 	  .
-  #     },
-  #     "office": {
-  #       "id": 22083,
-  #       .officeのカラムすべて
-  # 	  .
-  #     }
-  #   },
-  #   {
-  #     "id": 50627,
-  #     . thanksカラムすべて
-  #     .
-  #     "staff": {
-  #       "id": 22083,
-  # 	.staffsのカラムすべてk
-  # 	.
-  #     },
-  #     "office": {
-  #       "id": 22083,
-  # 	.officeのカラムすべて
-  # 	.
-  # 	}
-  #   }],
-  #   "thank_total": 5
-  # }
   def index
     office_id = current_specialist.office.id
     # office_idに紐づくお礼のリストを、update_atの大きい順に取得
@@ -44,7 +10,7 @@ class Api::Specialists::ThanksController < ApplicationController
     # お礼の全件の数
     thank_list_total = thank_list.count
     render json: {
-      thanks: thanks.as_json(include: [:staff, :office]),
+      thanks: thanks,
       thank_total: thank_list_total
     }
   end

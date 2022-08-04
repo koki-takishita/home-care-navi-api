@@ -17,7 +17,8 @@ class Api::Customer::OfficesController < ApplicationController
       office: @office,
       officeImages: @office.image_url,
       staffs: staffs,
-			bookmark: @bookmark
+			bookmark: @bookmark,
+      history: @history
     }, staus: :ok
   end
 
@@ -28,11 +29,13 @@ class Api::Customer::OfficesController < ApplicationController
     @staffs = @office.staffs.select('staffs.*', 'count(thanks.id) AS thanks')
                      .left_joins(:thanks)
                      .group("staffs.id").order('thanks DESC')
-  @bookmark = if customer_signed_in?
-                current_customer.bookmarks.where(office_id: @office.id).first
-              else
-                nil
-              end
+    if customer_signed_in?
+      @bookmark = current_customer.bookmarks.where(office_id: @office.id).first
+      @history = current_customer.histories.where(office_id: @office.id).first
+    else
+       @bookmark = nil
+       @history  = nil
+    end
   end
 
   def add_image_h(records)
