@@ -1,3 +1,5 @@
+=begin
+
 require 'rails_helper'
 include ActionController::RespondWith
 
@@ -78,3 +80,5 @@ RSpec.describe "Api::Specialists::Staffs", type: :request do
     auth_params
   end
 end
+
+=end
