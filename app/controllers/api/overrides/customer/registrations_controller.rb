@@ -26,7 +26,6 @@ module Api
               message: 'パスワードが違います',
               errors: ["パスワードが違います"],
             }, status: 401
-            # render_error(401, I18n.t('errors.messages.validate_account_update_params'))
           end
           end
         end
@@ -34,6 +33,7 @@ module Api
         def update  
           @user = User.find(current_user.id)
           if @user.update(update_params)
+            render json: { status: 'success' }
           else
             @user.update(update_params)
             render status: 401, json: { errors: @user.errors.full_messages }
