@@ -11,10 +11,10 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { confirmations: 'confirmations' }
   
   devise_scope :user do
-    post    'api/login',  to: 'api/overrides/customer/sessions#create'
-    delete  'api/logout', to: 'devise_token_auth/sessions#destroy'
-    post    'api/users',  to: 'api/overrides/customer/registrations#password_check'
-    get     'api/users',  to: 'api/overrides/customer/registrations#show'
+    post   'api/login',  to: 'api/overrides/customer/sessions#create'
+    delete 'api/logout', to: 'devise_token_auth/sessions#destroy'
+    post   'api/users',  to: 'api/overrides/customer/registrations#password_check'
+    get    'api/users',  to: 'api/overrides/customer/registrations#show'
   end
 
   namespace :api do
