@@ -39,7 +39,6 @@ module Api
             render status: 401, json: { errors: @user.errors.full_messages }
           end
         end
-
         protected
         
         def update_params
