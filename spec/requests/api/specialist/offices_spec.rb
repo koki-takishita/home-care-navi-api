@@ -83,8 +83,7 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
           }.to_json
         },
         headers: auth_params
-        puts "------response--------"
-        puts response.body
+
         expect(Office.count).to eq(1)
         # expect(response).to have_http_status(401)
       end
