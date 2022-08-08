@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     delete  'api/logout',          to: 'devise_token_auth/sessions#destroy'
     post    'api/users',           to: 'api/overrides/customer/registrations#password_check'
     get     'api/users',           to: 'api/overrides/customer/registrations#show'
+    delete  'api/users',           to: 'api/overrides/customer/registrations#destroy'
   end
 
   namespace :api do
