@@ -40,15 +40,6 @@ module Api
           end
         end
 
-        def destroy
-          if @resource
-            @resource.destroy
-            yield @resource if block_given?
-            render_destroy_success
-          else
-            render_destroy_error
-          end
-        end
 
         protected
         
