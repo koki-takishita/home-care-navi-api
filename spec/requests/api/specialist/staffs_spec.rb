@@ -49,6 +49,19 @@ RSpec.describe 'Api::Specialists::Staffs', type: :request do
         staff = office.staffs.first
         expect(staff.introduction).to eq('スタッフの紹介文を更新します')
       end
+
+      it 'スタッフを編集できる' do
+        staff
+        put api_specialists_offices_staff_path(staff.id),
+            params: {
+              introduction: update_introduction
+            },
+            headers: auth_params
+
+        office = @specialist.office
+        staff = office.staffs.first
+        expect(staff.introduction).to eq('スタッフの紹介文を更新します')
+      end
     end
 
     context 'ログインしていない' do
