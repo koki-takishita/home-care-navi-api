@@ -35,6 +35,7 @@ RSpec.describe 'Api::Specialists::Staffs', type: :request do
         staff = office.staffs.first
         expect(office.staffs.count).to eq(1)
         expect(staff.image_blob.blank?).to be(false)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'スタッフを編集できる' do
@@ -48,19 +49,14 @@ RSpec.describe 'Api::Specialists::Staffs', type: :request do
         office = @specialist.office
         staff = office.staffs.first
         expect(staff.introduction).to eq('スタッフの紹介文を更新します')
+        expect(response).to have_http_status(:ok)
       end
 
-      it 'スタッフを編集できる' do
+      it 'スタッフを削除できる' do
         staff
-        put api_specialists_offices_staff_path(staff.id),
-            params: {
-              introduction: update_introduction
-            },
-            headers: auth_params
-
-        office = @specialist.office
-        staff = office.staffs.first
-        expect(staff.introduction).to eq('スタッフの紹介文を更新します')
+        delete api_specialists_offices_staff_path(staff.id),
+               headers: auth_params
+        expect(response).to have_http_status(:ok)
       end
     end
 
@@ -78,6 +74,7 @@ RSpec.describe 'Api::Specialists::Staffs', type: :request do
 
         office = @specialist.office
         expect(office.staffs.count).to eq(0)
+        expect(response).to have_http_status(:unauthorized)
       end
     end
   end
