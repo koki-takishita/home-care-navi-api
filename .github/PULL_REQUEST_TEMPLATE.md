@@ -4,7 +4,7 @@
 
 ## やらないこと
 
-- このプルリクでやらないことは何か？（あれば。**やらない場合は、いつやるのかを明記する**）
+- このプルリクでやらないことは何か？（**やらない場合は、いつやるのかを明記する**）
 
 ### API 側
 
@@ -31,13 +31,9 @@ git fetch && git checkout origin/<ここを変える>/<ここを変える>
 
 ```
 
-- XX をする  
-  [手順動画](urlが入る)
-
 ### 確認書類
 
 **URL は該当のものに変えること**  
-[画面図](https://xd.adobe.com/view/fbf6c289-81b2-4a4c-80fe-12a68930cc3b-aea5/grid/)  
 [API 一覧](https://docs.google.com/spreadsheets/d/1sJ_ZjXjCdBJkpl0gbS_HX3wDeZhihUoqddtIrHCPFnY/edit#gid=0)  
 [ユーザーストーリー](https://docs.google.com/spreadsheets/d/1lORIuXfr7PV5dslAHE4NnRGgNqk0hJ5krfN-tV2YKq8/edit#gid=0)  
 [テスト仕様書](https://docs.google.com/spreadsheets/d/12xMuHo1K8Fd7FIB7rqeioxdWmrWw7aYK4QZ_Clsfk5Q/edit#gid=1789577746)  
@@ -45,30 +41,29 @@ git fetch && git checkout origin/<ここを変える>/<ここを変える>
 
 ## 参考になったサイト
 
-[サイトのタイトル](https://qiita.com/)
+- [サイトのタイトル（必須） なければ「なし」と記入](url)
 
-## コマンド一覧
+## 確認項目
 
-- build
+- [ ] ここまでで各項目に漏れなく記入しているか・不要な箇所はないか
 
-```ruby
-docker-compose build
+```javascript
+NG
+API・Front両方ブランチを指定していない（developの場合は省略可）
+Frontのプルリクとセットで確認する場合は、FrontのプルリクのURLを添付する
 ```
 
-- コンテナリスタート
+- [ ] プルリクのタイトルがコミット名そのままになっていないか
+- [ ] レビュワーを正しく設定しているか
+- [ ] 変数名・メソッド名は適切か　[Ruby の命名規約](https://qiita.com/takahashim/items/ccfd489c9b26f15b7193)
+- [ ] インデントが揃えてあるか 余分なスペースはないか
+- Rubocop 自動修正コマンド
 
 ```ruby
-docker-compose restart
+docker-compose exec web bundle exec rubocop --auto-correct 作成・変更したファイルの相対パス
 ```
 
-- コンテナ入る
-
+- [ ] 新規で作成したファイルに対して Rubocop のチェックがすべてパスしているか
 ```ruby
-docker-compose exec web bash
-```
-
-- コンソール入る
-
-```ruby
-rails c
+docker-compose exec web bundle exec rubocop 作成・変更したファイルの相対パス
 ```
