@@ -40,7 +40,6 @@ module Api
           end
         end
 
-
         protected
         
         def update_params
