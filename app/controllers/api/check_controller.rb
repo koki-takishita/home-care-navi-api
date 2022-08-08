@@ -2,16 +2,12 @@ module Api
   class CheckController < ApplicationController
 
     def check_phone_number
-      phone_number = check_params[:phone_number]
+      phone_number = params[:phone_number]
       res = !phone_number_exist?(phone_number)
       res ? render_create_success : render_error
     end
 
     private
-
-    def check_params
-      params.require(:check).permit(:phone_number)
-    end
 
     # User or Officeにphone_numerが存在するならtrue
     def phone_number_exist?(phone_number)
