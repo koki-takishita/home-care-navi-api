@@ -49,7 +49,7 @@ git fetch && git checkout origin/<ここを変える>/<ここを変える>
 ```javascript
 NG
 API・Front両方ブランチを指定していない（developの場合は省略可）
-フロントのプルリクとセットで確認する場合は、フロントのプルリクのURLを添付する
+Frontのプルリクとセットで確認する場合は、FrontのプルリクのURLを添付する
 ```
 
 - [ ] プルリクのタイトルがコミット名そのままになっていないか
@@ -63,3 +63,6 @@ docker-compose exec web bundle exec rubocop --auto-correct 作成・変更した
 ```
 
 - [ ] 作成・変更したファイルに対して Rubocop のチェックがすべてパスしているか
+```ruby
+docker-compose exec web bundle exec rubocop 作成・変更したファイルの相対パス
+```
