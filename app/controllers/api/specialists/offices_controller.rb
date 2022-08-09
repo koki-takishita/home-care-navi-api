@@ -7,50 +7,61 @@ class Api::Specialists::OfficesController < ApplicationController
   end
 
   def create
-      string_to_actionController_parameters
-      office = current_specialist.build_office(office_params)
-      if office.valid?
-        office.save!
-        if !detail_params.empty?
-          detail = office.build_office_detail(detail_params)
-          if detail.valid?
-            detail.save!
-            render status: 200, json: "オフィス詳細作成成功"
-          else
-            render status: 401, json: { errors: detail.errors.full_messages, message: "オフィスのみ作成できました" }
-          end
-        else
-          render status: 200, json: "オフィス作成成功"
-        end
-      else
-        render status: 401, json: { errors: office.errors.full_messages }
-      end
-    end
+    not_have_office = office_blank?
+    not_have_office ? create_office : render_error
   end
 
   private
 
-  def office_params
-    @params.require(:office)
-    .permit(:name, :title, :flags, :business_day_detail, :address, :post_code, :phone_number, :fax_number, images: [])
-  end
+    def office_params
+      @params.require(:office)
+             .permit(:name, :title, :flags, :business_day_detail, :address, :post_code, :phone_number, :fax_number, images: [])
+    end
 
-  def detail_params
-    @params.require(:detail)
-    .permit(:detail, :service_type, :open_date, :rooms, :requirement, :facility, :management, :link, :comment_1, :comment_2, images: [])
-  end
+    def detail_params
+      @params.require(:detail)
+             .permit(:detail, :service_type, :open_date, :rooms, :requirement, :facility, :management, :link, :comment_1, :comment_2, images: [])
+    end
 
-  def string_to_actionController_parameters
-    officeHash = json_parse(params[:office])
-    officeHash.store("images", params[:officeImages])
-    detailHash = json_parse(params[:detail])
-    detailHash.store("images", params[:detailImages])
-    @params = ActionController::Parameters.new({
-      office: officeHash,
-      detail: detailHash,
-    })
-  end
+    def office_blank?
+      Office.where(user_id: current_specialist.id).blank?
+    end
 
-  def json_parse(json)
-    JSON.parse(json)
-  end
+    def create_office
+      params_json_parse
+      office = current_specialist.build_office(office_params)
+      if office.valid?
+        office.save!
+        render status: :ok, json: { message: 'オフィス作成成功' }
+        if detail_params.present?
+          create_office_detail(office)
+        end
+      else
+        render status: :unauthorized, json: { errors: office.errors.full_messages }
+      end
+    end
+
+    def create_office_detail(office)
+      detail = office.build_office_detail(detail_params)
+      if detail.valid?
+        detail.save!
+      else
+        render status: :unauthorized, json: { errors: detail.errors.full_messages, message: 'オフィスのみ作成できました' }
+      end
+    end
+
+    def render_error
+      render status: :unauthorized, json: { errors: ['事業所はすでに存在します'] }
+    end
+
+    def params_json_parse
+      office_hash = JSON.parse(params[:office])
+      office_hash.store('images', params[:officeImages])
+      detail_hash = JSON.parse(params[:detail])
+      detail_hash.store('images', params[:detailImages])
+      @params = ActionController::Parameters.new({
+                                                   office: office_hash,
+                                                   detail: detail_hash
+                                                 })
+    end
+end

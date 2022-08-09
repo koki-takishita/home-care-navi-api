@@ -48,7 +48,6 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
           officeImages: [@sampleImage]
         },
         headers: auth_params
-
         expect(Office.count).to eq(1)
         expect(@specialist.office.images.attached?).to eq(true)
         expect(response).to have_http_status(200)
@@ -60,13 +59,13 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
         params: {
           office:{
             name: @specialist.name,
-            titie: @office.title,
-            flags: @office.flags,
-            business_day_detail: @office.business_day_detail,
+            titie: office.title,
+            flags: office.flags,
+            business_day_detail: office.business_day_detail,
             officeImages: @sampleImage,
-            address: @office.address,
-            post_code: @office.post_code,
-            fax_number: @office.fax_number,
+            address: office.address,
+            post_code: office.post_code,
+            fax_number: office.fax_number,
             user_id: @specialist.id
           }.to_json,
           detail: {
@@ -83,9 +82,8 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
           }.to_json
         },
         headers: auth_params
-
         expect(Office.count).to eq(1)
-        # expect(response).to have_http_status(401)
+        expect(response).to have_http_status(401)
       end
     end
 
