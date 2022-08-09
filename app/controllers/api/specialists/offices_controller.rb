@@ -7,7 +7,7 @@ class Api::Specialists::OfficesController < ApplicationController
   end
 
   def create
-    not_have_office = office_blank?
+    not_have_office = current_specialist_office_blank?
     not_have_office ? create_office : render_error
   end
 
@@ -23,7 +23,7 @@ class Api::Specialists::OfficesController < ApplicationController
              .permit(:detail, :service_type, :open_date, :rooms, :requirement, :facility, :management, :link, :comment_1, :comment_2, images: [])
     end
 
-    def office_blank?
+    def current_specialist_office_blank?
       Office.where(user_id: current_specialist.id).blank?
     end
 
