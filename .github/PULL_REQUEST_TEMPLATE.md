@@ -62,3 +62,9 @@ Frontのプルリクとセットで確認する場合は、Frontのプルリク�
 ```ruby
 docker-compose exec web bundle exec rubocop --auto-correct 作成したファイルの相対パス
 ```
+
+- [ ] 新規で作成したファイルに対して Rubocop のチェックがすべてパスしているか
+```ruby
+docker-compose exec web bundle exec rubocop 作成・変更したファイルの相対パス
+```
+
