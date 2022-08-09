@@ -16,7 +16,7 @@ module Api
 
     def render_create_success
       render json: {
-        message: 'officeとusersテーブルに電話番号の重複していません。'
+        message: 'officeとusersテーブルに電話番号の重複はしていません。'
       }, status: :ok
     end
 
