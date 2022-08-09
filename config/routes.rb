@@ -21,8 +21,8 @@ Rails.application.routes.draw do
   namespace :api do
     resources :contacts, only: [:create]
     get '/appointments', to: 'customer/appointments#index'
-		get '/bookmarks', to: 'customer/bookmarks#index'
-    get '/histories', to: 'customer/histories#index'
+    get '/bookmarks',    to: 'customer/bookmarks#index'
+    get '/histories',    to: 'customer/histories#index'
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'
