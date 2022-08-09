@@ -12,6 +12,8 @@ class Office < ApplicationRecord
   has_many_attached :images
   validates :user_id, :phone_number, uniqueness: true, allow_nil: true
 
+  scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
+
   before_create do
     self.post_code = post_code.delete('-')
   end
