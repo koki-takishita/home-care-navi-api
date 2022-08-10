@@ -15,6 +15,7 @@ class User < ApplicationRecord
   validates :name, :phone_number, :post_code, :address, :email, presence: true
   validates :phone_number, :email, uniqueness: true
 
+  scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
   # override devise method to include additional info as opts hash
   def send_confirmation_instructions(opts = {})
     generate_confirmation_token! unless @raw_confirmation_token
