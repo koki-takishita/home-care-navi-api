@@ -5,7 +5,7 @@ module Api
 
       if @contacts.valid?
         @contacts.save!
-        render json: @contacts, status: 200
+        render json: @contacts, status: :ok
         ContactMailer.send_message(@contacts).deliver_now
       else
         render json: { status: @contacts.errors.full_messages }
@@ -13,8 +13,9 @@ module Api
     end
 
     private
+
       def contacts_params
-       params.permit(:name, :email, :types, :content)
+        params.permit(:name, :email, :types, :content)
       end
-    end
+  end
 end
