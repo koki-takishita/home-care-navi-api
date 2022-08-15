@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for "User", at: 'api/users',  skip: [:registrations, :omniauth_callbacks, :sessions, :token_validations, :password, :confirmations]
 
   devise_for :users, controllers: { confirmations: 'confirmations' }
-  
+
   devise_scope :user do
     post    'api/login',  to: 'api/overrides/customer/sessions#create'
     delete  'api/logout', to: 'devise_token_auth/sessions#destroy'
@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     get '/bookmarks',          to: 'customer/bookmarks#index'
     get '/histories',          to: 'customer/histories#index'
     get '/check-phone-number', to: 'check#check_phone_number'
+    get '/check-fax-number',   to: 'check#check_fax_number'
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'

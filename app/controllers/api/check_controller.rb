@@ -7,9 +7,15 @@ module Api
       res ? render_create_success : render_error
     end
 
+    def check_fax_number
+      fax_number = params[:fax_number]
+      res = !fax_number_exist?(fax_number)
+      res ? render_fax_create_success : render_fax_error
+    end
+
     private
 
-    # User or Officeにphone_numerが存在するならtrue
+    # User or Officeにphone_numberが存在するならtrue
     def phone_number_exist?(phone_number)
       Office.phone_number_exist?(phone_number).exists? || User.phone_number_exist?(phone_number).exists?
     end
@@ -23,6 +29,23 @@ module Api
     def render_error
       render json: {
         message: '登録済みの電話番号です。',
+      }, status: 403
+    end
+
+    # fax_numberが 他のOfficeのfax_numberと重複するならtrue
+    def fax_number_exist?(fax_number)
+      Office.fax_number_exist?(fax_number).exists?
+    end
+
+    def render_fax_create_success
+      render json: {
+        message: 'このFAX番号は他のofficeのFAX番号と重複はしていません。'
+      }, status: :ok
+    end
+
+    def render_fax_error
+      render json: {
+        message: '他のofficeで登録済みのFAX番号です。',
       }, status: 403
     end
 
