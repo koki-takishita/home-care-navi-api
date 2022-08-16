@@ -5,6 +5,7 @@ ja:
       user: ユーザ
       office: 事業所
       thank: お礼
+      staff: スタッフ
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
@@ -68,6 +69,11 @@ ja:
         selected_flags: 休日の組み合わせ
         created_at: 作成日
         updated_at: 更新日
+      staff:
+        name: 名前
+        kana: ふりがな
+        introduction: 紹介文
+        office: オフィス
   devise:
     confirmations:
       confirmed: メールアドレスが確認できました。
