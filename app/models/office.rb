@@ -14,6 +14,7 @@ class Office < ApplicationRecord
 
   scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
   scope :fax_number_exist?, ->(fax_number) { where(fax_number: fax_number) }
+  scope :fax_and_phone_number_exist?, ->(fax_number)  { where(fax_number: fax_number) }
 
   before_create do
     self.post_code = post_code.delete('-')
