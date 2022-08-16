@@ -28,8 +28,7 @@ class Api::Specialists::StaffsController < ApplicationController
   end
 
   def update
-    if @staff.valid?
-      @staff.update(staff_params)
+    if @staff.update(staff_params)
       render status: :ok, json: { message: 'スタッフを更新しました' }
     else
       render status: :unauthorized, json: { errors: @staff.errors.full_messages }
@@ -37,11 +36,11 @@ class Api::Specialists::StaffsController < ApplicationController
   end
 
   def destroy
-    if @staff.valid?
-      @staff.destroy
+    @staff.destroy
+    if @staff.destroyed?
       render status: :ok, json: { message: 'スタッフを削除しました' }
     else
-      render status: :unauthorized, json: { errors: @staff.errors.full_messages }
+      render status: :unauthorized, json: { errors: ['スタッフの削除に失敗しました'] }
     end
   end
 
