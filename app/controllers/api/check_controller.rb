@@ -38,7 +38,7 @@ module Api
       }, status: 403
     end
 
-    # fax_numberが 他のOfficeのfax_numberと重複するならtrue
+    # 他のOfficeのfax_numberと重複するならtrue
     def fax_number_exist?(fax_number)
       Office.fax_number_exist?(fax_number).exists?
     end
@@ -55,20 +55,20 @@ module Api
       }, status: 403
     end
 
-    # User or Officeにphone_numberが存在するならtrue
+    # 他のOfficeのphone_numberがfax_numberと重複するならtrue
     def fax_and_phone_number_exist?(fax_number)
       Office.fax_number_exist?(fax_number).exists?
     end
 
     def render_fax_only_create_success
       render json: {
-        message: 'このFAX番号は他のofficeの電話番号と重複はしていません。'
+        message: '承認されました。このFAX番号は他のofficeの電話番号と重複はしていません。'
       }, status: :ok
     end
 
     def render_fax_only_error
       render json: {
-        message: 'FAX番号は無効となりました。他のofficeが電話番号として既に登録しています。',
+        message: '無効となりました。このFAX番号は他のofficeが電話番号として既に登録しています。',
       }, status: 403
     end
   end

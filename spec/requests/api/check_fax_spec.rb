@@ -20,7 +20,9 @@ RSpec.describe "Checks", type: :request do
       end
     end
   end
-=begin
+
+=begin　　　　FAXと電話番号での重複NGテスト用コード
+
   describe "GET /check-fax-and-phone-number" do
     before do
       create(:customer,     phone_number: '080-0000-0002')
@@ -55,4 +57,5 @@ RSpec.describe "Checks", type: :request do
     end
   end
 =end
+
 end
