@@ -73,6 +73,12 @@ RSpec.describe 'Staffモデルのテスト', type: :model do
       expect(staff.errors[:kana]).to include('は30文字以内で入力してください')
     end
 
+    it '紹介文がない場合、無効である' do
+      staff = build(:staff, introduction: nil)
+      staff.valid?
+      expect(staff.errors[:introduction]).to include('を入力してください')
+    end
+
     it '紹介文が121文字以上の場合、無効である' do
       invalid_introduction = 'a' * 121
       staff = build(:staff, introduction: invalid_introduction)

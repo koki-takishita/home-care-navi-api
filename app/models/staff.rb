@@ -4,12 +4,14 @@ class Staff < ApplicationRecord
   has_one_attached :image
   has_many :thanks, dependent: :destroy
 
-  validates :name,  presence: true, length: { maximum: 30 }
+  validates :name,  presence: true,
+                    length: { maximum: 30 }
   VALID_KANA_REGEX = /\A[ぁ-んー－　 ]+\z/.freeze
   validates :kana,  presence: true,
                     format: { with: VALID_KANA_REGEX },
                     length: { maximum: 30 }
-  validates :introduction,  presence: true, length: { maximum: 120 }
+  validates :introduction,  presence: true,
+                            length: { maximum: 120 }
 
   def image_url
     helpers = Rails.application.routes.url_helpers
