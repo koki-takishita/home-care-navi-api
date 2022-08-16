@@ -1,7 +1,7 @@
 class Office < ApplicationRecord
   include FlagShihTzu
-  # TODO 存在しないuser_idが入力されたらバリテーションで引っかかるようにしたい
-  belongs_to :user, foreign_key: 'user_id', class_name: 'Specialist', optional: true
+  # TODO: 存在しないuser_idが入力されたらバリテーションで引っかかるようにしたい
+  belongs_to :user, class_name: 'Specialist', optional: true
   has_many :appointments, dependent: :destroy
   has_many :staffs, dependent: :destroy
   has_many :care_recipients, dependent: :destroy
@@ -27,11 +27,20 @@ class Office < ApplicationRecord
 
   def image_url
     helpers = Rails.application.routes.url_helpers
-    if images.blank?
-      return
-    else
-      images.map{|image| helpers.url_for(image) }
-    end
+    # 画像がなければreturn
+    return unless images.attached?
+
+    images.map { |image| helpers.url_for(image) }
+  end
+
+  def first_image_url
+    return unless images.attached?
+
+    image_url.first
+  end
+
+  def staff_count
+    staffs.count
   end
 
   has_flags(
@@ -43,5 +52,4 @@ class Office < ApplicationRecord
     6 => :friday,
     7 => :saturday
   )
-
 end
