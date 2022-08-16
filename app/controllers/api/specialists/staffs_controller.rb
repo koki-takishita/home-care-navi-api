@@ -21,7 +21,7 @@ class Api::Specialists::StaffsController < ApplicationController
     @staff = current_specialist.office.staffs.build(staff_params)
     if @staff.valid?
       @staff.save!
-      render status: :ok, { message: 'スタッフを登録しました' }
+      render status: :ok, json: { message: 'スタッフを登録しました' }
     else
       render status: :unauthorized, json: { errors: @staff.errors.full_messages }
     end
@@ -30,7 +30,7 @@ class Api::Specialists::StaffsController < ApplicationController
   def update
     if @staff.valid?
       @staff.update(staff_params)
-      render status: :ok, { message: 'スタッフを更新しました' }
+      render status: :ok, json: { message: 'スタッフを更新しました' }
     else
       render status: :unauthorized, json: { errors: @staff.errors.full_messages }
     end
@@ -39,7 +39,7 @@ class Api::Specialists::StaffsController < ApplicationController
   def destroy
     if @staff.valid?
       @staff.destroy
-      render status: :ok, { message: 'スタッフを削除しました' }
+      render status: :ok, json: { message: 'スタッフを削除しました' }
     else
       render status: :unauthorized, json: { errors: @staff.errors.full_messages }
     end
