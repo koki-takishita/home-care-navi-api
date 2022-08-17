@@ -46,7 +46,7 @@ gem 'rack-cors'
 
 gem 'flag_shih_tzu'
 
-gem 'aws-sdk-s3', require: false
+gem "aws-sdk-s3", require: false
 
 # seedを使いやすくする https://rubygems.org/gems/seedbank
 gem 'seedbank', '~> 0.5.0'

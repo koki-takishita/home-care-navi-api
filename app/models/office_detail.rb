@@ -6,9 +6,9 @@ class OfficeDetail < ApplicationRecord
   def image_url
     helpers = Rails.application.routes.url_helpers
     if images.blank?
-      nil
+      return
     else
-      images.map { |image| helpers.url_for(image) }
+      images.map{|image| helpers.url_for(image) }
     end
   end
 end
