@@ -59,7 +59,7 @@ class Api::Specialists::OfficesController < ApplicationController
     end
 
     def render_error
-      render status: :unauthorized, json: { errors: ['事業所はすでに存在しますので、二度目の登録はできません'] }
+      render status: :unauthorized, json: { errors: ['事業所はすでに存在します'] }
     end
 
     def params_json_parse
