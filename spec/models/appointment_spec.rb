@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe 'Appointmentモデルのテスト', type: :model do
-  before do
-    stub_const('VALID_PHONE_NUMBER_REGEX', /\A\d{2,4}-\d{2,4}-\d{4}\z/)
-  end
-
   describe 'アソシエーションのテスト' do
     context 'Officeモデルとの関係' do
       it 'N:1となっている' do
@@ -68,7 +64,7 @@ RSpec.describe 'Appointmentモデルのテスト', type: :model do
       invalid_phone_numbers.each do |invalid_phone_number|
         appointment = build(:appointment, phone_number: invalid_phone_number)
         appointment.valid?
-        expect(appointment.phone_number).not_to match(VALID_PHONE_NUMBER_REGEX)
+        expect(appointment.errors[:phone_number]).to include('は不正な値です')
       end
     end
 
