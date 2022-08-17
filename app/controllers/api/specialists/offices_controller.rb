@@ -22,7 +22,7 @@ class Api::Specialists::OfficesController < ApplicationController
       @params.require(:detail)
              .permit(:detail, :service_type, :open_date, :rooms, :requirement, :facility, :management, :link, :comment_1, :comment_2, images: [])
     end
-    
+
     def create_office
       params_json_parse
       office = current_specialist.build_office(office_params)
