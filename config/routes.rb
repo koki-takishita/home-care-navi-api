@@ -24,7 +24,6 @@ Rails.application.routes.draw do
     get '/bookmarks',          to: 'customer/bookmarks#index'
     get '/histories',          to: 'customer/histories#index'
     get '/check-phone-number', to: 'check#check_phone_number'
-    get '/check-fax-number',   to: 'check#check_fax_number'
     scope module: :customer do
       resources :offices, only: [:index, :show] do
         resources :thanks, only: [:create], controller: 'thanks'

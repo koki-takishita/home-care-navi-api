@@ -31,22 +31,5 @@ module Api
         message: '登録済みの電話番号です。',
       }, status: 403
     end
-
-    # 他のOfficeのfax_numberと重複するならtrue
-    def fax_number_exist?(fax_number)
-      Office.fax_number_exist?(fax_number).exists?
-    end
-
-    def render_fax_create_success
-      render json: {
-        message: 'このFAX番号は他のofficeのFAX番号と重複はしていません。'
-      }, status: :ok
-    end
-
-    def render_fax_error
-      render json: {
-        message: '他のofficeで登録済みのFAX番号です。',
-      }, status: 403
-    end
   end
 end
