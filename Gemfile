@@ -37,16 +37,16 @@ gem 'bootsnap', require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+gem 'activerecord-like', git: 'https://github.com/ReneB/activerecord-like'
 gem 'devise', '~> 4.8', '>= 4.8.1'
-gem 'devise_token_auth', '>= 1.2.0', git: "https://github.com/lynndylanhurley/devise_token_auth"
-gem 'activerecord-like', git: "https://github.com/ReneB/activerecord-like"
+gem 'devise_token_auth', '>= 1.2.0', git: 'https://github.com/lynndylanhurley/devise_token_auth'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 gem 'rack-cors'
 
 gem 'flag_shih_tzu'
 
-gem "aws-sdk-s3", require: false
+gem 'aws-sdk-s3', require: false
 
 # seedを使いやすくする https://rubygems.org/gems/seedbank
 gem 'seedbank', '~> 0.5.0'
