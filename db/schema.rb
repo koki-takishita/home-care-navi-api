@@ -10,8 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_08_01_023101) do
-
+ActiveRecord::Schema[7.0].define(version: 2022_08_16_070850) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,16 +44,17 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_023101) do
 
   create_table "appointments", force: :cascade do |t|
     t.bigint "office_id"
-    t.date "meet_date"
-    t.string "meet_time"
-    t.string "name"
-    t.string "age"
-    t.string "phone_number"
-    t.string "comment"
+    t.date "meet_date", null: false
+    t.string "meet_time", null: false
+    t.string "name", null: false
+    t.string "age", null: false
+    t.string "phone_number", null: false
+    t.string "comment", null: false
     t.bigint "user_id"
-    t.integer "called_status", default: 0
+    t.integer "called_status", default: 0, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["office_id", "user_id"], name: "ci_appointments_01"
     t.index ["office_id"], name: "index_appointments_on_office_id"
     t.index ["user_id"], name: "index_appointments_on_user_id"
   end
@@ -162,9 +162,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_01_023101) do
   end
 
   create_table "staffs", force: :cascade do |t|
-    t.string "name"
-    t.string "kana"
-    t.string "introduction"
+    t.string "name", null: false
+    t.string "kana", null: false
+    t.string "introduction", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "office_id"
