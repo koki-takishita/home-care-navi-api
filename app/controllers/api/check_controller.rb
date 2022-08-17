@@ -9,7 +9,7 @@ module Api
 
     private
 
-    # User or Officeにphone_numerが存在するならtrue
+    # User or Officeにphone_numberが存在するならtrue
     def phone_number_exist?(phone_number)
       Office.phone_number_exist?(phone_number).exists? || User.phone_number_exist?(phone_number).exists?
     end
@@ -25,6 +25,5 @@ module Api
         message: '登録済みの電話番号です。',
       }, status: 403
     end
-
   end
 end
