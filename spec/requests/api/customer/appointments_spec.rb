@@ -27,6 +27,7 @@ RSpec.describe "Api::Customer::Appointments", type: :request do
         post api_office_appointments_path(@appointment.office_id),
         params: {
           meet_date: @appointment.meet_date,
+          meet_time: @appointment.meet_time,
           name: @appointment.name,
           age: @appointment.name,
           phone_number: @appointment.phone_number,
@@ -50,6 +51,7 @@ RSpec.describe "Api::Customer::Appointments", type: :request do
         post api_office_appointments_path(@appointment.office_id),
         params: {
           meet_date: @appointment.meet_date,
+          meet_time: @appointment.meet_time,
           name: @appointment.name,
           age: @appointment.name,
           phone_number: @appointment.phone_number,
@@ -71,6 +73,7 @@ RSpec.describe "Api::Customer::Appointments", type: :request do
       post api_office_appointments_path(@appointment.office_id),
       params: {
         meet_date: @appointment.meet_date,
+        meet_time: @appointment.meet_time,
         name: @appointment.name,
         age: @appointment.name,
         phone_number: @appointment.phone_number,
