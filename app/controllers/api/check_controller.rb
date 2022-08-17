@@ -7,12 +7,6 @@ module Api
       res ? render_create_success : render_error
     end
 
-    def check_fax_number
-      fax_number = params[:fax_number]
-      res = !fax_number_exist?(fax_number)
-      res ? render_fax_create_success : render_fax_error
-    end
-
     private
 
     # User or Officeにphone_numberが存在するならtrue
