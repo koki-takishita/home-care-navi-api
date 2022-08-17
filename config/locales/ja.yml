@@ -8,11 +8,6 @@ ja:
       staff: スタッフ
       appointment: 予約
     errors:
-      models:
-        appointment:
-          attributes:
-            age:
-              in: "は数値で入力してください"
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
         restrict_dependent_destroy:
