@@ -1,10 +1,10 @@
 class Api::Customer::BookmarksController < ApplicationController
   before_action :authenticate_customer!, only: %i[create destroy]
-  before_action :set_bookmark, only: [:destroy]
+  before_action :bookmark, only: [:destroy]
 
   def index
     bookmarks = current_customer.bookmarks.order(created_at: :desc).limit(10).offset(params[:page].to_i * 10)
-    offices = get_office_from_bookmarks(bookmarks)
+    offices = office_from_bookmarks(bookmarks)
     result = if offices.count <= 0
                []
              else
@@ -39,11 +39,11 @@ class Api::Customer::BookmarksController < ApplicationController
       params.permit(:office_id)
     end
 
-    def set_bookmark
+    def bookmark
       @bookmark = current_customer.bookmarks.find(params[:id])
     end
 
-    def get_office_from_bookmarks(bookmarks)
+    def office_from_bookmarks(bookmarks)
       offices_id = []
       bookmarks.each_with_index.map do |bookmark, _index|
         offices_id.push(bookmark.office_id)
