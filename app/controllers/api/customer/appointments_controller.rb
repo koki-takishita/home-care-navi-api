@@ -16,7 +16,7 @@ class Api::Customer::AppointmentsController < ApplicationController
       appointment.save!
       render status: :ok, json: { message: '予約作成に成功しました' }
     else
-      render status: :forbidden, json: { errors: appointment.errors.full_messages }
+      render status: :unprocessable_entity, json: { errors: appointment.errors.full_messages }
     end
   end
 
