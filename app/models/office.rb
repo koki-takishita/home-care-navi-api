@@ -33,13 +33,31 @@ class Office < ApplicationRecord
   end
 
   def first_image_url
-    return unless images.attached?
-
-    image_url.first
+    if images.attached?
+      image_url.first
+    else
+      []
+    end
   end
 
   def staff_count
     staffs.count
+  end
+
+  def latest_thank_comment
+    if thanks.exists?
+      thanks.last.comments
+    else
+      'お礼の投稿はまだありません'
+    end
+  end
+
+  def detail
+    if office_detail.present?
+      office_detail.detail.presence || '詳細情報は登録されていません'
+    else
+      '詳細情報は登録されていません'
+    end
   end
 
   has_flags(
