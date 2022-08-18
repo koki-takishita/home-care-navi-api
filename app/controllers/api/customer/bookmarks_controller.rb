@@ -20,7 +20,7 @@ class Api::Customer::BookmarksController < ApplicationController
       bookmark.save!
       render status: :ok, json: { message: 'ブックマーク登録に成功しました' }
     else
-      render status: :forbidden, json: { errors: bookmark.errors.full_messages }
+      render status: :unprocessable_entity, json: { errors: bookmark.errors.full_messages }
     end
   end
 
@@ -29,7 +29,7 @@ class Api::Customer::BookmarksController < ApplicationController
       @bookmark.destroy
       render status: :ok, json: { message: 'ブックマーク解除に成功しました' }
     else
-      render status: :forbidden, json: { errors: @bookmark.errors.full_messages }
+      render status: :unprocessable_entity, json: { errors: @bookmark.errors.full_messages }
     end
   end
 
