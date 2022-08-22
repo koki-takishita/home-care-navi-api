@@ -22,7 +22,7 @@ module Api
       def render_error
         render json: {
           message: '登録済みの電話番号です。'
-        }, status: :403
+        }, status: 403
       end
   end
 end
