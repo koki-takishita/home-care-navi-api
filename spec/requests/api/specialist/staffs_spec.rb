@@ -17,7 +17,7 @@ RSpec.describe 'Api::Specialists::Staffs', type: :request do
     let(:update_introduction) { 'スタッフの紹介文を更新します' }
 
     context 'スペシャリスト' do
-      let(:auth_params) { login(@specialist) }
+      let(:auth_params) { login(@specialist, @specialist.user_type) }
 
       it 'スタッフを登録できる' do
         post api_specialists_offices_staffs_path(@staff.office_id),

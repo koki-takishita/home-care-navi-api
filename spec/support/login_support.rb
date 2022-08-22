@@ -2,9 +2,9 @@ include ActionController::RespondWith
 
 module LoginSupport
 
-	def login(user)
+	def login(user, user_type)
     post api_login_path,
-    params: { email: user.email, password: 'password' }
+    params: { email: user.email, password: 'password', user_type: user_type}
     .to_json,
     headers: { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
   	return get_auth_params_from_login_response_headers(response)
