@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :office do
-    name  { Faker::Company.name }    
+    name  { Faker::Company.name }
     title { Faker::Game.title }
     flags { rand(1..127) }
     business_day_detail { '休日の説明です.' }

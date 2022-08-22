@@ -18,7 +18,7 @@ RSpec.describe 'Api::Customer::Histories', type: :request do
 
   context 'ログイン済み' do
     context 'カスタマー' do
-      let(:auth_params) { login(@customer) }
+      let(:auth_params) { login(@customer, @customer.user_type) }
       let(:history) { create(:history, user: @customer) }
 
       it '閲覧データを登録できる' do
@@ -48,7 +48,7 @@ RSpec.describe 'Api::Customer::Histories', type: :request do
 
     context 'ケアマネ' do
       it '閲覧データを登録できない' do
-        auth_params = login(@specialist)
+        auth_params = login(@specialist, @specialist.user_type)
         post api_office_histories_path(@history2.office_id),
              params: {
                user_id: @specialist.id,
