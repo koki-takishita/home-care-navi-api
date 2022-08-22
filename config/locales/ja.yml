@@ -85,6 +85,11 @@ ja:
         comment: お困りごと
         user: カスタマー
         called_status: 連絡済みかどうかのステータス
+      contact:
+        name: 名前
+        email: メールアドレス
+        types: 利用者区分
+        content: お問い合わせ内容
   devise:
     confirmations:
       confirmed: メールアドレスが確認できました。
