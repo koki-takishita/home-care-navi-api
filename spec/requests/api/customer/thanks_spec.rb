@@ -25,7 +25,7 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
       let(:update_comment) { "#{thank.staff.name}さん、ありがとうございました!!" }
 
       context 'カスタマー' do
-        let(:auth_params) { login(@customer) }
+        let(:auth_params) { login(@customer, @customer.user_type) }
 
         context "お礼作成" do
           it "お礼を作成できる" do
@@ -94,7 +94,7 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
 
       context 'ケアマネ' do
         it "お礼を作成できない" do
-          auth_params = login(@specialist)
+          auth_params = login(@specialist, @specialist.user_type)
           expect {
             post api_office_thanks_path(@thank.office_id),
             params: {
@@ -111,7 +111,7 @@ RSpec.describe "Api::Customer::Thanks", type: :request do
         end
 
         it "お礼を編集できない" do
-          auth_params = login(@specialist)
+          auth_params = login(@specialist, @specialist.user_type)
           put api_thank_path(thank.id),
           params: {
             thank: {

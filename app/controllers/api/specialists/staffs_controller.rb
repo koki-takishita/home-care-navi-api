@@ -5,12 +5,14 @@ class Api::Specialists::StaffsController < ApplicationController
   def index
     @order_staffs = current_specialist.office.staffs.order(updated_at: :desc)
     @data_length = @order_staffs.count
-    @staffs = if params[:page].blank?
-                @order_staffs
-              else
-                @staffs = @order_staffs.limit(10).offset(params[:page].to_i * 10)
-                render json: { staffs: @staffs, data_length: @data_length }, methods: [:image_url]
-              end
+    # 利用者登録・編集画面ではparamsにpageがない
+    if params[:page].blank?
+      @staffs = @order_staffs
+      render json: { staffs: @staffs }
+    else
+      @staffs = @order_staffs.limit(10).offset(params[:page].to_i * 10)
+      render json: { staffs: @staffs, data_length: @data_length }, methods: [:image_url]
+    end
   end
 
   def show

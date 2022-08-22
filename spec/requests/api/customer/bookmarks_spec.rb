@@ -19,7 +19,7 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
 
   context 'ログイン済み' do
     context 'カスタマー' do
-      let(:auth_params) { login(@customer) }
+      let(:auth_params) { login(@customer, @customer.user_type) }
       let(:bookmark) { create(:bookmark, user: @customer) }
       it "ブックマークを登録できる" do
           post api_office_bookmarks_path(@bookmark.office_id),
@@ -48,7 +48,7 @@ RSpec.describe "Api::Customer::Bookmarks", type: :request do
     end
 
     context 'ケアマネ' do
-      let(:auth_params) { login(@specialist) }
+      let(:auth_params) { login(@specialist, @specialist.user_type) }
       it "ブックマークを登録できない" do
         post api_office_bookmarks_path(@bookmark.office_id),
           params: {

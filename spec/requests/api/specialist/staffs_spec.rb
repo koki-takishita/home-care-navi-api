@@ -17,7 +17,7 @@ RSpec.describe 'Api::Specialists::Staffs', type: :request do
     let(:update_introduction) { 'スタッフの紹介文を更新します' }
 
     context 'スペシャリスト' do
-      let(:auth_params) { login(@specialist) }
+      let(:auth_params) { login(@specialist, @specialist.user_type) }
 
       it 'スタッフを登録できる' do
         post api_specialists_offices_staffs_path(@staff.office_id),
@@ -35,6 +35,28 @@ RSpec.describe 'Api::Specialists::Staffs', type: :request do
         staff = office.staffs.first
         expect(office.staffs.count).to eq(1)
         expect(staff.image_blob.blank?).to be(false)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'スタッフを一覧を取得できる' do
+        staff
+        get api_specialists_offices_staffs_path,
+            headers: auth_params
+        # response.bodyの中身
+        # {"staffs":[{"id":119,"name":"sample staff","kana":"さんぷる すたっふ" ...],"data_length":1}
+        # staffsの数を知りたいので、response.bodyの中のstaffsキーを取得する
+        expect(JSON.parse(response.body)['staffs'].count).to eq(1)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'スタッフの詳細データを取得できる' do
+        staff
+        get api_specialists_offices_staff_path(staff.id),
+            headers: auth_params
+        # response.bodyの中身
+        # {"id":90,"name":"sample staff","kana":"さんぷる すたっふ" ...}
+        # sizeメソッドを使いたいので、配列形式にする
+        expect([JSON.parse(response.body)].size).to eq(1)
         expect(response).to have_http_status(:ok)
       end
 
