@@ -1,0 +1,30 @@
+name: Ruby
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  Rspec_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up docker
+        shell: bash
+        env:
+          RAILS_ENV: test
+        run: |
+          docker-compose up --build -d
+          docker-compose -f docker-compose.yml run wait db:3000 -- echo "Database is up"
+          docker-compose exec -T web rails db:create
+          docker-compose exec -T web rails db:migrate
+
+      - name: RUN Rspec
+        shell: bash
+        env:
+          RAILS_ENV: test
+        run: |
+          docker-compose exec -T web bundle exec rspec
