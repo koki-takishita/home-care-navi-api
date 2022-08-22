@@ -8,7 +8,7 @@ module Api
         render json: @contacts, status: :ok
         ContactMailer.send_message(@contacts).deliver_now
       else
-        render json: { status: @contacts.errors.full_messages }
+        render status: :unauthorized, json: { errors: @contacts.errors.full_messages }
       end
     end
 
