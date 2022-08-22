@@ -19,7 +19,7 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
   context 'ログイン済み' do
     let(:office) { create(:office, user: @specialist) }
     context 'スペシャリスト' do
-      let(:auth_params) { login(@specialist) }
+      let(:auth_params) { login(@specialist, @specialist.user_type) }
       it '事業所を登録できる' do
         post api_specialists_offices_path,
         params: {
@@ -88,7 +88,7 @@ RSpec.describe "Api::Specialists::Offices", type: :request do
     end
 
     context 'カスタマー' do
-      let(:auth_params) { login(@customer) }
+      let(:auth_params) { login(@customer, @customer.user_type) }
       it '事業所を登録できない' do
         post api_specialists_offices_path,
         params: {
