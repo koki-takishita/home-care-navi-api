@@ -26,5 +26,6 @@ module Api
     config.active_record.default_timezone = :local
     config.api_only = true
     config.middleware.use ActionDispatch::Session::CookieStore
+    config.active_model.i18n_customize_full_message = true
   end
 end
