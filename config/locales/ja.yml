@@ -25,6 +25,7 @@ ja:
         thank:
           format: "%{message}"
           taken: "同じ%{attribute}にお礼を作成できるのは1回までです"
+          blank: "%{attribute}を入力してください"
     attributes:
       user:
         phone_number: 電話番号
