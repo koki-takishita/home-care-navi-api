@@ -7,6 +7,7 @@ ja:
       thank: お礼
       staff: スタッフ
       appointment: 予約
+      care_recipient: 利用者
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
@@ -21,6 +22,11 @@ ja:
         not_saved:
           one: "エラーが発生したため %{resource} は保存されませんでした。"
           other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした。"
+      models:
+        thank:
+          format: "%{message}"
+          taken: "同じ%{attribute}にお礼を作成できるのは1回までです"
+          blank: "%{attribute}を入力してください"
     attributes:
       user:
         phone_number: 電話番号
@@ -51,9 +57,9 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
       thank:
-        user: カスタマー
-        office: オフィス
-        staff: スタッフ
+        user_id: カスタマー
+        office_id: オフィス
+        staff_id: スタッフ
         comments: お礼コメント
         age: 年齢
         name: 利用者名
@@ -75,6 +81,12 @@ ja:
         kana: ふりがな
         introduction: 紹介文
         office: オフィス
+      care_recipient:
+        name: 名前
+        kana: ふりがな
+        address: 住所
+        family: 家族情報
+        age: 年齢
       appointment:
         office: オフィス
         meet_date: 面談日
