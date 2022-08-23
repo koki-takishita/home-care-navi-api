@@ -91,6 +91,36 @@ RSpec.describe 'Userモデルのテスト', type: :model do
       expect(@user.errors[:email]).to include('はすでに存在します')
     end
 
+    it 'パスワードがない場合、無効である' do
+      @user.password = nil
+      @user.valid?
+      expect(@user.errors[:password]).to include('を入力してください')
+    end
+
+    it 'パスワードが8文字未満である場合、無効である' do
+      invalid_password = 'a' * 7
+      @user.password = invalid_password
+      @user.valid?
+      expect(@user.errors[:password]).to include('は8文字以上で入力してください')
+    end
+
+    it 'パスワードが33文字以上である場合、無効である' do
+      invalid_password = 'a' * 33
+      @user.password = invalid_password
+      @user.valid?
+      expect(@user.errors[:password]).to include('は32文字以内で入力してください')
+    end
+
+    it 'パスワードのフォーマットが適切でない場合、無効である' do
+      # 半角英数字以外
+      invalid_passwords = %w[passwordあああ password++]
+      invalid_passwords.each do |invalid_password|
+        @user.password = invalid_password
+        @user.valid?
+        expect(@user.errors[:password]).to include('は不正な値です')
+      end
+    end
+
     it '電話番号がない場合、無効である' do
       @user = build(:user, phone_number: nil)
       @user.valid?
