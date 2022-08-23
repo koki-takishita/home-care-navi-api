@@ -16,6 +16,7 @@ class Office < ApplicationRecord
 
   before_create do
     self.post_code = post_code.delete('-')
+    self.fax_number = nil if fax_number.blank?
   end
 
   after_find do |office|
