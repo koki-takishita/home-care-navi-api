@@ -21,6 +21,9 @@ ja:
         not_saved:
           one: "エラーが発生したため %{resource} は保存されませんでした。"
           other: "%{count} 件のエラーが発生したため %{resource} は保存されませんでした。"
+      models:
+        thank:
+          format: "%{message}"
     attributes:
       user:
         phone_number: 電話番号
@@ -51,9 +54,9 @@ ja:
         unlock_token: ロック解除用トークン
         updated_at: 更新日
       thank:
-        user: カスタマー
-        office: オフィス
-        staff: スタッフ
+        user_id: カスタマー
+        office_id: オフィス
+        staff_id: スタッフ
         comments: お礼コメント
         age: 年齢
         name: 利用者名
