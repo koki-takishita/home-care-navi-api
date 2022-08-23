@@ -10,7 +10,7 @@ class Office < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :histories, dependent: :destroy
   has_many_attached :images
-  validates :user_id, :phone_number, :fax_number, uniqueness: true, allow_nil: true
+  validates :user_id, :phone_number, :fax_number, uniqueness: true, allow_blank: true
 
   scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
 
