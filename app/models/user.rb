@@ -1,6 +1,6 @@
 class User < ApplicationRecord
   devise :database_authenticatable, :validatable, :registerable,
-          :recoverable, :rememberable, :confirmable
+         :recoverable, :rememberable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
   attribute :redirect_url
@@ -19,8 +19,16 @@ class User < ApplicationRecord
                              format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
     validates :phone_number, uniqueness: true,
                              format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }
-    validates :post_code,    format: { with: /\A\d{3}[-]\d{4}\z/ }
+    validates :post_code,    format: { with: /\A\d{3}-\d{4}\z/ }
     validates :address
+  end
+
+  validate :password_regex
+
+  def password_regex
+    if password.present? && !/\A[a-zA-Z0-9]+\z/.match?(password)
+      errors.add(:password, 'は不正な値です')
+    end
   end
 
   scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
@@ -35,5 +43,4 @@ class User < ApplicationRecord
 
     send_devise_notification(:confirmation_instructions, @raw_confirmation_token, opts)
   end
-
 end
