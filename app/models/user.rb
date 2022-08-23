@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  devise :database_authenticatable, :registerable,
+  devise :database_authenticatable, :validatable, :registerable,
           :recoverable, :rememberable, :confirmable
   include DeviseTokenAuth::Concerns::User
 
@@ -17,8 +17,6 @@ class User < ApplicationRecord
     validates :email,        uniqueness: true,
                              length: { maximum: 255 },
                              format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
-    validates :password,     length: { minimum: 8, maximum: 32 },
-                             format: { with: /\A[a-zA-Z0-9]+\z/ }
     validates :phone_number, uniqueness: true,
                              format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }
     validates :post_code,    format: { with: /\A\d{3}[-]\d{4}\z/ }
