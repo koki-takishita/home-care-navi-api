@@ -7,6 +7,7 @@ ja:
       thank: お礼
       staff: スタッフ
       appointment: 予約
+      care_recipient: 利用者
     errors:
       messages:
         record_invalid: "バリデーションに失敗しました: %{errors}"
@@ -75,6 +76,12 @@ ja:
         kana: ふりがな
         introduction: 紹介文
         office: オフィス
+      care_recipient:
+        name: 名前
+        kana: ふりがな
+        address: 住所
+        family: 家族情報
+        age: 年齢
       appointment:
         office: オフィス
         meet_date: 面談日
