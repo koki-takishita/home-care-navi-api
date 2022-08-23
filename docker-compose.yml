@@ -20,6 +20,8 @@ services:
       - db
     environment:
       - EDITOR=vim
+  wait:
+    image: willwill/wait-for-it:latest
   smtp:
     image: schickling/mailcatcher
     ports:

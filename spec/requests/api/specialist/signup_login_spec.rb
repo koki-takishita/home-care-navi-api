@@ -5,7 +5,7 @@ RSpec.describe 'Api::Specialists', type: :request do
     let(:specialist) { build(:specialist) }
 
     it '新規登録できる' do
-      post 'api/specialists/users',
+      post '/api/specialists/users',
            params: {
              name: specialist.name,
              email: specialist.email,
