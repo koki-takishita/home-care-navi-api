@@ -17,7 +17,7 @@ class User < ApplicationRecord
     validates :email,        uniqueness: true,
                              length: { maximum: 255 },
                              format: { with: /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i }
-    validates :password,     length: { maximum: 32, minimum: 8 },
+    validates :password,     length: { minimum: 8, maximum: 32 },
                              format: { with: /\A[a-zA-Z0-9]+\z/ }
     validates :phone_number, uniqueness: true,
                              format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }
