@@ -42,6 +42,24 @@ RSpec.describe 'Api::Specialists::CareRecipients', type: :request do
         expect(response).to have_http_status(:ok)
       end
 
+      it '利用者の一覧を取得できる' do
+        care_recipient
+        get api_specialists_offices_care_recipients_path,
+            headers: auth_params
+
+        expect(JSON.parse(response.body)['care_recipients'].count).to eq(1)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it '利用者の詳細データを取得できる' do
+        care_recipient
+        get api_specialists_offices_care_recipient_path(care_recipient.id),
+            headers: auth_params
+
+        expect([JSON.parse(response.body)].size).to eq(1)
+        expect(response).to have_http_status(:ok)
+      end
+
       it '利用者を編集できる' do
         care_recipient
         put api_specialists_offices_care_recipient_path(care_recipient.id),
