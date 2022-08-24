@@ -11,6 +11,13 @@ class Office < ApplicationRecord
   has_many :histories, dependent: :destroy
   has_many_attached :images
 
+  scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
+
+  before_create do
+    self.post_code = post_code.delete('-')
+    self.fax_number = nil if fax_number.blank?
+  end
+
   with_options presence: true do
     validates :name,         length: { maximum: 30 }
     validates :title,        length: { maximum: 50 }
@@ -21,8 +28,10 @@ class Office < ApplicationRecord
   end
 
   with_options uniqueness: true do
-    validates :user_id, allow_blank: true
-    validates :fax_number, format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }
+    with_options allow_blank: true do
+      validates :user_id
+      validates :fax_number, format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }
+    end
   end
 
   validate :attached_file_number, :attached_file_size
@@ -42,12 +51,6 @@ class Office < ApplicationRecord
         errors.add(:images, 'サイズは10MB以下でアップロードしてください')
       end
     end
-  end
-
-  scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
-
-  before_create do
-    self.post_code = post_code.delete('-')
   end
 
   after_find do |office|

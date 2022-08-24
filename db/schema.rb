@@ -133,7 +133,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_08_24_020058) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "selected_flags"
-    t.index ["user_id"], name: "index_offices_on_user_id"
+    t.index ["fax_number"], name: "index_offices_on_fax_number", unique: true
+    t.index ["phone_number"], name: "index_offices_on_phone_number", unique: true
+    t.index ["user_id"], name: "index_offices_on_user_id", unique: true
   end
 
   create_table "staffs", force: :cascade do |t|
