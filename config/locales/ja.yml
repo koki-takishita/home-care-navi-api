@@ -72,7 +72,7 @@ ja:
         address: 住所
         post_code: 郵便番号
         phone_number: 電話番号
-        fax_number: ファックス
+        fax_number: FAX番号
         selected_flags: 休日の組み合わせ
         created_at: 作成日
         updated_at: 更新日
