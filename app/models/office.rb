@@ -10,7 +10,39 @@ class Office < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :histories, dependent: :destroy
   has_many_attached :images
-  validates :user_id, :phone_number, :fax_number, uniqueness: true, allow_nil: true
+
+  with_options presence: true do
+    validates :name,         length: { maximum: 30 }
+    validates :title,        length: { maximum: 50 }
+    validates :selected_flags
+    validates :business_day_detail, length: { maximum: 120 }
+    validates :phone_number, format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }, uniqueness: true
+    validates :address
+  end
+
+  with_options uniqueness: true do
+    validates :user_id, allow_blank: true
+    validates :fax_number, format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }
+  end
+
+  validate :attached_file_number, :attached_file_size
+
+  def attached_file_number
+    return unless images.attached? && images.count >= 6
+
+    errors.add(:images, 'は5枚以下でアップロードしてください')
+  end
+
+  def attached_file_size
+    maximum_size = 11.megabytes # => 11534336
+    return unless images.attached?
+
+    images.each do |image|
+      if image.byte_size >= maximum_size
+        errors.add(:images, 'サイズは10MB以下でアップロードしてください')
+      end
+    end
+  end
 
   scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
 

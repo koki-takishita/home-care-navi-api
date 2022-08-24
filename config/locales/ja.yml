@@ -65,15 +65,15 @@ ja:
         name: 利用者名
       office:
         user: スペシャリスト
-        name: オフィス名
-        title: タイトル名
-        flags: 休日の2進数
-        business_day_detail: 休日の説明
+        name: 事業所名
+        title: 特徴タイトル
+        business_day_detail: 営業日の説明
         address: 住所
         post_code: 郵便番号
         phone_number: 電話番号
         fax_number: ファックス
-        selected_flags: 休日の組み合わせ
+        selected_flags: 休日
+        images: 画像
         created_at: 作成日
         updated_at: 更新日
       staff:
