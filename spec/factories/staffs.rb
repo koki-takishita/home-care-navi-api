@@ -2,7 +2,7 @@ FactoryBot.define do
   factory :staff do
     name { 'sample staff' }
     kana { 'さんぷる すたっふ' }
-    introduction { "さんぷる すたふは素晴らしいスタッフです。" }
+    introduction { 'さんぷる すたふは素晴らしいスタッフです。' }
     image { nil }
     association :office
   end
