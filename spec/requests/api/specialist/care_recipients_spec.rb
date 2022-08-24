@@ -7,7 +7,7 @@ RSpec.describe 'Api::Specialists::CareRecipients', type: :request do
     specialist.save
     @specialist = Specialist.find_by(id: specialist.id)
     @office = create(:office, user: @specialist)
-    @staff = FactoryBot.create(:staff, office: @office)
+    @staff = create(:staff, office: @office)
     @sample_image = Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/youngman.png'), 'image/png')
     @care_recipient = build(:care_recipient, office: @office, staff: @staff)
   end
@@ -34,7 +34,6 @@ RSpec.describe 'Api::Specialists::CareRecipients', type: :request do
                office_id: @care_recipient.office_id
              },
              headers: auth_params
-    
 
         office = @specialist.office
         care_recipient = office.care_recipients.first
@@ -61,28 +60,29 @@ RSpec.describe 'Api::Specialists::CareRecipients', type: :request do
         care_recipient
         delete api_specialists_offices_care_recipient_path(care_recipient.id),
                headers: auth_params
-        
+
         office = @specialist.office
         expect(response).to have_http_status(:ok)
         expect(office.care_recipients.count).to eq(0)
       end
-     end
+    end
   end
+
   context 'ログインしていない' do
     it '利用者を登録できない' do
       post api_specialists_offices_care_recipients_path(@care_recipient.office_id),
-      params: {
-        name: @care_recipient.name,
-        kana: @care_recipient.kana,
-        post_code: @care_recipient.post_code,
-        age: @care_recipient.age,
-        address: @care_recipient.address,
-        family: @care_recipient.family,
-        image: @sample_image,
-        staff_id: @care_recipient.staff_id,
-        office_id: @care_recipient.office_id
-      }
-      
+           params: {
+             name: @care_recipient.name,
+             kana: @care_recipient.kana,
+             post_code: @care_recipient.post_code,
+             age: @care_recipient.age,
+             address: @care_recipient.address,
+             family: @care_recipient.family,
+             image: @sample_image,
+             staff_id: @care_recipient.staff_id,
+             office_id: @care_recipient.office_id
+           }
+
       office = @specialist.office
       expect(office.care_recipients.count).to eq(0)
       expect(response).to have_http_status(:unauthorized)
