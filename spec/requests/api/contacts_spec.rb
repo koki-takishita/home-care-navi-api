@@ -12,7 +12,6 @@ RSpec.describe 'Api::Contacts', type: :request do
            }
       expect(Contact.count).to eq(1)
       expect(response).to have_http_status(:ok)
-      expect { create :contact }.to change { Contact.count }.by(1)
     end
   end
 
