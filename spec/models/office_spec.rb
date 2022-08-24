@@ -1,5 +1,4 @@
 require 'rails_helper'
-include ActionDispatch::TestProcess
 
 RSpec.describe 'Officeモデルのテスト', type: :model do
   describe 'アソシエーションのテスト' do
@@ -148,14 +147,14 @@ RSpec.describe 'Officeモデルのテスト', type: :model do
     end
 
     it '画像が6枚以上ある場合、無効である' do
-      invalid_images = [fixture_file_upload('spec/fixtures/island.png', 'image/png')] * 6
+      invalid_images = [Rack::Test::UploadedFile.new('spec/fixtures/island.png', 'image/jpeg')] * 6
       @office = build(:office, images: invalid_images)
       @office.valid?
       expect(@office.errors[:images]).to include('は5枚以下でアップロードしてください')
     end
 
     it '画像のファイルサイズが11MB以上ある場合、無効である' do
-      invalid_image = [fixture_file_upload('spec/fixtures/sample_png_image_20mb.png', 'image/png')]
+      invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/sample_png_Image_20mb.png', 'image/png')]
       @office = build(:office, images: invalid_image)
       @office.valid?
       expect(@office.errors[:images]).to include('サイズは10MB以下でアップロードしてください')
