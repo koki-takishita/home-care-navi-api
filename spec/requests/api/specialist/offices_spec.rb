@@ -23,33 +23,33 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
 
       it '事業所を登録できる' do
         post api_specialists_offices_path,
-        params: {
-          office:{
-            name: @specialist.name,
-            title: @office.title,
-            flags: @office.flags,
-            business_day_detail: @office.business_day_detail,
-            address: @office.address,
-            post_code: @office.post_code,
-            phone_number: @office.phone_number,
-            fax_number: @office.fax_number,
-            user_id: @specialist.id
-          }.to_json,
-          detail: {
-            detail: "特徴詳細",
-            service_type: "介護付きホーム",
-            open_date: "",
-            rooms: "",
-            requirement: "",
-            facility: "",
-            management: "",
-            link: "",
-            comment_1: "",
-            comment_2: ""
-          }.to_json,
-          officeImages: [@sampleImage]
-        },
-        headers: auth_params
+             params: {
+               office: {
+                 name: @specialist.name,
+                 title: @office.title,
+                 flags: @office.flags,
+                 business_day_detail: @office.business_day_detail,
+                 address: @office.address,
+                 post_code: @office.post_code,
+                 phone_number: @office.phone_number,
+                 fax_number: @office.fax_number,
+                 user_id: @specialist.id
+               }.to_json,
+               detail: {
+                 detail: '特徴詳細',
+                 service_type: '介護付きホーム',
+                 open_date: '',
+                 rooms: '',
+                 requirement: '',
+                 facility: '',
+                 management: '',
+                 link: '',
+                 comment_1: '',
+                 comment_2: ''
+               }.to_json,
+               officeImages: [@sampleImage]
+             },
+             headers: auth_params
         expect(Office.count).to eq(1)
         expect(@specialist.office.images.attached?).to be(true)
         expect(response).to have_http_status(:ok)
