@@ -156,6 +156,7 @@ RSpec.describe 'Officeモデルのテスト', type: :model do
     it '画像のファイルサイズが10MBを超える場合、無効である' do
       invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/island.png', 'image/png')]
       @office = build(:office, images: invalid_image)
+      # 元のbyte_sizeは337842(340KB)
       @office.images.first.byte_size = 10485761 # 10MB => 10485760
       @office.valid?
       expect(@office.errors[:images]).to include('サイズは10MB以下でアップロードしてください')
