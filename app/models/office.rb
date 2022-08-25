@@ -10,13 +10,58 @@ class Office < ApplicationRecord
   has_many :bookmarks, dependent: :destroy
   has_many :histories, dependent: :destroy
   has_many_attached :images
-  validates :user_id, :phone_number, :fax_number, uniqueness: true, allow_blank: true
 
   scope :phone_number_exist?, ->(phone_number) { where(phone_number: phone_number) }
 
   before_create do
     self.post_code = post_code.delete('-')
     self.fax_number = nil if fax_number.blank?
+  end
+
+  with_options presence: true do
+    validates :name,         length: { maximum: 30 }
+    validates :title,        length: { maximum: 50 }
+    validates :selected_flags
+    validates :business_day_detail, length: { maximum: 120 }
+    validates :phone_number, format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }, uniqueness: true
+    validates :address
+  end
+
+  with_options uniqueness: true do
+    with_options allow_blank: true do
+      validates :user_id
+      validates :fax_number, format: { with: /\A\d{2,4}-\d{2,4}-\d{4}\z/ }
+    end
+  end
+
+  validate :attached_file_number, :attached_file_size, :attached_file_content_type
+
+  def attached_file_number
+    return unless images.attached? && images.count >= 6
+
+    errors.add(:images, 'は5枚以下でアップロードしてください')
+  end
+
+  def attached_file_size
+    maximum_size = 10.megabytes # => 10485760
+    return unless images.attached?
+
+    images.each do |image|
+      if image.byte_size > maximum_size
+        errors.add(:images, 'サイズは10MB以下でアップロードしてください')
+      end
+    end
+  end
+
+  def attached_file_content_type
+    extensions = ['image/png', 'image/jpeg', 'image/gif']
+    return unless images.attached?
+
+    images.each do |image|
+      unless image.content_type.in?(extensions)
+        errors.add(:images, 'は「.gif」または「.png」「.jpeg」「.jpg」の画像を指定してください')
+      end
+    end
   end
 
   after_find do |office|

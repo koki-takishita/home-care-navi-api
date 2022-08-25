@@ -26,11 +26,12 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
              params: {
                office: {
                  name: @specialist.name,
-                 titie: @office.title,
+                 title: @office.title,
                  flags: @office.flags,
                  business_day_detail: @office.business_day_detail,
                  address: @office.address,
                  post_code: @office.post_code,
+                 phone_number: @office.phone_number,
                  fax_number: @office.fax_number,
                  user_id: @specialist.id
                }.to_json,
@@ -60,12 +61,13 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
              params: {
                office: {
                  name: @specialist.name,
-                 titie: office.title,
+                 title: office.title,
                  flags: office.flags,
                  business_day_detail: office.business_day_detail,
                  officeImages: @sampleImage,
                  address: office.address,
                  post_code: office.post_code,
+                 phone_number: @office.phone_number,
                  fax_number: office.fax_number,
                  user_id: @specialist.id
                }.to_json,
@@ -94,12 +96,13 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
                  params: {
                    office: {
                      name: @specialist.name,
-                     titie: @office.title,
+                     title: @office.title,
                      flags: @office.flags,
                      business_day_detail: @office.business_day_detail,
                      officeImages: @sampleImage,
                      address: @office.address,
                      post_code: @office.post_code,
+                     phone_number: @office.phone_number,
                      fax_number: '',
                      user_id: @specialist.id
                    }.to_json,
@@ -129,12 +132,13 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
                  params: {
                    office: {
                      name: @specialist.name,
-                     titie: @office.title,
+                     title: @office.title,
                      flags: @office.flags,
                      business_day_detail: @office.business_day_detail,
                      officeImages: @sampleImage,
                      address: @office.address,
                      post_code: @office.post_code,
+                     phone_number: @office.phone_number,
                      fax_number: '080-0707-0606',
                      user_id: @specialist.id
                    }.to_json,
@@ -162,12 +166,13 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
                  params: {
                    office: {
                      name: @specialist.name,
-                     titie: @office.title,
+                     title: @office.title,
                      flags: @office.flags,
                      business_day_detail: @office.business_day_detail,
                      officeImages: @sampleImage,
                      address: @office.address,
                      post_code: @office.post_code,
+                     phone_number: @office.phone_number,
                      fax_number: '',
                      user_id: @specialist.id
                    }.to_json,
@@ -200,12 +205,13 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
              params: {
                office: {
                  name: @specialist.name,
-                 titie: @office.title,
+                 title: @office.title,
                  flags: @office.flags,
                  business_day_detail: @office.business_day_detail,
                  officeImages: @sampleImage,
                  address: @office.address,
                  post_code: @office.post_code,
+                 phone_number: @office.phone_number,
                  fax_number: @office.fax_number,
                  user_id: @specialist.id
                }.to_json,
@@ -234,12 +240,13 @@ RSpec.describe 'Api::Specialists::Offices', type: :request do
              params: {
                office: {
                  name: @specialist.name,
-                 titie: @office.title,
+                 title: @office.title,
                  flags: @office.flags,
                  business_day_detail: @office.business_day_detail,
                  officeImages: @sampleImage,
                  address: @office.address,
                  post_code: @office.post_code,
+                 phone_number: @office.phone_number,
                  fax_number: @office.fax_number,
                  user_id: @specialist.id
                }.to_json,
