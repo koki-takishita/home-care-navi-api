@@ -1,9 +1,13 @@
 class CareRecipient < ApplicationRecord
   with_options presence: true do
-    validates :kana
+    validates :kana,  presence: true,
+                      format: { with: /\A[ぁ-んー－　 ]+\z/.freeze },
+                      length: { maximum: 30 }
     validates :name, length: { maximum: 30 }
     validates :family, length: { maximum: 30 }
     validates :address
+    validates :age
+    validates :post_code, format: { with: /\A\d{3}-\d{4}\z/ }
   end
 
   belongs_to :office
