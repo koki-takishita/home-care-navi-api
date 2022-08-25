@@ -26,8 +26,8 @@ puts !flag ? "テーブル全削除完了" : "Destroy Error 削除できてな�
     password:              'password',
     password_confirmation: 'password',
     name:                  "customer#{n}",
-    phone_number:          "000-0000-000#{n}",
-    post_code:             '0000000',
+    phone_number:          "000-00#{n}-0000",
+    post_code:             '123-4567',
     address:               '東京都千代田区丸の内1-1-1',)}
 if(Customer.count == 2)
   puts ""
@@ -51,8 +51,8 @@ end
     password:              'password',
     password_confirmation: 'password',
     name:                  "specialist#{n}",
-    phone_number:          "100-0000-000#{n + 3}",
-    post_code:             '0000000',
+    phone_number:          "100-00#{n + 3}-0000",
+    post_code:             '123-4567',
     address:               '東京都千代田区丸の内1-1-1',)}
 if(Specialist.count == 30)
   puts ""
@@ -117,9 +117,9 @@ Specialist.all.each_with_index {|s, i|
     title:               "サンプルタイトル-#{i}",
     flags:               "#{i}",
     address:             address[i],
-    post_code:           "111111#{rand(1..9)}",
-    phone_number:        "111-1111-112#{i}",
-    fax_number:          '111-1111-1111',
+    post_code:           "111-111#{rand(1..9)}",
+    phone_number:        "111-11#{i}-1121",
+    fax_number:          "111-11#{i}-1111",
     business_day_detail: '営業日の説明が入ります')
 }
 office = Office.first
@@ -225,6 +225,8 @@ customer  = User.first
   staff     = office.staffs.offset(n).sample
   staff_id  = staff.id
   customer.thanks.create!(
+    name: "利用者#{n}",
+    age: rand(60..120),
     staff_id:  staff_id,
     office_id: office_id,
     comments:  "#{n}ありがとう。ありがとう。ありがとう。"
