@@ -161,7 +161,7 @@ RSpec.describe 'Officeモデルのテスト', type: :model do
     end
 
     it '画像の拡張子が適切でない場合、無効である' do
-      invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/sample-svg_image.svg', 'image/svg+xml')]
+      invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/sample_svg_image.svg', 'image/svg+xml')]
       @office = build(:office, images: invalid_image)
       @office.valid?
       expect(@office.errors[:images]).to include('は「.gif」または「.png」「.jpeg」「.jpg」の画像を指定してください')
