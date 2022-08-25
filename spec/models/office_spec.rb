@@ -160,11 +160,23 @@ RSpec.describe 'Officeモデルのテスト', type: :model do
       expect(@office.errors[:images]).to include('サイズは10MB以下でアップロードしてください')
     end
 
-    it '画像の拡張子が適切でない場合、無効である' do
+    it '画像の拡張子が「.gif」または「.png」「.jpeg」「.jpg」でない場合、無効である' do
       invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/sample_svg_image.svg', 'image/svg+xml')]
       @office = build(:office, images: invalid_image)
       @office.valid?
       expect(@office.errors[:images]).to include('は「.gif」または「.png」「.jpeg」「.jpg」の画像を指定してください')
+    end
+
+    it '画像の拡張子が「.gif」または「.png」「.jpeg」「.jpg」である場合、有効である' do
+      valid_images = [
+        Rack::Test::UploadedFile.new('spec/fixtures/sample_gif_image.gif', 'image/gif'),
+        Rack::Test::UploadedFile.new('spec/fixtures/island.png', 'image/png'),
+        Rack::Test::UploadedFile.new('spec/fixtures/sample_jpeg_image.jpeg', 'image/jpeg'),
+        # jpgファイルでもcontent_typeは image/jpegとなる
+        Rack::Test::UploadedFile.new('spec/fixtures/sample_jpg_image.jpg', 'image/jpeg')
+      ]
+      @office = build(:office, images: valid_images)
+      expect(@office).to be_valid
     end
   end
 end
