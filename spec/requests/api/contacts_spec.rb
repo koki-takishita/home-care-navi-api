@@ -12,8 +12,7 @@ RSpec.describe 'Api::Contacts', type: :request do
            }
       expect(Contact.count).to eq(1)
       expect(response).to have_http_status(:ok)
-
-      end
+    end
 
     it 'お問い合わせのメールが届いている' do
       expect(ActionMailer::Base.deliveries.size).to eq(0)
@@ -31,7 +30,7 @@ RSpec.describe 'Api::Contacts', type: :request do
       expect(ActionMailer::Base.deliveries.first.body.parts[1].body.raw_source).to match(/ユーザー/)
       expect(ActionMailer::Base.deliveries.first.body.parts[1].body.raw_source).to match(/サイト利用者よりお問い合わせをします。/)
     end
-   end
+  end
 
   context '空の情報' do
     it 'お問い合わせを登録できない' do
