@@ -15,8 +15,6 @@ RSpec.describe 'Api::Contacts', type: :request do
     end
 
     it 'お問い合わせのメールが届いている' do
-      expect(ActionMailer::Base.deliveries.size).to eq(0)
-
       post '/api/contacts',
            params: {
              name: 'サイト利用者',
@@ -24,7 +22,7 @@ RSpec.describe 'Api::Contacts', type: :request do
              types: 'ユーザー',
              content: 'サイト利用者よりお問い合わせをします。'
            }
-      expect(ActionMailer::Base.deliveries.size).to eq(+1)
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
       expect(ActionMailer::Base.deliveries.first.body.parts[1].body.raw_source).to match(/サイト利用者 様 から問い合わせがありました。/)
       expect(ActionMailer::Base.deliveries.first.body.parts[1].body.raw_source).to match(/contact@example.com/)
       expect(ActionMailer::Base.deliveries.first.body.parts[1].body.raw_source).to match(/ユーザー/)
