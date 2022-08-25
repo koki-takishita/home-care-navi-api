@@ -43,11 +43,11 @@ class Office < ApplicationRecord
   end
 
   def attached_file_size
-    maximum_size = 11.megabytes # => 11534336
+    maximum_size = 10.megabytes # => 10485760
     return unless images.attached?
 
     images.each do |image|
-      if image.byte_size >= maximum_size
+      if image.byte_size > maximum_size
         errors.add(:images, 'サイズは10MB以下でアップロードしてください')
       end
     end
