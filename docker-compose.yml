@@ -20,6 +20,8 @@ services:
       - db
     environment:
       - EDITOR=vim
+    env_file:
+      - .env
   wait:
     image: willwill/wait-for-it:latest
   smtp:
