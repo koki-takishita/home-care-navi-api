@@ -34,34 +34,15 @@ class Office < ApplicationRecord
     end
   end
 
-  validate :attached_file_number, :attached_file_size, :attached_file_content_type
+  validates :images, image_size: true,
+                     image_content_type: true
+
+  validate :attached_file_number
 
   def attached_file_number
     return unless images.attached? && images.count >= 6
 
     errors.add(:images, 'は5枚以下でアップロードしてください')
-  end
-
-  def attached_file_size
-    maximum_size = 10.megabytes # => 10485760
-    return unless images.attached?
-
-    images.each do |image|
-      if image.byte_size > maximum_size
-        errors.add(:images, 'サイズは10MB以下でアップロードしてください')
-      end
-    end
-  end
-
-  def attached_file_content_type
-    extensions = ['image/png', 'image/jpeg', 'image/gif']
-    return unless images.attached?
-
-    images.each do |image|
-      unless image.content_type.in?(extensions)
-        errors.add(:images, 'は「.gif」または「.png」「.jpeg」「.jpg」の画像を指定してください')
-      end
-    end
   end
 
   after_find do |office|
