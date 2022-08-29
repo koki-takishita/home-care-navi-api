@@ -20,8 +20,7 @@ services:
       - db
     environment:
       - EDITOR=vim
-    env_file:
-      - .env
+      - MY_APP_FRONT_DOMAIN=home-care-navi-v2.herokuapp.com
   wait:
     image: willwill/wait-for-it:latest
   smtp:
