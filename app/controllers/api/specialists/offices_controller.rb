@@ -8,7 +8,7 @@ class Api::Specialists::OfficesController < ApplicationController
 
   def create
     not_have_office = current_specialist.office.blank?
-    not_have_office ? create_office : render_error
+    not_have_office ? create_office : render_duplicate_error
   end
 
   private
@@ -32,15 +32,15 @@ class Api::Specialists::OfficesController < ApplicationController
         detail.save!
         render status: :ok, json: { message: 'オフィス作成成功' }
       else
-        render status: :unauthorized, json: { errors: output_errors(office, detail) }
+        render status: :unauthorized, json: { errors: render_validation_error(office, detail) }
       end
     end
 
-    def render_error
+    def render_duplicate_error
       render status: :unauthorized, json: { errors: ['事業所はすでに存在します'] }
     end
 
-    def output_errors(office, detail)
+    def render_validation_error(office, detail)
       errors = []
       office_erros = office.errors.full_messages
       office_detail_erros = detail.errors.full_messages
