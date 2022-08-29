@@ -26,28 +26,34 @@ class Api::Specialists::OfficesController < ApplicationController
     def create_office
       params_json_parse
       office = current_specialist.build_office(office_params)
-      if office.valid?
-        office.save!
-        render status: :ok, json: { message: 'オフィス作成成功' }
-        if detail_params.present?
-          create_office_detail(office)
-        end
-      else
-        render status: :unauthorized, json: { errors: office.errors.full_messages }
-      end
-    end
-
-    def create_office_detail(office)
       detail = office.build_office_detail(detail_params)
-      if detail.valid?
+      if office.valid? && detail.valid?
+        office.save!
         detail.save!
+        render status: :ok, json: { message: 'オフィス作成成功' }
       else
-        render status: :unauthorized, json: { errors: detail.errors.full_messages, message: 'オフィスのみ作成できました' }
+        render status: :unauthorized, json: { errors: output_errors(office, detail) }
       end
     end
 
     def render_error
       render status: :unauthorized, json: { errors: ['事業所はすでに存在します'] }
+    end
+
+    def output_errors(office, detail)
+      errors = []
+      office_erros = office.errors.full_messages
+      office_detail_erros = detail.errors.full_messages
+
+      office_erros.each do |office_error|
+        errors.push(office_error)
+      end
+
+      office_detail_erros.each do |office_detail_error|
+        errors.push(office_detail_error)
+      end
+
+      errors
     end
 
     def params_json_parse
