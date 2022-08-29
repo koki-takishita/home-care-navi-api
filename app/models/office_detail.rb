@@ -13,7 +13,7 @@ class OfficeDetail < ApplicationRecord
     validates :management
   end
 
-  with_options image_and_comment_interlock: true do
+  with_options length: { maximum: 30 } do
     validates :comment_1
     validates :comment_2
   end

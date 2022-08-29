@@ -79,39 +79,18 @@ RSpec.describe 'OfficeDetailモデルのテスト', type: :model do
       expect(@office_detail.errors[:link]).to include('は不正な値です')
     end
 
-    it '特徴画像1の説明があるときに、特徴画像1がない場合、無効である' do
-      @office_detail = build(:office_detail,
-                             comment_2: nil,
-                             images: nil)
+    it '特徴画像1の説明が31文字以上場合、無効である' do
+      invalid_comment = 'a' * 31
+      @office_detail = build(:office_detail, comment_1: invalid_comment)
       @office_detail.valid?
-      expect(@office_detail.errors[:comment_1]).to include('を登録する場合は、特徴画像1をアップロードしてください')
+      expect(@office_detail.errors[:comment_1]).to include('は30文字以内で入力してください')
     end
 
-    it '特徴画像1があるときに、特徴画像1の説明がない場合、無効である' do
-      image = [Rack::Test::UploadedFile.new('spec/fixtures/island.png')]
-      @office_detail = build(:office_detail,
-                             comment_1: nil,
-                             comment_2: nil,
-                             images: image)
+    it '特徴画像2の説明が31文字以上場合、無効である' do
+      invalid_comment = 'a' * 31
+      @office_detail = build(:office_detail, comment_2: invalid_comment)
       @office_detail.valid?
-      expect(@office_detail.errors[:images]).to include('1を登録する場合は、特徴画像1の説明を入力してください')
-    end
-
-    it '特徴画像2の説明があるときに、特徴画像2がない場合、無効である' do
-      @office_detail = build(:office_detail,
-                             comment_1: nil,
-                             images: nil)
-      @office_detail.valid?
-      expect(@office_detail.errors[:comment_2]).to include('を登録する場合は、特徴画像2をアップロードしてください')
-    end
-
-    it '特徴画像2があるときに、特徴画像2の説明がない場合、無効である' do
-      image = [Rack::Test::UploadedFile.new('spec/fixtures/island.png')]
-      @office_detail = build(:office_detail,
-                             comment_2: nil,
-                             images: image)
-      @office_detail.valid?
-      expect(@office_detail.errors[:images]).to include('2を登録する場合は、特徴画像2の説明を入力してください')
+      expect(@office_detail.errors[:comment_2]).to include('は30文字以内で入力してください')
     end
 
     it '画像のファイルサイズが10MBを超える場合、無効である' do
