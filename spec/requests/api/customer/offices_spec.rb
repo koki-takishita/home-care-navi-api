@@ -80,6 +80,58 @@ RSpec.describe 'Api::Customer::Offices', type: :request do
           expect(JSON.parse(response.body).count).to eq 5
         end
       end
+
+      context 'キーワード検索' do
+        context '東京都' do
+          it '取得できるのは最大10件' do
+            get '/api/offices', params: { keywords: '東京都' }
+            expect(JSON.parse(response.body).count).to eq 10
+          end
+        end
+
+        context '千代田区' do
+          it '取得できるのは最大10件' do
+            get '/api/offices', params: { keywords: '千代田区' }
+            expect(JSON.parse(response.body).count).to eq 10
+          end
+        end
+
+        context '丸の内' do
+          it '3件取得できる' do
+            get '/api/offices', params: { keywords: '丸の内' }
+            expect(JSON.parse(response.body).count).to eq 3
+          end
+        end
+
+        context '丸の内1丁目' do
+          it '1件取得できる' do
+            get '/api/offices', params: { keywords: '丸の内1丁目' }
+            expect(JSON.parse(response.body).count).to eq 1
+          end
+        end
+
+        context '東京都千代田区丸の内のオフィスの郵便番号' do
+          it '1件取得できる' do
+            office = Office.eager_load(:thanks,
+                                       :office_detail,
+                                       :staffs, :bookmarks)
+                           .where.like(address: '%丸の内1丁目%').first
+            get '/api/offices', params: { postCodes: office.post_code.delete('-') }
+            expect(JSON.parse(response.body).count).to eq 1
+          end
+        end
+
+        context '東京都千代田区丸の内のオフィスの住所と郵便番号' do
+          it '1件取得できる' do
+            office = Office.eager_load(:thanks,
+                                       :office_detail,
+                                       :staffs, :bookmarks)
+                           .where.like(address: '%丸の内1丁目%').first
+            get '/api/offices', params: { keywords: office.address, postCodes: office.post_code.delete('-') }
+            expect(JSON.parse(response.body).count).to eq 1
+          end
+        end
+      end
     end
 
     context '登録されていないデータ' do
@@ -115,6 +167,22 @@ RSpec.describe 'Api::Customer::Offices', type: :request do
         it 'ヒットしない' do
           get '/api/offices', params: { prefecture: '沖縄県', cities: '石垣市' }
           expect(JSON.parse(response.body).count).to eq 0
+        end
+      end
+
+      context 'キーワード検索' do
+        context '静岡県' do
+          it 'ヒットしない' do
+            get '/api/offices', params: { keywords: '静岡県' }
+            expect(JSON.parse(response.body).count).to eq 0
+          end
+        end
+
+        context '浜松市' do
+          it 'ヒットしない' do
+            get '/api/offices', params: { keywords: '浜松市' }
+            expect(JSON.parse(response.body).count).to eq 0
+          end
         end
       end
     end

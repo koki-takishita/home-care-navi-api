@@ -76,6 +76,19 @@ ja:
         images: 画像
         created_at: 作成日
         updated_at: 更新日
+      office_detail:
+        office: オフィス
+        detail: 特徴詳細
+        service_type: 類型
+        open_date: 開設年月
+        rooms: 居室数
+        requirement: 入居時の要件
+        facility: 共用設備
+        management: 経営・事業主体
+        link: サイトURL
+        comment_1: 特徴画像1の説明
+        comment_2: 特徴画像2の説明
+        images: 特徴画像
       staff:
         name: 名前
         kana: ふりがな
@@ -332,6 +345,7 @@ ja:
       too_long: は%{count}文字以内で入力してください
       too_short: は%{count}文字以上で入力してください
       wrong_length: は%{count}文字で入力してください
+      in: は%{min}から%{max}の間で入力してください
     template:
       body: 次の項目を確認してください
       header:
