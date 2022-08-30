@@ -9,9 +9,7 @@ FactoryBot.define do
     phone_number { Faker::PhoneNumber.cell_phone }
     fax_number   { Faker::PhoneNumber.cell_phone }
 
-    trait :with_specialist do
-      association :user, factory: :specialist
-    end
+    association :user, factory: :specialist
 
     trait :with_staffs do
       after(:create) do |office|

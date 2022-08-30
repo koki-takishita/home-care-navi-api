@@ -147,14 +147,14 @@ RSpec.describe 'Officeモデルのテスト', type: :model do
     end
 
     it '画像が6枚以上ある場合、無効である' do
-      invalid_images = [Rack::Test::UploadedFile.new('spec/fixtures/island.png', 'image/png')] * 6
+      invalid_images = [Rack::Test::UploadedFile.new('spec/fixtures/island.png')] * 6
       @office = build(:office, images: invalid_images)
       @office.valid?
       expect(@office.errors[:images]).to include('は5枚以下でアップロードしてください')
     end
 
     it '画像のファイルサイズが10MBを超える場合、無効である' do
-      invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/island.png', 'image/png')]
+      invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/island.png')]
       @office = build(:office, images: invalid_image)
       # 元のbyte_sizeは337842(340KB)
       @office.images.first.byte_size = 10485761 # 10MB => 10485760
@@ -163,7 +163,7 @@ RSpec.describe 'Officeモデルのテスト', type: :model do
     end
 
     it '画像の拡張子が「.gif」または「.png」「.jpeg」「.jpg」でない場合、無効である' do
-      invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/sample_svg_image.svg', 'image/svg+xml')]
+      invalid_image = [Rack::Test::UploadedFile.new('spec/fixtures/sample_svg_image.svg')]
       @office = build(:office, images: invalid_image)
       @office.valid?
       expect(@office.errors[:images]).to include('は「.gif」または「.png」「.jpeg」「.jpg」の画像を指定してください')
@@ -171,11 +171,11 @@ RSpec.describe 'Officeモデルのテスト', type: :model do
 
     it '画像の拡張子が「.gif」または「.png」「.jpeg」「.jpg」である場合、有効である' do
       valid_images = [
-        Rack::Test::UploadedFile.new('spec/fixtures/sample_gif_image.gif', 'image/gif'),
-        Rack::Test::UploadedFile.new('spec/fixtures/island.png', 'image/png'),
-        Rack::Test::UploadedFile.new('spec/fixtures/sample_jpeg_image.jpeg', 'image/jpeg'),
+        Rack::Test::UploadedFile.new('spec/fixtures/sample_gif_image.gif'),
+        Rack::Test::UploadedFile.new('spec/fixtures/island.png'),
+        Rack::Test::UploadedFile.new('spec/fixtures/sample_jpeg_image.jpeg'),
         # jpgファイルでもcontent_typeは image/jpegとなる
-        Rack::Test::UploadedFile.new('spec/fixtures/sample_jpg_image.jpg', 'image/jpeg')
+        Rack::Test::UploadedFile.new('spec/fixtures/sample_jpg_image.jpg')
       ]
       @office = build(:office, images: valid_images)
       expect(@office).to be_valid
