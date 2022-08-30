@@ -41,7 +41,7 @@ module Api
       protected
 
         def render_update_error_unauthorized
-          render_error(401, '不正な認証情報が不正です。最初からやり直してください')
+          render_error(401, '認証情報が不正です。最初からやり直してください')
         end
 
         def domain_allowed?
