@@ -24,6 +24,7 @@ RSpec.describe 'Thankモデルのテスト', type: :model do
   describe 'バリデーションのテスト' do
     before do
       @thank = build(:thank)
+      @created_thank = create(:thank)
     end
 
     it 'すべての項目の値が正しい場合、有効である' do
@@ -60,6 +61,15 @@ RSpec.describe 'Thankモデルのテスト', type: :model do
       @thank = build(:thank, comments: invalid_comment)
       @thank.valid?
       expect(@thank.errors[:comments]).to include('は120文字以内で入力してください')
+    end
+
+    it '同じスタッフにお礼をした場合、無効である' do
+      @thank = build(:thank,
+                     user_id: @created_thank.user_id,
+                     office_id: @created_thank.office_id,
+                     staff_id: @created_thank.staff_id)
+      @thank.valid?
+      expect(@thank.errors[:staff_id]).to include('同じスタッフにお礼を作成できるのは1回までです')
     end
   end
 end
