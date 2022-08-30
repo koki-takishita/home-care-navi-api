@@ -1,4 +1,4 @@
-class Api::Customer::HistoriesController < Api::Customer::OfficesController
+class Api::Customer::HistoriesController < ApplicationController
   before_action :authenticate_customer!, only: %i[index create update]
   before_action :set_customer, only: %i[index create update]
   before_action :set_history, only: [:update]
@@ -30,11 +30,10 @@ class Api::Customer::HistoriesController < Api::Customer::OfficesController
   end
 
   def update
-    if @history.valid?
-      # rubocop:disable Rails::SkipsModelValidations
-      # updated_atのみ更新
-      @history.touch
-      # rubocop:enable Rails::SkipsModelValidations
+    # updated_atのみ更新
+    # rubocop:disable Rails::SkipsModelValidations
+    if @history.touch
+    # rubocop:enable Rails::SkipsModelValidations
       render json: {
         message: '閲覧データを更新しました'
       }, status: :ok
@@ -68,11 +67,11 @@ class Api::Customer::HistoriesController < Api::Customer::OfficesController
 
   def build_json(offices)
     offices.each_with_index.map do |office|
-      thank = build_json_from_thank_table_attributes(office)
-      detail      = build_json_from_detail_table_attributes(office)
-      staff_count = build_json_from_staff_table_count_json(office)
-      bookmark    = build_json_from_bookmark_table(office)
-      image       = build_json_image(office)
+      thank = { thank: { comments: office.latest_thank_comment } }
+      detail      = { detail: office.detail }
+      staff_count = { staffCount: office.staff_count }
+      bookmark    = { bookmark: Bookmark.search_office_bookmark(office.id, current_customer.id).first }
+      image       = { image: office.first_image_url }
       office      = office.attributes
 
       office.merge(thank, detail, image, staff_count, bookmark)
